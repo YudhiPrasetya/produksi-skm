@@ -62,7 +62,7 @@ function tampilkan_transaksi_all_proses($orc, $style, $status, $costomer, $no_po
       JOIN style D on C.id_style = D.id_style   
       WHERE B.status = 'jalan' AND C.orc LIKE '%$orc%' AND D.style like '%$style%' AND C.status = '$status' 
       AND C.no_po LIKE '%$no_po%' AND C.color LIKE '%$color%' 
-      AND (B.nama_transaksi = 'cutting' OR B.nama_transaksi = 'trimstore' OR B.nama_transaksi = 'sewing' OR B.nama_transaksi = 'qc_endline' OR B.nama_transaksi = 'qc_transfer') ";
+      AND (B.nama_transaksi = 'cutting' OR B.nama_transaksi = 'trimstore' OR B.nama_transaksi = 'sewing' OR B.nama_transaksi = 'qc_endline' OR B.nama_transaksi = 'qc_transfer' OR B.nama_transaksi = 'packing') ";
   if ($costomer != 0) {
     $query .= " AND C.id_costomer = $costomer ";
   }
