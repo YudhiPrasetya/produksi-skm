@@ -43,7 +43,7 @@ function check_after_proses_transaksi($id_order, $urutan)
   $query = "SELECT B.kolom_total, B.urutan from proses_transaksi_orc A
   JOIN master_transaksi B on A.nama_transaksi = B.nama_transaksi
   WHERE A.id_order = $id_order AND B.urutan > $urutan
-  AND (A.nama_transaksi = 'cutting' OR A.nama_transaksi = 'trimstore' OR A.nama_transaksi = 'sewing' OR A.nama_transaksi = 'qc_endline' OR A.nama_transaksi='tatami')
+  AND (A.nama_transaksi = 'cutting' OR A.nama_transaksi = 'trimstore' OR A.nama_transaksi = 'sewing' OR A.nama_transaksi = 'qc_endline' OR A.nama_transaksi='qc_transfer' OR A.nama_transaksi='tatami')
   ORDER BY B.urutan ASC
   limit 1";
 
@@ -62,9 +62,9 @@ function tampilkan_transaksi_all_proses($orc, $style, $status, $costomer, $no_po
       JOIN style D on C.id_style = D.id_style   
       WHERE B.status = 'jalan' AND C.orc LIKE '%$orc%' AND D.style like '%$style%' AND C.status = '$status' 
       AND C.no_po LIKE '%$no_po%' AND C.color LIKE '%$color%' 
-      AND (B.nama_transaksi = 'cutting' OR B.nama_transaksi = 'trimstore' OR B.nama_transaksi = 'sewing' OR B.nama_transaksi = 'qc_endline' OR B.nama_transaksi = 'tatami') ";
-  // if ($costomer != 0) {
-  if ($costomer > 0) {
+      AND (B.nama_transaksi = 'cutting' OR B.nama_transaksi = 'trimstore' OR B.nama_transaksi = 'sewing' OR B.nama_transaksi = 'qc_endline' OR B.nama_transaksi='qc_transfer' OR B.nama_transaksi = 'tatami') ";
+  if ($costomer != 0) {
+  // if ($costomer > 0) {
     $query .= " AND C.id_costomer = $costomer ";
   }
   $query .= " ORDER BY B.urutan";
@@ -2327,8 +2327,8 @@ function tampilkan_laporan_bundle_record_allproses($tgl, $orc, $style, $status, 
     --  IFNULL(L.daily,0) qc_kensa_daily, IFNULL(L.total,0) qc_kensa_total, (IFNULL(L.total,0) - sum(IFNULL(A.qty_isi_bundle,0))) qc_kensa_balance,
     --  IFNULL(O.daily,0) kenzin_daily, IFNULL(O.total,0) kenzin_total, (IFNULL(O.total,0) - sum(IFNULL(A.qty_isi_bundle,0))) kenzin_balance,
     -- IFNULL(P.daily,0) qc_buyer_daily, IFNULL(P.total,0) qc_buyer_total, (IFNULL(P.total,0) -  A.qty_order) qc_buyer_balance,
-    --IFNULL((J.total - N.total),0) ready_qc_transfer,
-    -- IFNULL(N.daily,0) qc_transfer_daily, IFNULL(N.total,0) qc_transfer_total, (IFNULL(N.total,0) -  A.qty_order) qc_transfer_balance,
+    -- IFNULL((J.total - N.total),0) ready_qc_transfer,
+    IFNULL(N.daily,0) qc_transfer_daily, IFNULL(N.total,0) qc_transfer_total, (IFNULL(N.total,0) -  A.qty_order) qc_transfer_balance,
     -- IFNULL(R.daily,0) tatami_out_daily, IFNULL(R.total,0) tatami_out_total, (IFNULL(R.total,0) - A.qty_order) tatami_out_balance,
     -- IFNULL(Q.daily,0) packing_bun_daily, IFNULL(Q.total,0) packing_bun_total, (IFNULL(Q.total,0) -  A.qty_order) packing_bun_balance,
     -- IFNULL(O.daily,0) packing_bun_daily, IFNULL(O.total,0) packing_bun_total, (IFNULL(O.total,0) -  A.qty_order) packing_bun_balance,
@@ -2430,14 +2430,14 @@ function tampilkan_laporan_bundle_record_allproses($tgl, $orc, $style, $status, 
        GROUP BY C.id_order)J
        ON A.id_order = J.id_order
 
-      --  LEFT OUTER JOIN 
-      --    (SELECT max(A.tanggal) tanggal_max, A.tanggal, C.id_order, sum(if(A.tanggal='$tgl', A.qty, 0)) daily, sum(if(A.tanggal<='$tgl', A.qty, 0)) total
-      --     FROM transaksi_qc_transfer A
-      --      JOIN master_bundle B ON A.kode_barcode = B.barcode_bundle
-      --     JOIN order_detail C ON B.id_order_detail = C.id_order_detail
-      --     WHERE tanggal <= '$tgl' 
-      --     GROUP BY C.id_order)N
-      --     ON A.id_order = N.id_order
+       LEFT OUTER JOIN 
+         (SELECT max(A.tanggal) tanggal_max, A.tanggal, C.id_order, sum(if(A.tanggal='$tgl', A.qty, 0)) daily, sum(if(A.tanggal<='$tgl', A.qty, 0)) total
+          FROM transaksi_qc_transfer A
+           JOIN master_bundle B ON A.kode_barcode = B.barcode_bundle
+          JOIN order_detail C ON B.id_order_detail = C.id_order_detail
+          WHERE tanggal <= '$tgl' 
+          GROUP BY C.id_order)N
+          ON A.id_order = N.id_order
 
       --  LEFT OUTER JOIN 
       --    (SELECT max(A.tanggal) tanggal_max, A.tanggal, C.id_order, sum(if(A.tanggal='$tgl', A.qty, 0)) daily, sum(if(A.tanggal<='$tgl', A.qty, 0)) total
@@ -2462,8 +2462,8 @@ function tampilkan_laporan_bundle_record_allproses($tgl, $orc, $style, $status, 
       AND A.plan_line LIKE '%$jalan_line%'
        AND A.no_po LIKE '%$no_po%'
       AND A.color LIKE '%$color%' ";
-  // if ($costomer != 0) {
-  if ($costomer > 0) {
+  if ($costomer != 0) {
+  // if ($costomer > 0) {
     $query .= " AND A.id_costomer = $costomer";
   }
   $query .= " GROUP BY A.id_order
@@ -2472,7 +2472,7 @@ function tampilkan_laporan_bundle_record_allproses($tgl, $orc, $style, $status, 
 
   // var_dump($query);
   $result = mysqli_query($koneksi, $query) or die('gagal menampilkan data');
-  //print_r($result);
+  // print_r($result);
 
   return $result;
 }
