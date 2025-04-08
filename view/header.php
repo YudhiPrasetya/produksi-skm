@@ -322,6 +322,37 @@
             </ul>
           </li>
           <li style="float:right; background:#254681;"><a href="logout.php">LOG OUT</a></li>
+        <?php } else if(cek_status($_SESSION['username']) == 'qc_endline') { ?>
+          <li style="background: #254681"><a style="background: #254681" target="_blank" href="cetak_laporan_hasil_scan_global.php">REPORT SCAN BUNDLE</a>
+            <ul style="background: #254681">
+
+              <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_scan_global.php">GLOBAL SIZE</a></li>
+              <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_scan_global_perjam.php">GLOBAL PERJAM</a></li>
+              <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_scan_size_detail.php">DETAIL SIZE</a></li>
+              <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_scan_global_allproses.php">ALL PROSES</a></li>
+              <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_scan_global_perjam_qc_endline.php">ENDLINE PERJAM</a></li>
+              <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_reminder_target_qc_endline.php">REMINDER TARGET</a></li>
+
+            </ul>
+          </li>          
+          <li style="background: #254681"><a style="background: #254681" target="_blank" href="tamplikan_sewing_monitoring.php">TAMPILKAN MONITOR OUTPUT SEWING  </a></li>
+          <li style="float:right; background:#254681;"><a href="logout.php">LOG OUT</a></li>
+        <?php } else if(cek_status($_SESSION['username']) == 'tatami') { ?>
+          <li style="background: #254681"><a style="background: #254681" target="_blank" href="cetak_laporan_hasil_scan_global.php">REPORT SCAN BUNDLE</a>
+            <ul style="background: #254681">
+
+              <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_scan_global.php">GLOBAL SIZE</a></li>
+              <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_scan_global_perjam.php">GLOBAL PERJAM</a></li>
+              <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_scan_size_detail.php">DETAIL SIZE</a></li>
+              <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_scan_global_allproses.php">ALL PROSES</a></li>
+              <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_scan_global_perjam_qc_endline.php">ENDLINE PERJAM</a></li>
+              <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_reminder_target_qc_endline.php">REMINDER TARGET</a></li>
+
+            </ul>
+          </li>          
+          <li style="background: #254681"><a style="background: #254681" target="_blank" href="tamplikan_packing_monitoring.php">TAMPILKAN MONITOR PACKING  </a></li>
+          <li style="float:right; background:#254681;"><a href="logout.php">LOG OUT</a></li>
+
         <?php } else { ?>
           <li style="background: #254681"><a style="background: #254681" target="_blank" href="cetak_laporan_hasil_scan_global.php">REPORT SCAN BUNDLE</a>
             <ul style="background: #254681">
@@ -335,11 +366,11 @@
 
             </ul>
           </li>
-          <li style="float:right; background:#254681;"><a href="logout.php">LOG OUT</a></li>
-        <?php } ?>
-      <?php } else { ?>
+          <li style="float:right; background:#254681 ;"><a href="index.php">LOG IN</a></li>
+        <?php }} ?>
+      <!-- <//?php } else { ?>
         <li style="float:right; background:#254681 ;"><a href="index.php">LOG IN</a></li>
-      <?php } ?>
+      <//?php } ?> -->
 
   </nav>
 

@@ -7267,7 +7267,9 @@ function kirim_data_transaksi_produksi_bundle($user, $temp_table, $table)
   (select no_trx, tanggal, jam, kode_barcode, qty, username from $temp_table where username = '$user')";
   $result = mysqli_query($koneksi, $query) or die('gagal menampilkan data');
 
-  return $result;
+  $insertedID = mysqli_insert_id($koneksi);
+  // return $result;
+  return $insertedID;
 }
 
 function kirim_data_transaksi_produksi_bundle_packing($user, $no_trx, $barcode_ctn, $kelompok)
@@ -7300,7 +7302,16 @@ function kirim_data_transaksi_produksi_bundle_sewing($user, $temp_table, $table,
   (select no_trx, tanggal, jam, kode_barcode, qty, username, '$line' from $temp_table where username = '$user')";
   $result = mysqli_query($koneksi, $query) or die('gagal menampilkan data');
 
-  return $result;
+  $insertedID = mysqli_insert_id($koneksi);
+  // if($insertedID != null){
+  //   $query2 = "SELECT * FROM $table WHERE username='$user' AND id_transaksi='$insertedID'";
+  //   $rst = mysqli_query($koneksi, $query2);
+
+  //   return $rst;
+  // }
+
+  // return $result;
+  return $insertedID;
 }
 
 function kirim_data_master_tatami_in($user)
@@ -7435,8 +7446,6 @@ function copy_master_bom_detail_part_to_orc($id_bom_detail_orc, $id_bom_detail, 
   return $result;
 }
 
-
-
 function kirim_transaksi_shipment($data, $invoice, $user)
 {
   global $koneksi;
@@ -7531,7 +7540,38 @@ function hapus_transaksi_shipment($data)
   return $result;
 }
 
+// ---------------Monitor-------------------------------
+function tampil_monitor_qc_endline($tgl, $line){
+  global $koneksi;
 
+  $yesterday = date('Y-m-d', strtotime("-1 days"));
+
+  $query = "SELECT B.orc, B.`status`, B.style, B.color, B.size, B.cup, 
+            B.qty_order AS `QTY_ORDER`, (SELECT IFNULL(SUM(A.qty), 0) FROM view_transaksi_qc_endline A 
+            WHERE A.tanggal ='$tgl' AND A.orc = B.orc) AS TODAY, (SELECT IFNULL(SUM(C.qty), 0) 
+            FROM view_transaksi_qc_endline C WHERE C.tanggal ='$yesterday' AND C.orc = B.orc) AS YESTERDAY, SUM(B.qty) AS TOTAL, 
+            SUM(B.qty)-B.qty_order AS BAL FROM `view_transaksi_qc_endline` B WHERE B.line='$line' AND B.tanggal <= '$tgl' 
+            AND B.`status`='open' GROUP BY B.orc";
+  
+  $rst = mysqli_query($koneksi, $query);
+  return $rst;
+}
+
+function tampil_monitor_packing($tgl, $orc){
+  global $koneksi;
+
+  $yesterday = date('Y-m-d', strtotime("-1 days"));
+
+  $query = "SELECT B.orc, B.`status`, B.style, B.color, 
+            B.qty_order AS `QTY_ORDER`, (SELECT IFNULL(SUM(A.qty), 0) FROM view_style_masterorder_transaksipacking A 
+            WHERE A.tanggal ='$tgl' AND A.orc = B.orc) AS TODAY, (SELECT IFNULL(SUM(C.qty), 0) 
+            FROM view_style_masterorder_transaksipacking C WHERE C.tanggal ='$yesterday' AND C.orc = B.orc) AS YESTERDAY, SUM(B.qty) AS TOTAL, 
+            SUM(B.qty)-B.qty_order AS BAL FROM view_style_masterorder_transaksipacking B WHERE B.orc='$orc' AND B.tanggal <= '$tgl' 
+            AND B.`status`='open' GROUP BY B.orc";
+  
+  $rst = mysqli_query($koneksi, $query);
+  return $rst;
+}
 
 
 
@@ -7956,7 +7996,21 @@ function delete_qty_temp_part_cutting($idTemp)
   return $result;
 }
 
+function tampilkan_spv_by_namaline($namaline){
+  global $koneksi;
+  $query = "SELECT * FROM master_line WHERE nama_line = '$namaline'";
+  $result = mysqli_query($koneksi, $query) or die('gagal menampilkan data');
 
+  return $result;  
+}
+
+function get_data_transaksi($id, $tb){
+  global $koneksi;
+  $query = "SELECT * FROM $tb WHERE id_transaksi='$id'";
+  $rst = mysqli_query($koneksi, $query);
+
+  return $rst;
+}
 
 
 function run($query)

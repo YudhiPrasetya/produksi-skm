@@ -63,6 +63,8 @@ Username Aktif : <?= cek_status($_SESSION['username']) ?></font>
             
 </center>
 </div>
+
+
 <div style="margin: 0 30px">
 <div class="row">
 
@@ -78,14 +80,16 @@ Username Aktif : <?= cek_status($_SESSION['username']) ?></font>
 
    <!-- <input type="text" class="form-control" placeholder="KODE BARCODE" name="kode_barcode" id="kode_barcode" autofocus required> -->
    <input type="submit"  name="submit_barcode" value="TAMBAH" id="submit_barcode" hidden>
+   <input type="hidden" name="hidden_kodeBarcode" id="hidden_kodeBarcode" />
 </div>
 
 </div>
  
 
 <div id="tampil_tabel"></div>
-<form action="simpan_trx_produksi_bundle.php" method="post" >
+
 <center>
+    <form action="simpan_trx_produksi_bundle.php" method="post" >
     <input type="hidden" id="user" name="user" value="<?= $_SESSION['username']; ?>">
     <input type="hidden" id="temp_table" name="temp_table" value="<?= $temp_table ?>">
    <input type="hidden" id="table" name="table" value="<?= $table ?>">
@@ -131,7 +135,7 @@ Username Aktif : <?= cek_status($_SESSION['username']) ?></font>
 
     
 <script type="text/javascript">
-  $('#kode_barcode').on('change',function(){
+    $('#kode_barcode').on('change',function(){
     var barcode = $('#kode_barcode').val();
     var temp_table = $('#temp_table').val();
     var table = $('#table').val();
@@ -152,6 +156,9 @@ Username Aktif : <?= cek_status($_SESSION['username']) ?></font>
       success: function(data){
         console.log(data.trim());
         if(data.trim() == "success"){
+          // $('#hidden_kodeBarcode').val($('#kode_barcode').val());
+          // let kb = $('#hidden_kodeBarcode').val();
+          // console.log('kb: ', kb);
           $('#tampil_tabel').load(url);
         }else if(data.trim() == "error_username"){
           alert("Gagal Username Tidak Sama");
@@ -193,6 +200,7 @@ Username Aktif : <?= cek_status($_SESSION['username']) ?></font>
         }
       }
     });
+    
     document.getElementById("kode_barcode").value = "";
   });
 
@@ -267,8 +275,12 @@ Username Aktif : <?= cek_status($_SESSION['username']) ?></font>
 
 <!-- <script src="style/jquery.min.js"></script> -->
 <script>
-  $(document).ready(function(){setTimeout(function(){$("#pesan").fadeIn('slow');}, 500);});
-  setTimeout(function(){$("#pesan").fadeOut('slow');}, 3600);
+  $(document).ready(function(){
+    setTimeout(function(){$("#pesan").fadeIn('slow');}, 500);
+  });
+  setTimeout(function(){
+    $("#pesan").fadeOut('slow');
+    }, 3600);
 </script>
 
 <!-- // penutup hak akses level -->

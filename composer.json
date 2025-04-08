@@ -1,5 +1,6 @@
 {
     "require": {
-        "phpoffice/phpspreadsheet": "^1.7"
+        "phpoffice/phpspreadsheet": "^1.7",
+        "francium/diffsocket": "^0.1.1"
     }
 }
