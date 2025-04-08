@@ -470,7 +470,8 @@
             ]
          });
 
-         var qc_endline = new WebSocket("ws://localhost:10000/?service=qc_endline");
+         // var qc_endline = new WebSocket("ws://localhost:10000/?service=qc_endline");
+         var qc_endline = new WebSocket("ws://192.168.2.120:10000/?service=qc_endline");
          // var packing = new WebSocket("ws://localhost:10000/?service=packing");
 
          qc_endline.onmessage = function(msg){
