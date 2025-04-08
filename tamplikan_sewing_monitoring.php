@@ -344,17 +344,17 @@
                                  </tr>
                                  <tr>
                                     <td class="align-middle text-center">Output Sewing</td>
-                                    <td class="align-middle text-center">25</td>
-                                    <td class="align-middle text-center">50</td>
-                                    <td class="align-middle text-center">70</td>
-                                    <td class="align-middle text-center">85</td>
+                                    <td class="align-middle text-center">0</td>
+                                    <td class="align-middle text-center">0</td>
+                                    <td class="align-middle text-center">0</td>
+                                    <td class="align-middle text-center">5</td>
                                  </tr>
                                  <tr>
                                  <td class="align-middle text-center">Eficiency(%)</td>
-                                    <td class="align-middle text-center">25</td>
-                                    <td class="align-middle text-center">50</td>
-                                    <td class="align-middle text-center">70</td>
-                                    <td class="align-middle text-center">85</td>                                    
+                                    <td class="align-middle text-center">0</td>
+                                    <td class="align-middle text-center">0</td>
+                                    <td class="align-middle text-center">0</td>
+                                    <td class="align-middle text-center">0</td>                                    
                                  </tr>   
                               </tbody>                        
                            </table>
