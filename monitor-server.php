@@ -9,7 +9,7 @@ $ds = new \Fr\DiffSocket(array(
    ),
    "services" => array(
       "qc_endline" => __DIR__ . "/monitor-services/qc_endline_monitor_service.php",
-      "packing" => __DIR__ . "/monitor-services/packing_monitor_service.php"
+      "packing_in" => __DIR__ . "/monitor-services/packing_in_monitor_service.php"
    )
    ));
 

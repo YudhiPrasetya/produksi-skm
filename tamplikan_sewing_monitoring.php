@@ -51,9 +51,9 @@
             <div class="row">
                <div class="col-md-8 pl-2">
                   <div class="ms-3">
-                     <h3 class="mb-0 h4 font-weight-bolder">Sewing Screen Output Result</h3>
+                     <h3 class="mb-0 h4 font-weight-bolder">Sewing Screen Input & Output Result</h3>
                      <p class="mb-4">
-                        (Menampilkan Hasil Output Sewing).
+                        (Menampilkan Hasil Input & Output Sewing).
                      </p>
                   </div>
 
@@ -470,9 +470,9 @@
             ]
          });
 
-         // var qc_endline = new WebSocket("ws://localhost:10000/?service=qc_endline");
-         var qc_endline = new WebSocket("ws://192.168.2.120:10000/?service=qc_endline");
-         // var packing = new WebSocket("ws://localhost:10000/?service=packing");
+         var qc_endline = new WebSocket("ws://localhost:10000/?service=qc_endline");
+         // var qc_endline = new WebSocket("ws://192.168.2.120:10000/?service=qc_endline");
+         var packing_in = new WebSocket("ws://localhost:10000/?service=packing_in");
 
          qc_endline.onmessage = function(msg){
             // console.log('msg: ', msg);
@@ -504,20 +504,20 @@
             $('#sewingYesterday').text(yesterdayQCEndLineSUM);
          }
 
-         // packing.onmessage = function(msg){
-         //    var objDataPacking = JSON.parse(msg.data);
-         //    var x = 0, arrLength = objDataPacking.length;
-         //    var todayPackingSUM = 0, yesterdayPackingSUM = 0;
-         //    while(x < arrLength){
-         //       if(objDataPacking[x].today > 0){
-         //          todayPackingSUM += parseInt(objDataPacking[x].today);
-         //          yesterdayPackingSUM += parseInt(objDataPacking[x].yesterday);
-         //       }
-         //       ++x;
-         //    }
-         //    $('#packingToday').text(todayPackingSUM);
-         //    $('#packingYesterday').text(yesterdayPackingSUM);
-         // }
+         packing_in.onmessage = function(msg){
+            var objDataPacking = JSON.parse(msg.data);
+            var x = 0, arrLength = objDataPacking.length;
+            var todayPackingSUM = 0, yesterdayPackingSUM = 0;
+            while(x < arrLength){
+               if(objDataPacking[x].today > 0){
+                  todayPackingSUM += parseInt(objDataPacking[x].today);
+                  yesterdayPackingSUM += parseInt(objDataPacking[x].yesterday);
+               }
+               ++x;
+            }
+            $('#packingToday').text(todayPackingSUM);
+            $('#packingYesterday').text(yesterdayPackingSUM);
+         }
 
          function showTime(){
             const date = new Date();

@@ -97,7 +97,7 @@ if(isset($_POST['kirim'])){
         <script src="assets/js/jquery.min.js"></script>
         <script>
             // var qcEndline = new WebSocket("ws://localhost:10000/?service=qc_endline");
-            var qc_endline = new WebSocket("ws://192.168.2.120:10000/?service=qc_endline");
+            var qcEndline = new WebSocket("ws://192.168.2.120:10000/?service=qc_endline");
             // var qcEndline = new WebSocket("ws://localhost:10000/?service=packing");
 
             qcEndline.onopen = function(){

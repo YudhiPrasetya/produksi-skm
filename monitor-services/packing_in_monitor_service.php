@@ -7,7 +7,7 @@ use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use SplObjectStorage;
 
-class PackingMonitor implements MessageComponentInterface{
+class PackingInMonitor implements MessageComponentInterface{
    public $data;
    protected $clients;
 
