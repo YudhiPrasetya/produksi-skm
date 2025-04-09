@@ -480,7 +480,7 @@
             // var objDataQCEndline = JSON.parse(msg);
             // console.log('objDataQCEndline: ',objDataQCEndline);
 
-            qcEndlineOutputTable.rows().remove().draw();
+            // qcEndlineOutputTable.rows().remove().draw();
 
             var x = 0, arrLength = objDataQCEndline.length;
             var todayQCEndLineSUM = 0, yesterdayQCEndLineSUM = 0;
