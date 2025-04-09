@@ -474,7 +474,7 @@
          var todayQCEndLineSUM = 0, yesterdayQCEndLineSUM = 0;
          var qcEndlineOutputTable;
          var dataInit = '<?= $dataInit; ?>';
-         var arrObjDataInit = JSON.parse(dataInit);
+         var objDataQCEndline = JSON.parse(dataInit);
 
          // var qc_endline = new WebSocket("ws://192.168.2.120:10000/?service=qc_endline");
 
