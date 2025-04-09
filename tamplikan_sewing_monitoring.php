@@ -457,6 +457,7 @@
       </div>
       <!--   Core JS Files   -->
       <script>
+         var todayQCEndLineSUM = 0, yesterdayQCEndLineSUM = 0;
          var qcEndlineOutputTable = $('#qcEndlineOutputTable').DataTable({
             autoWidth: false,
             processing: true,
@@ -483,7 +484,7 @@
             // qcEndlineOutputTable.rows().remove().draw();
 
             var x = 0, arrLength = objDataQCEndline.length;
-            var todayQCEndLineSUM = 0, yesterdayQCEndLineSUM = 0;
+            
             while(x < arrLength){
                if(parseInt(objDataQCEndline[x].today) > 0){
                   todayQCEndLineSUM += parseInt(objDataQCEndline[x].today);
