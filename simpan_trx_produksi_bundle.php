@@ -108,9 +108,11 @@ if(isset($_POST['kirim'])){
                 qcEndline.send(dataTransaksi);
 
                 if(line != null){
-                    window.open("http://localhost/produksi-skm/index.php", "_self");
+                    // window.open("http://localhost/produksi-skm/index.php", "_self");
+                    window.open("http://192.168.2.120/produksi-skm/index.php", "_self");
                 }else{
-                    window.open("http://localhost/produksi-skm/" + tempTable + ".php", "_self");
+                    // window.open("http://localhost/produksi-skm/" + tempTable + ".php", "_self");
+                    window.open("http://192.168.2.120/produksi-skm/" + tempTable + ".php", "_self");
                 }
             }
 
