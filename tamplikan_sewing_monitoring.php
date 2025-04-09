@@ -1,6 +1,7 @@
 <?php
    require_once 'core/init.php';
    require_once 'view/header_dashboard.php';
+
    date_default_timezone_set('Asia/Jakarta');
 
    if( !isset($_SESSION['username']) ){
@@ -17,6 +18,19 @@
     $tempSPV = mysqli_fetch_array($dataSPV);
     $spv = $tempSPV['supervisor'];
 
+    $tgl = date('Y-m-d');
+
+    $dataArray = array();
+    $hasil = init_table_monitor_qc_endline($tgl, $line);
+
+    while($row = mysqli_fetch_assoc($hasil)){
+        $data = ["orc" => preg_replace("/\s+/","",$row["orc"]), "status" => $row["status"], "style" => $row["style"], "color" => $row["color"],
+                "size" => $row["size"], "cup" => $row["cup"], "qty_order" => $row["QTY_ORDER"], "today" => $row["TODAY"],
+                "total" => $row["TOTAL"], "bal" => $row["BAL"]];
+        array_push($dataArray, $data);
+    }
+
+    $dataInit = json_encode($dataArray);
 ?>
 
 <html>
@@ -458,52 +472,84 @@
       <!--   Core JS Files   -->
       <script>
          var todayQCEndLineSUM = 0, yesterdayQCEndLineSUM = 0;
-         var qcEndlineOutputTable = $('#qcEndlineOutputTable').DataTable({
-            autoWidth: false,
-            processing: true,
-            destroy: true,
-            info: false,
-            searching: false,
-            paging: false,
-            fixedHeader: false,
-            columnDefs: [
-               {'className': 'dt-center', 'targets': '_all'}
-            ]
-         });
+         var qcEndlineOutputTable;
+         var dataInit = '<?= $dataInit; ?>';
+         var arrObjDataInit = JSON.parse(dataInit);
 
-         // var qc_endline = new WebSocket("ws://localhost:10000/?service=qc_endline");
-         var qc_endline = new WebSocket("ws://192.168.2.120:10000/?service=qc_endline");
-         // var packing_in = new WebSocket("ws://localhost:10000/?service=packing_in");
+         // var qc_endline = new WebSocket("ws://192.168.2.120:10000/?service=qc_endline");
 
-         qc_endline.onmessage = function(msg){
-            // console.log('msg: ', msg);
-            var objDataQCEndline = JSON.parse(msg.data);
-            // var objDataQCEndline = JSON.parse(msg);
-            // console.log('objDataQCEndline: ',objDataQCEndline);
+         $(document).ready(function(){
+            initTable();
 
-            // qcEndlineOutputTable.rows().remove().draw();
+            function initTable(){
+               qcEndlineOutputTable = $('#qcEndlineOutputTable').DataTable({
+                  autoWidth: false,
+                  processing: true,
+                  destroy: true,
+                  info: false,
+                  searching: false,
+                  paging: false,
+                  fixedHeader: false,
+                  columnDefs: [
+                     {'className': 'dt-center', 'targets': '_all'}
+                  ]
+               });
+
+               
+
+            }
 
             var x = 0, arrLength = objDataQCEndline.length;
             
             while(x < arrLength){
-               if(parseInt(objDataQCEndline[x].today) > 0){
-                  todayQCEndLineSUM += parseInt(objDataQCEndline[x].today);
-                  yesterdayQCEndLineSUM += parseInt(objDataQCEndline[x].yesterday);
-
-                  qcEndlineOutputTable.row.add([
-                     objDataQCEndline[x].orc,
-                     objDataQCEndline[x].style,
-                     objDataQCEndline[x].qty_order,
-                     objDataQCEndline[x].today,
-                     objDataQCEndline[x].total,
-                     objDataQCEndline[x].bal
-                  ]).draw();
-               }
+               qcEndlineOutputTable.row.add([
+                  objDataQCEndline[x].orc,
+                  objDataQCEndline[x].style,
+                  objDataQCEndline[x].qty_order,
+                  objDataQCEndline[x].today,
+                  objDataQCEndline[x].total,
+                  objDataQCEndline[x].bal
+               ]).draw();
                ++x;
-            }
-            $('#sewingToday').text(todayQCEndLineSUM);
-            $('#sewingYesterday').text(yesterdayQCEndLineSUM);
-         }
+            }            
+
+         });
+         
+         // var qc_endline = new WebSocket("ws://localhost:10000/?service=qc_endline");
+         // var packing_in = new WebSocket("ws://localhost:10000/?service=packing_in");
+
+         // qc_endline.onmessage = function(msg){
+         //    var objDataQCEndline = JSON.parse(msg.data);
+
+         //    var x = 0, arrLength = objDataQCEndline.length;
+            
+         //    while(x < arrLength){
+         //       if(parseInt(objDataQCEndline[x].today) > 0){
+         //          todayQCEndLineSUM += parseInt(objDataQCEndline[x].today);
+         //          yesterdayQCEndLineSUM += parseInt(objDataQCEndline[x].yesterday);
+         //          if(line == objDataQCEndline[x].line){
+         //             if(qcEndlineOutputTable.cell(x, 0).data == objDataQCEndline[x].orc && qcEndlineOutputTable.cell(x, 1).data == objDataQCEndline[x].style){
+         //                let totalToday = parseInt(qcEndlineOutputTable.cell(x, 3).data()) + parseInt(objDataQCEndline[x].today);
+         //                qcEndlineOutputTable.cell(x, 3).data(totalToday).draw();  
+         //             }else{
+         //                qcEndlineOutputTable.row.add([
+         //                   objDataQCEndline[x].orc,
+         //                   objDataQCEndline[x].style,
+         //                   objDataQCEndline[x].qty_order,
+         //                   objDataQCEndline[x].today,
+         //                   objDataQCEndline[x].total,
+         //                   objDataQCEndline[x].bal
+         //                ]).draw();
+                        
+         //             }
+
+         //          }
+         //       }
+         //       ++x;
+         //    }
+         //    $('#sewingToday').text(todayQCEndLineSUM);
+         //    $('#sewingYesterday').text(yesterdayQCEndLineSUM);
+         // }
 
          // packing_in.onmessage = function(msg){
          //    var objDataPacking = JSON.parse(msg.data);

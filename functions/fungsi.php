@@ -7557,6 +7557,22 @@ function tampil_monitor_qc_endline($tgl, $line){
   return $rst;
 }
 
+function init_table_monitor_qc_endline($tgl, $line){
+  global $koneksi;
+  $q = "SELECT B.orc, B.`status`, B.style, B.color, B.size, B.cup, B.qty_order AS `QTY_ORDER`,
+	      (SELECT IFNULL( SUM( A.qty ), 0 ) FROM view_transaksi_qc_endline A WHERE A.tanggal = '$tgl' AND A.orc = B.orc ) AS TODAY,
+	      (SELECT SUM( A.qty ) FROM view_transaksi_qc_endline A WHERE A.tanggal <= '$tgl' AND A.orc = B.orc) AS TOTAL,
+	      ((SELECT SUM( A.qty ) FROM view_transaksi_qc_endline A WHERE A.tanggal <= '$tgl' AND A.orc = B.orc) - B.qty_order) AS BAL 
+        FROM `view_transaksi_qc_endline` B 
+        WHERE B.line = '$tgl' 
+	        AND B.tanggal = '$tgl' 
+	        AND B.`status` = 'open' 
+        GROUP BY B.orc";
+
+  $rst = mysqli_query($koneksi, $q);
+  return $rst;        
+}
+
 function tampil_monitor_packing($tgl, $orc){
   global $koneksi;
 
