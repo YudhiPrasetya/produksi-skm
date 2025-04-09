@@ -104,7 +104,7 @@ $kolom = 2;  // jumlah kolom
                     <td><?= $data['size'].$data['cup'] ?></td>
                     <td width="2%"></td>
                     <td></td>
-                    <?= $barcode ?>
+                    <!-- <//?= $barcode ?> -->
                     <td colspan="3" rowspan="3">
                         <?php
                         $tempDir = "qrcodes/ ";
