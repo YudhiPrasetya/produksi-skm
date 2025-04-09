@@ -7564,7 +7564,7 @@ function init_table_monitor_qc_endline($tgl, $line){
 	      (SELECT SUM( A.qty ) FROM view_transaksi_qc_endline A WHERE A.tanggal <= '$tgl' AND A.orc = B.orc) AS TOTAL,
 	      ((SELECT SUM( A.qty ) FROM view_transaksi_qc_endline A WHERE A.tanggal <= '$tgl' AND A.orc = B.orc) - B.qty_order) AS BAL 
         FROM `view_transaksi_qc_endline` B 
-        WHERE B.line = '$tgl' 
+        WHERE B.line = '$line' 
 	        AND B.tanggal = '$tgl' 
 	        AND B.`status` = 'open' 
         GROUP BY B.orc";
