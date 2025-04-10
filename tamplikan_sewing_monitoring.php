@@ -498,26 +498,24 @@
                      {'target': 7, 'visible': false, 'serachable': false},
                   ]
                });
+               var x = 0, arrLength = objDataQCEndline.length;
+               
+               while(x < arrLength){
+                  todayQCEndLineSUM += parseInt(objDataQCEndline[x].today);
+                  qcEndlineOutputTable.row.add([
+                     objDataQCEndline[x].orc,
+                     objDataQCEndline[x].style,
+                     objDataQCEndline[x].qty_order,
+                     objDataQCEndline[x].today,
+                     objDataQCEndline[x].total,
+                     objDataQCEndline[x].bal,
+                     objDataQCEndline[x].tanggal,
+                     objDataQCEndline[x].jam
+                  ]).draw();
+                  ++x;
+               }
+               $('#sewingToday').text(todayQCEndLineSUM);            
             }
-
-            var x = 0, arrLength = objDataQCEndline.length;
-            
-            while(x < arrLength){
-               todayQCEndLineSUM += parseInt(objDataQCEndline[x].today);
-               qcEndlineOutputTable.row.add([
-                  objDataQCEndline[x].orc,
-                  objDataQCEndline[x].style,
-                  objDataQCEndline[x].qty_order,
-                  objDataQCEndline[x].today,
-                  objDataQCEndline[x].total,
-                  objDataQCEndline[x].bal,
-                  objDataQCEndline[x].tanggal,
-                  objDataQCEndline[x].jam
-               ]).draw();
-               ++x;
-            }
-            console.log('todayQCEndLineSUM: ', todayQCEndLineSUM);
-            $('#sewingToday').text(todayQCEndLineSUM);            
 
          });
          
