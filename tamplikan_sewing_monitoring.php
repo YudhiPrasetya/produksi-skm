@@ -499,7 +499,6 @@
                      // {'target': 7, 'visible': false, 'serachable': false},
                   ]
                });
-               qcEndlineOutputTable.columns([6,7]).visible(false);
                var x = 0, arrLength = objDataQCEndline.length;
                
                while(x < arrLength){
@@ -516,6 +515,7 @@
                   ]).draw();
                   ++x;
                }
+               qcEndlineOutputTable.columns([6,7]).visible(false);
                $('#sewingToday').text(todayQCEndLineSUM);            
             }
 
