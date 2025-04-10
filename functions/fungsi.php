@@ -7563,7 +7563,7 @@ function tampil_monitor_qc_endline($tgl, $line){
 function init_table_monitor_qc_endline($tgl, $line){
   global $koneksi;
   $q = "SELECT B.orc, B.line, B.`status`, B.style, B.color, B.size, B.cup, B.qty_order AS `QTY_ORDER`,B.tanggal,
-	      (SELECT MAX(A.jam) FROM view_transaksi_qc_endline A WHERE A.tanggal = '2025-04-09' AND A.orc = B.orc ) AS JAM,
+	      (SELECT MAX(A.jam) FROM view_transaksi_qc_endline A WHERE A.tanggal = '$tgl' AND A.orc = B.orc ) AS JAM,
 	      (SELECT IFNULL( SUM( A.qty ), 0 ) FROM view_transaksi_qc_endline A WHERE A.tanggal = '$tgl' AND A.orc = B.orc ) AS TODAY,
 	      (SELECT SUM( A.qty ) FROM view_transaksi_qc_endline A WHERE A.tanggal <= '$tgl' AND A.orc = B.orc) AS TOTAL,
 	      ((SELECT SUM( A.qty ) FROM view_transaksi_qc_endline A WHERE A.tanggal <= '$tgl' AND A.orc = B.orc) - B.qty_order) AS BAL 

@@ -26,7 +26,7 @@
     while($row = mysqli_fetch_assoc($hasil)){
         $data = ["orc" => preg_replace("/\s+/","",$row["orc"]), "line" => ["line"], "status" => $row["status"], "style" => $row["style"], "color" => $row["color"],
                 "size" => $row["size"], "cup" => $row["cup"], "qty_order" => $row["QTY_ORDER"], "today" => $row["TODAY"],
-                "total" => $row["TOTAL"], "bal" => $row["BAL"], "tanggal" => $row["tanggal"], "jam" => $row["jam"]];
+                "total" => $row["TOTAL"], "bal" => $row["BAL"], "tanggal" => $row["tanggal"], "jam" => $row["JAM"]];
         array_push($dataArray, $data);
     }
 
