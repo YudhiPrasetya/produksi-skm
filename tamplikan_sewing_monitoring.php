@@ -495,10 +495,11 @@
                   fixedHeader: false,
                   columnDefs: [
                      {'className': 'dt-center', 'targets': '_all'},
-                     {'targets': [6,7], 'visible': false, 'serachable': false},
+                     // {'targets': [6,7], 'visible': false, 'serachable': false},
                      // {'target': 7, 'visible': false, 'serachable': false},
                   ]
                });
+               qcEndlineOutputTable.columns([6,7]).visible(false);
                var x = 0, arrLength = objDataQCEndline.length;
                
                while(x < arrLength){
