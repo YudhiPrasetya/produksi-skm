@@ -534,7 +534,7 @@
                let strDateTimeFromObj = objDataQCEndlineOnMessage[y].tanggal + " " + objDataQCEndlineOnMessage[y].jam;
                let dateTimeFromObj = new Date(strDateTimeFromObj);
 
-               qcEndlineOutputTable.rows.every(function(rowIdx, tableLoop, rowLoop){
+               qcEndlineOutputTable.rows().every(function(rowIdx, tableLoop, rowLoop){
                   let strORCFromTable = qcEndlineOutputTable.cell(this, 0).data();
                   let strStyleFromTable = qcEndlineOutputTable.cell(this, 1).data();
 
