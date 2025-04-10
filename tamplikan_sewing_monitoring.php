@@ -23,8 +23,6 @@
     $dataArray = array();
     $hasil = init_table_monitor_qc_endline($tgl, $line);
 
-    var_dump($hasil);
-
     while($row = mysqli_fetch_assoc($hasil)){
         $data = [
                   "orc" => preg_replace("/\s+/","",$row["orc"]), 
@@ -492,8 +490,6 @@
          var qcEndlineOutputTable;
          var dataInit = '<?= $dataInit; ?>';
          var objDataQCEndline = JSON.parse(dataInit);
-
-         console.log('objDataQCEndline: ', objDataQCEndline);
 
          var qc_endline = new WebSocket("ws://192.168.2.120:10000/?service=qc_endline");
 
