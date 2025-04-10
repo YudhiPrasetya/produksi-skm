@@ -473,6 +473,7 @@
       </div>
       <!--   Core JS Files   -->
       <script>
+         const line = '<?= $line; ?>';
          var todayQCEndLineSUM = 0, yesterdayQCEndLineSUM = 0;
          var qcEndlineOutputTable;
          var dataInit = '<?= $dataInit; ?>';
@@ -494,8 +495,8 @@
                   fixedHeader: false,
                   columnDefs: [
                      {'className': 'dt-center', 'targets': '_all'},
-                     {'target': 6, 'visible': false, 'serachable': false},
-                     {'target': 7, 'visible': false, 'serachable': false},
+                     {'targets': [6,7], 'visible': false, 'serachable': false},
+                     // {'target': 7, 'visible': false, 'serachable': false},
                   ]
                });
                var x = 0, arrLength = objDataQCEndline.length;
