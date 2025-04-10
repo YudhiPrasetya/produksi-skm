@@ -24,9 +24,9 @@
     $hasil = init_table_monitor_qc_endline($tgl, $line);
 
     while($row = mysqli_fetch_assoc($hasil)){
-        $data = ["orc" => preg_replace("/\s+/","",$row["orc"]), "status" => $row["status"], "style" => $row["style"], "color" => $row["color"],
+        $data = ["orc" => preg_replace("/\s+/","",$row["orc"]), "line" => ["line"], "status" => $row["status"], "style" => $row["style"], "color" => $row["color"],
                 "size" => $row["size"], "cup" => $row["cup"], "qty_order" => $row["QTY_ORDER"], "today" => $row["TODAY"],
-                "total" => $row["TOTAL"], "bal" => $row["BAL"]];
+                "total" => $row["TOTAL"], "bal" => $row["BAL"], "tanggal" => $row["tanggal"], "jam" => $row["jam"]];
         array_push($dataArray, $data);
     }
 
@@ -473,7 +473,7 @@
       </div>
       <!--   Core JS Files   -->
       <script>
-         const line = '<?= $line; ?>';
+         var line = '<?= $line; ?>';
          var todayQCEndLineSUM = 0, yesterdayQCEndLineSUM = 0;
          var qcEndlineOutputTable;
          var dataInit = '<?= $dataInit; ?>';
@@ -504,18 +504,20 @@
                var x = 0, arrLength = objDataQCEndline.length;
                
                while(x < arrLength){
-                  todayQCEndLineSUM += parseInt(objDataQCEndline[x].today);
-                  qcEndlineOutputTable.row.add([
-                     objDataQCEndline[x].orc,
-                     objDataQCEndline[x].style,
-                     objDataQCEndline[x].qty_order,
-                     objDataQCEndline[x].today,
-                     objDataQCEndline[x].total,
-                     objDataQCEndline[x].bal,
-                     objDataQCEndline[x].tanggal,
-                     objDataQCEndline[x].jam
-                  ]).draw();
-                  ++x;
+                  if(line == objDataQCEndline[x].line){
+                     todayQCEndLineSUM += parseInt(objDataQCEndline[x].today);
+                     qcEndlineOutputTable.row.add([
+                        objDataQCEndline[x].orc,
+                        objDataQCEndline[x].style,
+                        objDataQCEndline[x].qty_order,
+                        objDataQCEndline[x].today,
+                        objDataQCEndline[x].total,
+                        objDataQCEndline[x].bal,
+                        objDataQCEndline[x].tanggal,
+                        objDataQCEndline[x].jam
+                     ]).draw();
+                     ++x;
+                  }
                }
                qcEndlineOutputTable.columns([6,7]).visible(false);
                $('#sewingToday').text(todayQCEndLineSUM);            
@@ -539,45 +541,47 @@
                let dateTimeFromObj = new Date(strDateTimeFromObj);
 
                qcEndlineOutputTable.rows().every(function(rowIdx, tableLoop, rowLoop){
-                  let strORCFromTable = qcEndlineOutputTable.cell(this, 0).data();
-                  let strStyleFromTable = qcEndlineOutputTable.cell(this, 1).data();
-
-                  if(strORCFromTable == strORCFromObj && strStyleFromTable == strStyleFromObj){
-                     let strDateTimeFromTable = qcEndlineOutputTable.cell(this, 6).data() + " " + qcEndlineOutputTable.cell(this, 7).data();
-                     let dateTimeFromTable = new Date(strDateTimeFromTable);
-                     if(dateTimeFromObj > dateTimeFromTable){
-                        // qty from realtime
-                        let intQTYFromObj = parseInt(objDataQCEndlineOnMessage[y].qty);
-                        
-                        // Update today
-                        let intQTYFromTable = parseInt(qcEndlineOutputTable.cell(this, 3).data());
-                        let intQTYTodayUpdated = intQTYFromObj + intQTYFromTable;
-                        qcEndlineOutputTable.cell(this, 3).data(intQTYTodayUpdated).draw();
-
-                        // Update total
-                        let intQTYTotal = parseInt(qcEndlineOutputTable.cell(this, 4).data());
-                        let intQTYTotalUpdated = intQTYFromObj + intQTYTotal;
-                        qcEndlineOutputTable.cell(this, 4).data(intQTYTotalUpdated).draw();
-
-                        // Update balance
-                        let intQTYBalance = parseInt(qcEndlineOutputTable.cell(this, 5).data());
-                        let intQTYBalanceUpdated = intQTYBalance + intQTYFromObj;
-                        qcEndlineOutputTable.cell(this, 5).data(intQTYBalanceUpdated).draw();
-
-                        todayQCEndLineSUM += intQTYFromObj;
-
+                  if(line == objDataQCEndlineOnMessage[y].line){
+                     let strORCFromTable = qcEndlineOutputTable.cell(this, 0).data();
+                     let strStyleFromTable = qcEndlineOutputTable.cell(this, 1).data();
+   
+                     if(strORCFromTable == strORCFromObj && strStyleFromTable == strStyleFromObj){
+                        let strDateTimeFromTable = qcEndlineOutputTable.cell(this, 6).data() + " " + qcEndlineOutputTable.cell(this, 7).data();
+                        let dateTimeFromTable = new Date(strDateTimeFromTable);
+                        if(dateTimeFromObj > dateTimeFromTable){
+                           // qty from realtime
+                           let intQTYFromObj = parseInt(objDataQCEndlineOnMessage[y].qty);
+                           
+                           // Update today
+                           let intQTYFromTable = parseInt(qcEndlineOutputTable.cell(this, 3).data());
+                           let intQTYTodayUpdated = intQTYFromObj + intQTYFromTable;
+                           qcEndlineOutputTable.cell(this, 3).data(intQTYTodayUpdated).draw();
+   
+                           // Update total
+                           let intQTYTotal = parseInt(qcEndlineOutputTable.cell(this, 4).data());
+                           let intQTYTotalUpdated = intQTYFromObj + intQTYTotal;
+                           qcEndlineOutputTable.cell(this, 4).data(intQTYTotalUpdated).draw();
+   
+                           // Update balance
+                           let intQTYBalance = parseInt(qcEndlineOutputTable.cell(this, 5).data());
+                           let intQTYBalanceUpdated = intQTYBalance + intQTYFromObj;
+                           qcEndlineOutputTable.cell(this, 5).data(intQTYBalanceUpdated).draw();
+   
+                           todayQCEndLineSUM += intQTYFromObj;
+   
+                        }
+                     }else{
+                        qcEndlineOutputTable.row.add([
+                           objDataQCEndline[y].orc,
+                           objDataQCEndline[y].style,
+                           objDataQCEndline[y].qty_order,
+                           objDataQCEndline[y].today,
+                           objDataQCEndline[y].total,
+                           objDataQCEndline[y].bal,
+                           objDataQCEndline[y].tanggal,
+                           objDataQCEndline[y].jam                        
+                        ]).draw();                     
                      }
-                  }else{
-                     qcEndlineOutputTable.row.add([
-                        objDataQCEndline[y].orc,
-                        objDataQCEndline[y].style,
-                        objDataQCEndline[y].qty_order,
-                        objDataQCEndline[y].today,
-                        objDataQCEndline[y].total,
-                        objDataQCEndline[y].bal,
-                        objDataQCEndline[y].tanggal,
-                        objDataQCEndline[y].jam                        
-                     ]).draw();                     
                   }
                });
 
