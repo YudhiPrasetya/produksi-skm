@@ -175,6 +175,8 @@
                                              <th class="text-uppercase text-secondary font-weight-bolder align-middle text-center">Today</th>
                                              <th class="text-uppercase text-secondary font-weight-bolder align-middle text-center">Total</th>
                                              <th class="text-uppercase text-secondary font-weight-bolder align-middle text-center">Balance</th>
+                                             <th class="text-uppercase text-secondary font-weight-bolder align-middle text-center">Tanggal</th>
+                                             <th class="text-uppercase text-secondary font-weight-bolder align-middle text-center">Jam</th>
                                           </tr>
                                        </thead>
                                     </table>
@@ -476,9 +478,7 @@
          var dataInit = '<?= $dataInit; ?>';
          var objDataQCEndline = JSON.parse(dataInit);
 
-         console.log('objDataQCEndline: ', objDataQCEndline);
-
-         // var qc_endline = new WebSocket("ws://192.168.2.120:10000/?service=qc_endline");
+         var qc_endline = new WebSocket("ws://192.168.2.120:10000/?service=qc_endline");
 
          $(document).ready(function(){
             initTable();
@@ -493,65 +493,112 @@
                   paging: false,
                   fixedHeader: false,
                   columnDefs: [
-                     {'className': 'dt-center', 'targets': '_all'}
+                     {'className': 'dt-center', 'targets': '_all'},
+                     {'target': 6, 'visible': false, 'serachable': false},
+                     {'target': 7, 'visible': false, 'serachable': false},
                   ]
                });
-
-               
-
             }
 
             var x = 0, arrLength = objDataQCEndline.length;
             
             while(x < arrLength){
+               todayQCEndLineSUM += parseInt(objDataQCEndline[x].today);
                qcEndlineOutputTable.row.add([
                   objDataQCEndline[x].orc,
                   objDataQCEndline[x].style,
                   objDataQCEndline[x].qty_order,
                   objDataQCEndline[x].today,
                   objDataQCEndline[x].total,
-                  objDataQCEndline[x].bal
+                  objDataQCEndline[x].bal,
+                  objDataQCEndline[x].tanggal,
+                  objDataQCEndline[x].jam
                ]).draw();
                ++x;
-            }            
+            }
+            console.log('todayQCEndLineSUM: ', todayQCEndLineSUM);
+            $('#sewingToday').text(todayQCEndLineSUM);            
 
          });
          
          // var qc_endline = new WebSocket("ws://localhost:10000/?service=qc_endline");
          // var packing_in = new WebSocket("ws://localhost:10000/?service=packing_in");
 
-         // qc_endline.onmessage = function(msg){
-         //    var objDataQCEndline = JSON.parse(msg.data);
+         qc_endline.onmessage = function(msg){
+            var objDataQCEndlineOnMessage = JSON.parse(msg.data);
 
-         //    var x = 0, arrLength = objDataQCEndline.length;
-            
-         //    while(x < arrLength){
-         //       if(parseInt(objDataQCEndline[x].today) > 0){
-         //          todayQCEndLineSUM += parseInt(objDataQCEndline[x].today);
-         //          yesterdayQCEndLineSUM += parseInt(objDataQCEndline[x].yesterday);
-         //          if(line == objDataQCEndline[x].line){
-         //             if(qcEndlineOutputTable.cell(x, 0).data == objDataQCEndline[x].orc && qcEndlineOutputTable.cell(x, 1).data == objDataQCEndline[x].style){
-         //                let totalToday = parseInt(qcEndlineOutputTable.cell(x, 3).data()) + parseInt(objDataQCEndline[x].today);
-         //                qcEndlineOutputTable.cell(x, 3).data(totalToday).draw();  
-         //             }else{
-         //                qcEndlineOutputTable.row.add([
-         //                   objDataQCEndline[x].orc,
-         //                   objDataQCEndline[x].style,
-         //                   objDataQCEndline[x].qty_order,
-         //                   objDataQCEndline[x].today,
-         //                   objDataQCEndline[x].total,
-         //                   objDataQCEndline[x].bal
-         //                ]).draw();
+            var y = 0, arrLengthOnMessage = objDataQCEndlineOnMessage.length;
+            while(y < arrLengthOnMessage){
+               // todayQCEndLineSUM += parseInt(objDataQCEndline[x].today);
+               // yesterdayQCEndLineSUM += parseInt(objDataQCEndline[x].yesterday);
+               let strORCFromObj = objDataQCEndlineOnMessage[y].orc;
+               let strStyleFromObj = objDataQCEndlineOnMessage[y].style;
+               let strDateTimeFromObj = objDataQCEndlineOnMessage[y].tanggal + " " + objDataQCEndlineOnMessage[y].jam;
+               let dateTimeFromObj = new Date(strDateTimeFromObj);
+
+               qcEndlineOutputTable.rows.every(function(rowIdx, tableLoop, rowLoop){
+                  let strORCFromTable = qcEndlineOutputTable.cell(this, 0).data();
+                  let strStyleFromTable = qcEndlineOutputTable.cell(this, 1).data();
+
+                  if(strORCFromTable == strORCFromObj && strStyleFromTable == strStyleFromObj){
+                     let strDateTimeFromTable = qcEndlineOutputTable.cell(this, 6).data() + " " + qcEndlineOutputTable.cell(this, 7).data();
+                     let dateTimeFromTable = new Date(strDateTimeFromTable);
+                     if(dateTimeFromObj > dateTimeFromTable){
+                        // qty from realtime
+                        let intQTYFromObj = parseInt(objDataQCEndlineOnMessage[y].qty);
                         
-         //             }
+                        // Update today
+                        let intQTYFromTable = parseInt(qcEndlineOutputTable.cell(this, 3).data());
+                        let intQTYTodayUpdated = intQTYFromObj + intQTYFromTable;
+                        qcEndlineOutputTable.cell(this, 3).data(intQTYTodayUpdated).draw();
 
-         //          }
-         //       }
-         //       ++x;
-         //    }
-         //    $('#sewingToday').text(todayQCEndLineSUM);
-         //    $('#sewingYesterday').text(yesterdayQCEndLineSUM);
-         // }
+                        // Update total
+                        let intQTYTotal = parseInt(qcEndlineOutputTable.cell(this, 4).data());
+                        let intQTYTotalUpdated = intQTYFromObj + intQTYTotal;
+                        qcEndlineOutputTable.cell(this, 4).data(intQTYTotalUpdated).draw();
+
+                        // Update balance
+                        let intQTYBalance = parseInt(qcEndlineOutputTable.cell(this, 5).data());
+                        let intQTYBalanceUpdated = intQTYBalance + intQTYFromObj;
+                        qcEndlineOutputTable.cell(this, 5).data(intQTYBalanceUpdated).draw();
+
+                        todayQCEndLineSUM += intQTYFromObj;
+
+                     }
+                  }else{
+                     qcEndlineOutputTable.row.add([
+                        objDataQCEndline[y].orc,
+                        objDataQCEndline[y].style,
+                        objDataQCEndline[y].qty_order,
+                        objDataQCEndline[y].today,
+                        objDataQCEndline[y].total,
+                        objDataQCEndline[y].bal,
+                        objDataQCEndline[y].tanggal,
+                        objDataQCEndline[y].jam                        
+                     ]).draw();                     
+                  }
+               });
+
+               // if(qcEndlineOutputTable.cell(x, 0).data == objDataQCEndline[x].orc && qcEndlineOutputTable.cell(x, 1).data == objDataQCEndline[x].style){
+               //    let totalToday = parseInt(qcEndlineOutputTable.cell(x, 3).data()) + parseInt(objDataQCEndline[x].today);
+               //    qcEndlineOutputTable.cell(x, 3).data(totalToday).draw();  
+               // }else{
+               //    qcEndlineOutputTable.row.add([
+               //       objDataQCEndline[x].orc,
+               //       objDataQCEndline[x].style,
+               //       objDataQCEndline[x].qty_order,
+               //       objDataQCEndline[x].today,
+               //       objDataQCEndline[x].total,
+               //       objDataQCEndline[x].bal
+               //    ]).draw();
+                  
+               // }
+
+               ++y;
+            }
+            $('#sewingToday').text(todayQCEndLineSUM);
+            // $('#sewingYesterday').text(yesterdayQCEndLineSUM);
+         }
 
          // packing_in.onmessage = function(msg){
          //    var objDataPacking = JSON.parse(msg.data);
