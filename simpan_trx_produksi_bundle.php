@@ -35,7 +35,7 @@ if(isset($_POST['kirim'])){
             $hasil = tampil_monitor_qc_endline($tgl, $line);
 
             while($row = mysqli_fetch_assoc($hasil)){
-                $data = ["orc" => preg_replace("/\s+/","",$row["orc"]), "status" => $row["status"], "style" => $row["style"], "color" => $row["color"],
+                $data = ["orc" => preg_replace("/\s+/","",$row["orc"]), "line" => ["line"], "status" => $row["status"], "style" => $row["style"], "color" => $row["color"],
                         "size" => $row["size"], "cup" => $row["cup"], "qty_order" => $row["QTY_ORDER"], "today" => $row["TODAY"],
                         "yesterday" => $row["YESTERDAY"], "total" => $row["TOTAL"], "bal" => $row["BAL"], "tanggal" => $row["tanggal"], "jam" => ["JAM"]];
                 array_push($dataArray, $data);

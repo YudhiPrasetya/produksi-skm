@@ -497,7 +497,7 @@
                   fixedHeader: false,
                   columnDefs: [
                      {'className': 'dt-center', 'targets': '_all'},
-                     // {'targets': [6,7], 'visible': false, 'serachable': false},
+                     {'targets': [6,7], 'visible': false},
                      // {'target': 7, 'visible': false, 'serachable': false},
                   ]
                });
@@ -516,10 +516,10 @@
                         objDataQCEndline[x].tanggal,
                         objDataQCEndline[x].jam
                      ]).draw();
-                     ++x;
                   }
+                  ++x;
                }
-               qcEndlineOutputTable.columns([6,7]).visible(false);
+               // qcEndlineOutputTable.columns([6,7]).visible(false);
                $('#sewingToday').text(todayQCEndLineSUM);            
             }
 
