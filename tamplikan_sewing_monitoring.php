@@ -568,6 +568,9 @@
                      if(strORCFromTable == strORCFromObj && strStyleFromTable == strStyleFromObj){
                         let strDateTimeFromTable = qcEndlineOutputTable.cell(this, 6).data() + " " + qcEndlineOutputTable.cell(this, 7).data();
                         let dateTimeFromTable = new Date(strDateTimeFromTable);
+
+                        console.log('strDateTimeFromTable: ',strDateTimeFromTable);
+                        console.log('dateTimeFromTable: ',dateTimeFromTable);
                         if(dateTimeFromObj > dateTimeFromTable){
                            console.log('dateTimeFromObj',dateTimeFromObj);
                            console.log('dateTimeFromTable',dateTimeFromTable);
