@@ -541,7 +541,6 @@
 
          qc_endline.onmessage = function(msg){
             objDataQCEndlineOnMessage = JSON.parse(msg.data);
-            console.log('objDataQCEndlineOnMessage', objDataQCEndlineOnMessage);
 
             var y = 0, arrLengthOnMessage = objDataQCEndlineOnMessage.length;
             while(y < arrLengthOnMessage){
