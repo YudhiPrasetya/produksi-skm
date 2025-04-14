@@ -366,7 +366,7 @@
 
             </ul>
           </li>
-          <li style="float:right; background:#254681 ;"><a href="index.php">LOG IN</a></li>
+          <li style="float:right; background:#254681 ;"><a href="logout.php">LOG OUT</a></li>
         <?php }} ?>
       <!-- <//?php } else { ?>
         <li style="float:right; background:#254681 ;"><a href="index.php">LOG IN</a></li>
