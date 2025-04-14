@@ -492,6 +492,7 @@
          var objDataQCEndline = JSON.parse(dataInit);
 
          var qc_endline = new WebSocket("ws://192.168.2.120:10000/?service=qc_endline");
+         var objDataQCEndlineOnMessage;
 
          $(document).ready(function(){
             initTable();
@@ -539,7 +540,7 @@
          // var packing_in = new WebSocket("ws://localhost:10000/?service=packing_in");
 
          qc_endline.onmessage = function(msg){
-            var objDataQCEndlineOnMessage = JSON.parse(msg.data);
+            objDataQCEndlineOnMessage = JSON.parse(msg.data);
             console.log('objDataQCEndlineOnMessage', objDataQCEndlineOnMessage);
 
             var y = 0, arrLengthOnMessage = objDataQCEndlineOnMessage.length;
@@ -594,7 +595,7 @@
                      }else{
                         let qty = parseInt(objDataQCEndlineOnMessage[y].qty);
                         let balance = qty - parseInt(objDataQCEndlineOnMessage[y].qty_order);
-
+                        todayQCEndLineSUM += qty;
                         
                         qcEndlineOutputTable.row.add([
                            objDataQCEndlineOnMessage[y].orc,
@@ -604,7 +605,6 @@
                            qty,
                            // today total
                            qty,
-
                            balance,
                            objDataQCEndlineOnMessage[y].tanggal
                            objDataQCEndlineOnMessage[y].jam
