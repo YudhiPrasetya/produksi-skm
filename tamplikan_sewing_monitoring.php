@@ -564,9 +564,8 @@
                         console.log('dateTimeFromObj',dateTimeFromObj);
                         console.log('dateTimeFromTable',dateTimeFromTable);
 
-                        console.log('dateTimeFromObj > dateTimeFromTable', dateTimeFromObj > dateTimeFromTable)
+                        console.log('dateTimeFromObj > dateTimeFromTable', dateTimeFromObj > dateTimeFromTable);
                         if(dateTimeFromObj > dateTimeFromTable){
-                           console.log('dateTimeFromObj',dateTimeFromObj);
                            console.log('dateTimeFromTable',dateTimeFromTable);
                            // qty from realtime
                            let intQTYFromObj = parseInt(objDataQCEndlineOnMessage[y].qty);
@@ -590,7 +589,7 @@
                            todayQCEndLineSUM += intQTYFromObj;
                         }
                      }
-                     // else{
+                     // }else{
                      //    let qty = parseInt(objDataQCEndlineOnMessage[y].qty);
                      //    let balance = qty - parseInt(objDataQCEndlineOnMessage[y].qty_order);
                      //    todayQCEndLineSUM += qty;
