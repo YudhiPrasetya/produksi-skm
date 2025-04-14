@@ -7553,7 +7553,7 @@ function tampil_monitor_qc_endline($tgl, $line){
   //           SUM(B.qty)-B.qty_order AS BAL FROM `view_transaksi_qc_endline` B WHERE B.line='$line' AND B.tanggal <= '$tgl' 
   //           AND B.`status`='open' GROUP BY B.orc";
 
-  $query = "SELECT orc, line, `status`, style, color, size, cup, qty_order, tanggal, jam 
+  $query = "SELECT orc, line, `status`, style, color, size, cup, qty, qty_order, tanggal, jam 
             FROM view_transaksi_qc_endline WHERE line='$line' AND tanggal='$tgl' AND status='open' ORDER BY tanggal,jam DESC";            
   
   $rst = mysqli_query($koneksi, $query);

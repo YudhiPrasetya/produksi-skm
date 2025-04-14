@@ -35,9 +35,19 @@ if(isset($_POST['kirim'])){
             $hasil = tampil_monitor_qc_endline($tgl, $line);
 
             while($row = mysqli_fetch_assoc($hasil)){
-                $data = ["orc" => preg_replace("/\s+/","",$row["orc"]), "line" => ["line"], "status" => $row["status"], "style" => $row["style"], "color" => $row["color"],
-                        "size" => $row["size"], "cup" => $row["cup"], "qty_order" => $row["QTY_ORDER"], "today" => $row["TODAY"],
-                        "yesterday" => $row["YESTERDAY"], "total" => $row["TOTAL"], "bal" => $row["BAL"], "tanggal" => $row["tanggal"], "jam" => ["JAM"]];
+                $data = [
+                            "orc" => preg_replace("/\s+/","",$row["orc"]),
+                            "line" => $row["line"],
+                            "status" => $row["status"],
+                            "style" => $row["style"],
+                            "color" => $row["color"],
+                            "size" => $row["size"],
+                            "cup" => $row["cup"],
+                            "qty" => $row["qty"],
+                            "qty_order" => $row["qty_order"],
+                            "tanggal" => $row["tanggal"],
+                            "jam" => $row["jam"]
+                        ];
                 array_push($dataArray, $data);
             }
             
@@ -66,9 +76,19 @@ if(isset($_POST['kirim'])){
             $hasil = tampil_monitor_qc_endline($tgl, $line);
 
             while($row = mysqli_fetch_assoc($hasil)){
-                $data = ["orc" => $row["orc"], "status" => $row["status"], "style" => $row["style"], "color" => $row["color"],
-                        "size" => $row["size"], "cup" => $row["cup"], "qty_order" => $row["QTY_ORDER"], "today" => $row["TODAY"],
-                        "yesterday" => $row["YESTERDAY"], "total" => $row["TOTAL"], "bal" => $row["BAL"]];
+                $data = [
+                    "orc" => preg_replace("/\s+/","",$row["orc"]),
+                    "line" => $row["line"],
+                    "status" => $row["status"],
+                    "style" => $row["style"],
+                    "color" => $row["color"],
+                    "size" => $row["size"],
+                    "cup" => $row["cup"],
+                    "qty" => $row["qty"],
+                    "qty_order" => $row["qty_order"],
+                    "tanggal" => $row["tanggal"],
+                    "jam" => $row["jam"]
+                ];
                 array_push($dataArray, $data);
             }
             
