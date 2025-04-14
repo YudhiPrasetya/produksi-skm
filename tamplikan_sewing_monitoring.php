@@ -561,6 +561,10 @@
                         let strDateTimeFromTable = qcEndlineOutputTable.cell(this, 6).data() + " " + qcEndlineOutputTable.cell(this, 7).data();
                         let dateTimeFromTable = new Date(strDateTimeFromTable);
 
+                        console.log('dateTimeFromObj',dateTimeFromObj);
+                        console.log('dateTimeFromTable',dateTimeFromTable);
+
+                        console.log('dateTimeFromObj > dateTimeFromTable', dateTimeFromObj > dateTimeFromTable);
                         if(dateTimeFromObj > dateTimeFromTable){
                            console.log('dateTimeFromObj',dateTimeFromObj);
                            console.log('dateTimeFromTable',dateTimeFromTable);
@@ -586,33 +590,24 @@
                            todayQCEndLineSUM += intQTYFromObj;
    
                         }
-                     }else{
-                        let qty = parseInt(objDataQCEndlineOnMessage[y].qty);
-                        let balance = qty - parseInt(objDataQCEndlineOnMessage[y].qty_order);
-                        todayQCEndLineSUM += qty;
+                     // }else{
+                     //    let qty = parseInt(objDataQCEndlineOnMessage[y].qty);
+                     //    let balance = qty - parseInt(objDataQCEndlineOnMessage[y].qty_order);
+                     //    todayQCEndLineSUM += qty;
                         
-                        qcEndlineOutputTable.row.add([
-                           objDataQCEndlineOnMessage[y].orc,
-                           objDataQCEndlineOnMessage[y].style,
-                           objDataQCEndlineOnMessage[y].qty_order,
-                           // today qty
-                           qty,
-                           // today total
-                           qty,
-                           balance,
-                           objDataQCEndlineOnMessage[y].tanggal,
-                           objDataQCEndlineOnMessage[y].jam
-
-                           // objDataQCEndline[y].orc,
-                           // objDataQCEndline[y].style,
-                           // objDataQCEndline[y].qty_order,
-                           // objDataQCEndline[y].today,
-                           // objDataQCEndline[y].total,
-                           // objDataQCEndline[y].bal,
-                           // objDataQCEndline[y].tanggal,
-                           // objDataQCEndline[y].jam                        
-                        ]).draw();                     
-                     }
+                     //    qcEndlineOutputTable.row.add([
+                     //       objDataQCEndlineOnMessage[y].orc,
+                     //       objDataQCEndlineOnMessage[y].style,
+                     //       objDataQCEndlineOnMessage[y].qty_order,
+                     //       // today qty
+                     //       qty,
+                     //       // today total
+                     //       qty,
+                     //       balance,
+                     //       objDataQCEndlineOnMessage[y].tanggal,
+                     //       objDataQCEndlineOnMessage[y].jam
+                     //    ]).draw();                     
+                     // }
                   }
                });
 
