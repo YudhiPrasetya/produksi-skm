@@ -541,7 +541,7 @@
          qc_endline.onmessage = function(msg){
             var objDataQCEndlineOnMessage = JSON.parse(msg.data);
             console.log('objDataQCEndlineOnMessage', objDataQCEndlineOnMessage);
-            
+
             var y = 0, arrLengthOnMessage = objDataQCEndlineOnMessage.length;
             while(y < arrLengthOnMessage){
                // todayQCEndLineSUM += parseInt(objDataQCEndline[x].today);
@@ -592,15 +592,31 @@
    
                         }
                      }else{
+                        let qty = parseInt(objDataQCEndlineOnMessage[y].qty);
+                        let balance = qty - parseInt(objDataQCEndlineOnMessage[y].qty_order);
+
+                        
                         qcEndlineOutputTable.row.add([
-                           objDataQCEndline[y].orc,
-                           objDataQCEndline[y].style,
-                           objDataQCEndline[y].qty_order,
-                           objDataQCEndline[y].today,
-                           objDataQCEndline[y].total,
-                           objDataQCEndline[y].bal,
-                           objDataQCEndline[y].tanggal,
-                           objDataQCEndline[y].jam                        
+                           objDataQCEndlineOnMessage[y].orc,
+                           objDataQCEndlineOnMessage[y].style,
+                           objDataQCEndlineOnMessage[y].qty_order,
+                           // today qty
+                           qty,
+                           // today total
+                           qty,
+
+                           balance,
+                           objDataQCEndlineOnMessage[y].tanggal
+                           objDataQCEndlineOnMessage[y].jam
+
+                           // objDataQCEndline[y].orc,
+                           // objDataQCEndline[y].style,
+                           // objDataQCEndline[y].qty_order,
+                           // objDataQCEndline[y].today,
+                           // objDataQCEndline[y].total,
+                           // objDataQCEndline[y].bal,
+                           // objDataQCEndline[y].tanggal,
+                           // objDataQCEndline[y].jam                        
                         ]).draw();                     
                      }
                   }
