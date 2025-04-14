@@ -551,14 +551,24 @@
                let dateTimeFromObj = new Date(strDateTimeFromObj);
 
                qcEndlineOutputTable.rows().every(function(rowIdx, tableLoop, rowLoop){
+                  console.log('line: ', line);
+                  console.log('objDataQCEndlineOnMessage[y].line: ', objDataQCEndlineOnMessage[y].line);
+
                   if(line == objDataQCEndlineOnMessage[y].line){
                      let strORCFromTable = qcEndlineOutputTable.cell(this, 0).data();
                      let strStyleFromTable = qcEndlineOutputTable.cell(this, 1).data();
+
+                     console.log('strORCFromTable',strORCFromTable);
+                     console.log('strORCFromObj',strORCFromObj);
+                     console.log('strStyleFromTable',strStyleFromTable);
+                     console.log('strStyleFromObj',strStyleFromObj);
    
                      if(strORCFromTable == strORCFromObj && strStyleFromTable == strStyleFromObj){
                         let strDateTimeFromTable = qcEndlineOutputTable.cell(this, 6).data() + " " + qcEndlineOutputTable.cell(this, 7).data();
                         let dateTimeFromTable = new Date(strDateTimeFromTable);
                         if(dateTimeFromObj > dateTimeFromTable){
+                           console.log('dateTimeFromObj',dateTimeFromObj);
+                           console.log('dateTimeFromTable',dateTimeFromTable);
                            // qty from realtime
                            let intQTYFromObj = parseInt(objDataQCEndlineOnMessage[y].qty);
                            
