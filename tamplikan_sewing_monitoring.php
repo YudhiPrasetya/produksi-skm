@@ -540,7 +540,8 @@
 
          qc_endline.onmessage = function(msg){
             var objDataQCEndlineOnMessage = JSON.parse(msg.data);
-
+            console.log('objDataQCEndlineOnMessage', objDataQCEndlineOnMessage);
+            
             var y = 0, arrLengthOnMessage = objDataQCEndlineOnMessage.length;
             while(y < arrLengthOnMessage){
                // todayQCEndLineSUM += parseInt(objDataQCEndline[x].today);
