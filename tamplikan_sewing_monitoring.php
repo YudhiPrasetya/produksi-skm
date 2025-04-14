@@ -606,7 +606,7 @@
                            // today total
                            qty,
                            balance,
-                           objDataQCEndlineOnMessage[y].tanggal
+                           objDataQCEndlineOnMessage[y].tanggal,
                            objDataQCEndlineOnMessage[y].jam
 
                            // objDataQCEndline[y].orc,
