@@ -7543,38 +7543,20 @@ function hapus_transaksi_shipment($data)
 // ---------------Monitor-------------------------------
 function tampil_monitor_qc_endline($tgl, $line){
   global $koneksi;
-
-  // $yesterday = date('Y-m-d', strtotime("-1 days"));
-
-  // $query = "SELECT B.orc, B.`status`, B.style, B.color, B.size, B.cup, 
-  //           B.qty_order AS `QTY_ORDER`, (SELECT IFNULL(SUM(A.qty), 0) FROM view_transaksi_qc_endline A 
-  //           WHERE A.tanggal ='$tgl' AND A.orc = B.orc) AS TODAY, (SELECT IFNULL(SUM(C.qty), 0) 
-  //           FROM view_transaksi_qc_endline C WHERE C.tanggal ='$yesterday' AND C.orc = B.orc) AS YESTERDAY, SUM(B.qty) AS TOTAL, 
-  //           SUM(B.qty)-B.qty_order AS BAL FROM `view_transaksi_qc_endline` B WHERE B.line='$line' AND B.tanggal <= '$tgl' 
-  //           AND B.`status`='open' GROUP BY B.orc";
-
-  $query = "SELECT orc, line, `status`, style, color, size, cup, qty, qty_order, tanggal, jam 
-            FROM view_transaksi_qc_endline WHERE line='$line' AND tanggal='$tgl' AND status='open' ORDER BY tanggal,jam DESC";            
+ 
+  $query = "SELECT B.id, B.orc, B.line, B.`status`, B.style, B.color, B.size, B.cup, B.qty_order AS `QTY_ORDER`,B.tanggal,
+            (SELECT MAX(A.jam) FROM view_transaksi_qc_endline A WHERE A.tanggal = '$tgl' AND A.orc = B.orc ) AS JAM,
+            (SELECT IFNULL( SUM( A.qty ), 0 ) FROM view_transaksi_qc_endline A WHERE A.tanggal = '$tgl' AND A.orc = B.orc AND A.line = B.line ) AS TODAY,
+            (SELECT SUM( A.qty ) FROM view_transaksi_qc_endline A WHERE A.tanggal <= '$tgl' AND A.orc = B.orc) AS TOTAL,
+            ((SELECT SUM( A.qty ) FROM view_transaksi_qc_endline A WHERE A.tanggal <= '$tgl' AND A.orc = B.orc) - B.qty_order) AS BAL 
+            FROM `view_transaksi_qc_endline` B 
+            WHERE B.line = '$line' 
+              AND B.tanggal = '$tgl' 
+              AND B.`status` = 'open' 
+            GROUP BY B.orc ORDER BY B.id DESC";
   
   $rst = mysqli_query($koneksi, $query);
   return $rst;
-}
-
-function init_table_monitor_qc_endline($tgl, $line){
-  global $koneksi;
-  $q = "SELECT B.orc, B.line, B.`status`, B.style, B.color, B.size, B.cup, B.qty_order AS `QTY_ORDER`,B.tanggal,
-	      (SELECT MAX(A.jam) FROM view_transaksi_qc_endline A WHERE A.tanggal = '$tgl' AND A.orc = B.orc ) AS JAM,
-	      (SELECT IFNULL( SUM( A.qty ), 0 ) FROM view_transaksi_qc_endline A WHERE A.tanggal = '$tgl' AND A.orc = B.orc AND A.line = B.line ) AS TODAY,
-	      (SELECT SUM( A.qty ) FROM view_transaksi_qc_endline A WHERE A.tanggal <= '$tgl' AND A.orc = B.orc) AS TOTAL,
-	      ((SELECT SUM( A.qty ) FROM view_transaksi_qc_endline A WHERE A.tanggal <= '$tgl' AND A.orc = B.orc) - B.qty_order) AS BAL 
-        FROM `view_transaksi_qc_endline` B 
-        WHERE B.line = '$line' 
-	        AND B.tanggal = '$tgl' 
-	        AND B.`status` = 'open' 
-        GROUP BY B.orc";
-
-  $rst = mysqli_query($koneksi, $q);
-  return $rst;        
 }
 
 function tampil_monitor_packing($tgl, $orc){

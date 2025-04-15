@@ -21,28 +21,30 @@
     $tgl = date('Y-m-d');
 
     $dataArray = array();
-    $hasil = init_table_monitor_qc_endline($tgl, $line);
+   //  $hasil = init_table_monitor_qc_endline($tgl, $line);
+   $hasil = tampil_monitor_qc_endline($tgl, $line);
 
     while($row = mysqli_fetch_assoc($hasil)){
         $data = [
-                  "orc" => preg_replace("/\s+/","",$row["orc"]), 
-                  "line" => $row["line"], 
-                  "status" => $row["status"], 
-                  "style" => $row["style"], 
-                  "color" => $row["color"],
-                  "size" => $row["size"], 
-                  "cup" => $row["cup"], 
-                  "qty_order" => $row["QTY_ORDER"], 
-                  "today" => $row["TODAY"],
-                  "total" => $row["TOTAL"], 
-                  "bal" => $row["BAL"], 
-                  "tanggal" => $row["tanggal"], 
-                  "jam" => $row["JAM"]
-               ];
-        array_push($dataArray, $data);
-    }
+         "id" => $row["id"], 
+         "orc" => preg_replace("/\s+/","",$row["orc"]), 
+         "line" => $row["line"], 
+         "status" => $row["status"], 
+         "style" => $row["style"], 
+         "color" => $row["color"],
+         "size" => $row["size"], 
+         "cup" => $row["cup"], 
+         "qty_order" => $row["QTY_ORDER"], 
+         "today" => $row["TODAY"],
+         "total" => $row["TOTAL"], 
+         "bal" => $row["BAL"], 
+         "tanggal" => $row["tanggal"], 
+         "jam" => $row["JAM"]
+      ];
+      array_push($dataArray, $data);
+   }
 
-    $dataInit = json_encode($dataArray);
+   $dataInit = json_encode($dataArray);
 ?>
 
 <html>
@@ -181,6 +183,7 @@
                                     <table class="table align-items-center mb-0" id="qcEndlineOutputTable">
                                        <thead>
                                           <tr>
+                                             <th class="text-uppercase text-secondary font-weight-bolder align-middle text-center">ID</th>
                                              <th class="text-uppercase text-secondary font-weight-bolder align-middle text-center">ORC</th>
                                              <th class="text-uppercase text-secondary font-weight-bolder align-middle text-center">Style</th>
                                              <th class="text-uppercase text-secondary font-weight-bolder align-middle text-center">Qty Order</th>
@@ -486,13 +489,15 @@
       <!--   Core JS Files   -->
       <script>
          var line = '<?= $line; ?>';
+         var intToday = 0, intTotal = 0, intBalance = 0;
          var todayQCEndLineSUM = 0, yesterdayQCEndLineSUM = 0;
          var qcEndlineOutputTable;
          var dataInit = '<?= $dataInit; ?>';
          var objDataQCEndline = JSON.parse(dataInit);
 
          var qc_endline = new WebSocket("ws://192.168.2.120:10000/?service=qc_endline");
-         var objDataQCEndlineOnMessage;
+         // var qc_endline = new WebSocket("ws://localhost:10000/?service=qc_endline");
+         // var objDataQCEndlineOnMessage;
 
          $(document).ready(function(){
             initTable();
@@ -506,18 +511,18 @@
                   searching: false,
                   paging: false,
                   fixedHeader: false,
+                  order: [[0, 'desc']],
                   columnDefs: [
                      {'className': 'dt-center', 'targets': '_all'},
-                     {'targets': [6,7], 'visible': false},
-                     // {'target': 7, 'visible': false, 'serachable': false},
+                     {'targets': [0,7,8], 'visible': false},
                   ]
                });
                var x = 0, arrLength = objDataQCEndline.length;
-               
                while(x < arrLength){
                   if(line == objDataQCEndline[x].line){
                      todayQCEndLineSUM += parseInt(objDataQCEndline[x].today);
                      qcEndlineOutputTable.row.add([
+                        objDataQCEndline[x].id,
                         objDataQCEndline[x].orc,
                         objDataQCEndline[x].style,
                         objDataQCEndline[x].qty_order,
@@ -540,111 +545,30 @@
          // var packing_in = new WebSocket("ws://localhost:10000/?service=packing_in");
 
          qc_endline.onmessage = function(msg){
-            objDataQCEndlineOnMessage = JSON.parse(msg.data);
-
-            var y = 0, arrLengthOnMessage = objDataQCEndlineOnMessage.length;
-            while(y < arrLengthOnMessage){
-               // todayQCEndLineSUM += parseInt(objDataQCEndline[x].today);
-               // yesterdayQCEndLineSUM += parseInt(objDataQCEndline[x].yesterday);
-               let strORCFromObj = objDataQCEndlineOnMessage[y].orc;
-               let strStyleFromObj = objDataQCEndlineOnMessage[y].style;
-               let strDateTimeFromObj = objDataQCEndlineOnMessage[y].tanggal + " " + objDataQCEndlineOnMessage[y].jam;
-               let dateTimeFromObj = new Date(strDateTimeFromObj);
-
-               qcEndlineOutputTable.rows().every(function(rowIdx, tableLoop, rowLoop){
-
-                  if(line == objDataQCEndlineOnMessage[y].line){
-                     let strORCFromTable = qcEndlineOutputTable.cell(this, 0).data();
-                     let strStyleFromTable = qcEndlineOutputTable.cell(this, 1).data();
-
-                     if(strORCFromTable == strORCFromObj && strStyleFromTable == strStyleFromObj){
-                        let strDateTimeFromTable = qcEndlineOutputTable.cell(this, 6).data() + " " + qcEndlineOutputTable.cell(this, 7).data();
-                        let dateTimeFromTable = new Date(strDateTimeFromTable);
-
-                        console.log('dateTimeFromObj',dateTimeFromObj);
-                        console.log('dateTimeFromTable',dateTimeFromTable);
-
-                        console.log('dateTimeFromObj > dateTimeFromTable', dateTimeFromObj > dateTimeFromTable);
-                        if(dateTimeFromObj > dateTimeFromTable){
-                           console.log('dateTimeFromTable',dateTimeFromTable);
-                           // qty from realtime
-                           let intQTYFromObj = parseInt(objDataQCEndlineOnMessage[y].qty);
-                           console.log('intQTYFromObj: ', intQTYFromObj);
-                           
-                           // Update today
-                           let intQTYFromTable = parseInt(qcEndlineOutputTable.cell(this, 3).data());
-                           let intQTYTodayUpdated = intQTYFromObj + intQTYFromTable;
-                           qcEndlineOutputTable.cell(this, 3).data(intQTYTodayUpdated).draw();
-   
-                           // Update total
-                           let intQTYTotal = parseInt(qcEndlineOutputTable.cell(this, 4).data());
-                           let intQTYTotalUpdated = intQTYFromObj + intQTYTotal;
-                           qcEndlineOutputTable.cell(this, 4).data(intQTYTotalUpdated).draw();
-   
-                           // Update balance
-                           let intQTYBalance = parseInt(qcEndlineOutputTable.cell(this, 5).data());
-                           let intQTYBalanceUpdated = intQTYBalance + intQTYFromObj;
-                           qcEndlineOutputTable.cell(this, 5).data(intQTYBalanceUpdated).draw();
-   
-                           todayQCEndLineSUM += intQTYFromObj;
-                        }
-                     }
-                     // }else{
-                     //    let qty = parseInt(objDataQCEndlineOnMessage[y].qty);
-                     //    let balance = qty - parseInt(objDataQCEndlineOnMessage[y].qty_order);
-                     //    todayQCEndLineSUM += qty;
-                        
-                     //    qcEndlineOutputTable.row.add([
-                     //       objDataQCEndlineOnMessage[y].orc,
-                     //       objDataQCEndlineOnMessage[y].style,
-                     //       objDataQCEndlineOnMessage[y].qty_order,
-                     //       // today qty
-                     //       qty,
-                     //       // today total
-                     //       qty,
-                     //       balance,
-                     //       objDataQCEndlineOnMessage[y].tanggal,
-                     //       objDataQCEndlineOnMessage[y].jam
-                     //    ]).draw();                     
-                     // }
-                  }
-               });
-
-               // if(qcEndlineOutputTable.cell(x, 0).data == objDataQCEndline[x].orc && qcEndlineOutputTable.cell(x, 1).data == objDataQCEndline[x].style){
-               //    let totalToday = parseInt(qcEndlineOutputTable.cell(x, 3).data()) + parseInt(objDataQCEndline[x].today);
-               //    qcEndlineOutputTable.cell(x, 3).data(totalToday).draw();  
-               // }else{
-               //    qcEndlineOutputTable.row.add([
-               //       objDataQCEndline[x].orc,
-               //       objDataQCEndline[x].style,
-               //       objDataQCEndline[x].qty_order,
-               //       objDataQCEndline[x].today,
-               //       objDataQCEndline[x].total,
-               //       objDataQCEndline[x].bal
-               //    ]).draw();
-                  
-               // }
-
-               ++y;
+            var objDataQCEndlineOnMessage = JSON.parse(msg.data);
+            if(line == objDataQCEndlineOnMessage[0].line){
+               todayQCEndLineSUM = 0;
+               qcEndlineOutputTable.clear().draw();
+               var y = 0, arrLengthOnMessage = objDataQCEndlineOnMessage.length;
+               while(y < arrLengthOnMessage){
+                  todayQCEndLineSUM += parseInt(objDataQCEndlineOnMessage[y].today);
+                  qcEndlineOutputTable.row.add([
+                     objDataQCEndlineOnMessage[y].id,
+                     objDataQCEndlineOnMessage[y].orc,
+                     objDataQCEndlineOnMessage[y].style,
+                     objDataQCEndlineOnMessage[y].qty_order,
+                     objDataQCEndlineOnMessage[y].today,
+                     objDataQCEndlineOnMessage[y].total,
+                     objDataQCEndlineOnMessage[y].bal,
+                     objDataQCEndlineOnMessage[y].tanggal,
+                     objDataQCEndlineOnMessage[y].jam
+                  ]).draw();                  
+                  ++y;
+               }
             }
             $('#sewingToday').text(todayQCEndLineSUM);
             // $('#sewingYesterday').text(yesterdayQCEndLineSUM);
          }
-
-         // packing_in.onmessage = function(msg){
-         //    var objDataPacking = JSON.parse(msg.data);
-         //    var x = 0, arrLength = objDataPacking.length;
-         //    var todayPackingSUM = 0, yesterdayPackingSUM = 0;
-         //    while(x < arrLength){
-         //       if(objDataPacking[x].today > 0){
-         //          todayPackingSUM += parseInt(objDataPacking[x].today);
-         //          yesterdayPackingSUM += parseInt(objDataPacking[x].yesterday);
-         //       }
-         //       ++x;
-         //    }
-         //    $('#packingToday').text(todayPackingSUM);
-         //    $('#packingYesterday').text(yesterdayPackingSUM);
-         // }
 
          function showTime(){
             const date = new Date();
