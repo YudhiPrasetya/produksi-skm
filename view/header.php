@@ -335,7 +335,7 @@
 
             </ul>
           </li>          
-          <li style="background: #254681"><a style="background: #254681" target="_blank" href="tamplikan_sewing_monitoring.php">TAMPILKAN MONITOR OUTPUT SEWING  </a></li>
+          <!-- <li style="background: #254681"><a style="background: #254681" target="_blank" href="tamplikan_sewing_monitoring.php">TAMPILKAN MONITOR OUTPUT SEWING  </a></li> -->
           <li style="float:right; background:#254681;"><a href="logout.php">LOG OUT</a></li>
         <?php } else if(cek_status($_SESSION['username']) == 'tatami') { ?>
           <li style="background: #254681"><a style="background: #254681" target="_blank" href="cetak_laporan_hasil_scan_global.php">REPORT SCAN BUNDLE</a>
@@ -350,7 +350,7 @@
 
             </ul>
           </li>          
-          <li style="background: #254681"><a style="background: #254681" target="_blank" href="tamplikan_packing_monitoring.php">TAMPILKAN MONITOR PACKING  </a></li>
+          <!-- <li style="background: #254681"><a style="background: #254681" target="_blank" href="tamplikan_packing_monitoring.php">TAMPILKAN MONITOR PACKING  </a></li> -->
           <li style="float:right; background:#254681;"><a href="logout.php">LOG OUT</a></li>
 
         <?php } else { ?>
