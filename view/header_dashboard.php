@@ -18,6 +18,8 @@
       <!-- CSS Files -->
       <link id="pagestyle" href="assets/Dashboard/assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
 
+      <link href="assets/Dashboard/assets/css/dataTables.dataTables.css" />
+
       <script src="assets/js/jquery.js"></script>
       <script type="text/javascript" src="assets/DataTables/js/jquery.js"></script>
       <script type="text/javascript" src="assets/js/bootstrap.js"></script>
@@ -27,6 +29,9 @@
       <script src="assets/Dashboard/assets/js/plugins/perfect-scrollbar.min.js"></script>
       <script src="assets/Dashboard/assets/js/plugins/smooth-scrollbar.min.js"></script>
       <script src="assets/Dashboard/assets/js/plugins/chartjs.min.js"></script>
+      <script src="assets/Dashboard/assets/js/plugins/dataTables.js"></script>
+      <script src="assets/Dashboard/assets/js/plugins/dataTables.responsive.js"></script>
+      <script src="assets/Dashboard/assets/js/plugins/responsive.dataTables.js"></script>
       <script>
          var win = navigator.platform.indexOf('Win') > -1;
          if (win && document.querySelector('#sidenav-scrollbar')) {

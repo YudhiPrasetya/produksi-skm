@@ -31,35 +31,59 @@ if(isset($_POST['kirim'])){
             session_destroy();
             session_start();
 
-            // $dataArray = array();
-            // $hasil = tampil_monitor_qc_endline($tgl, $line);
+            $dataArray = array();
+            $hasil = tampil_monitor_qc_endline($tgl, $line);
+            while($row = mysqli_fetch_assoc($hasil)){
+                $data = [
+                    "id" => $row["id"],
+                    "orc" => preg_replace("/\s+/","",$row["orc"]), 
+                    "line" => $row["line"], 
+                    "status" => $row["status"], 
+                    "style" => $row["style"],
+                    "smv" => $row["smv"], 
+                    "color" => $row["color"],
+                    "size" => $row["size"], 
+                    "cup" => $row["cup"], 
+                    "qty_order" => $row["QTY_ORDER"], 
+                    "today" => $row["TODAY"],
+                    "total" => $row["TOTAL"], 
+                    "bal" => $row["BAL"], 
+                    "tanggal" => $row["tanggal"], 
+                    "jam" => $row["JAM"]
+                ];
+                array_push($dataArray, $data);
+            }
 
-            // while($row = mysqli_fetch_assoc($hasil)){
-            //     $data = [
-            //         "id" => $row["id"],
-            //         "orc" => preg_replace("/\s+/","",$row["orc"]), 
-            //         "line" => $row["line"], 
-            //         "status" => $row["status"], 
-            //         "style" => $row["style"], 
-            //         "color" => $row["color"],
-            //         "size" => $row["size"], 
-            //         "cup" => $row["cup"], 
-            //         "qty_order" => $row["QTY_ORDER"], 
-            //         "today" => $row["TODAY"],
-            //         "total" => $row["TOTAL"], 
-            //         "bal" => $row["BAL"], 
-            //         "tanggal" => $row["tanggal"], 
-            //         "jam" => $row["JAM"]
-            //     ];
-            //     array_push($dataArray, $data);
-            // }
+            $dataOutput = [];
+            $hasilOutput = get_output_qc_endline($tgl, $line);
+            while($r = mysqli_fetch_assoc($hasilOutput)){
+                $dt = [
+                    "id" => $r["id"], 
+                    "orc" => preg_replace("/\s+/","",$r["orc"]), 
+                    "line" => $r["line"], 
+                    "style" => $r["style"], 
+                    "smv" => $r["smv"],
+                    "qty_order" => $r["qty_order"],
+                    "qty" => $r["qty"], 
+                    "tanggal" => $r["tanggal"], 
+                    "jam" => $r["jam"]
+                ];
+                array_push($dataOutput, $dt);
+            }
+
+            $dtTrans = [
+                "dataOutput" => $dataArray,
+                "dataEff" => $dataOutput
+            ];
+
             
-            $dataTransaksi = json_encode($dataArray);
+            // $dataTransaksi = json_encode($dataArray);
+            $dataTransaksi = json_encode($dtTrans);
             
             $_SESSION['pesan'] = "Data Transaksi $proses Berhasil disimpan";
             
 
-            header('Location: index.php');
+            // header('Location: index.php');
             
             // header("Location:$temp_table.php");
             }else{
@@ -70,42 +94,65 @@ if(isset($_POST['kirim'])){
         $id = kirim_data_transaksi_produksi_bundle($user, $temp_table, $table);
         if($id > 0 && reset_temp_produksi_bundle($user, $temp_table)) {
             if($proses == 'sewing' || $proses == 'qc_endline' || $proses == 'qc_buyer' || $proses == 'qc_transfer' || $proses == 'tatami_in' || 
-            $proses == 'tatami_out'){
-            // session_destroy();
-            // session_start();
-            // $dataTransaksi = get_data_transaksi($id, $table);
-            // $dataArray = array();
-            // $hasil = tampil_monitor_packing($tgl);
-            // $hasil = tampil_monitor_qc_endline($tgl, $line);
+                $proses == 'tatami_out'){
+                session_destroy();
+                session_start();
+                // $dataTransaksi = get_data_transaksi($id, $table);
+                $dataArray = array();
+                // $hasil = tampil_monitor_packing($tgl);
+                $hasil = tampil_monitor_qc_endline($tgl, $line);
 
-            // while($row = mysqli_fetch_assoc($hasil)){
-            //     $data = [
-            //         "id" => $row["id"],
-            //         "orc" => preg_replace("/\s+/","",$row["orc"]), 
-            //         "line" => $row["line"], 
-            //         "status" => $row["status"], 
-            //         "style" => $row["style"], 
-            //         "color" => $row["color"],
-            //         "size" => $row["size"], 
-            //         "cup" => $row["cup"], 
-            //         "qty_order" => $row["QTY_ORDER"], 
-            //         "today" => $row["TODAY"],
-            //         "total" => $row["TOTAL"], 
-            //         "bal" => $row["BAL"], 
-            //         "tanggal" => $row["tanggal"], 
-            //         "jam" => $row["JAM"]
-            //     ];
-            //     array_push($dataArray, $data);
-            // }
-            
-            // $dataTransaksi = json_encode($dataArray);            
-            
-            $_SESSION['pesan'] = "Data Transaksi $proses Berhasil disimpan";
-            // header('Location: index.php');
-            header("Location:$temp_table.php");
+                while($row = mysqli_fetch_assoc($hasil)){
+                    $data = [
+                        "id" => $row["id"],
+                        "orc" => preg_replace("/\s+/","",$row["orc"]), 
+                        "line" => $row["line"], 
+                        "status" => $row["status"], 
+                        "style" => $row["style"],
+                        "smv" => $row["smv"], 
+                        "color" => $row["color"],
+                        "size" => $row["size"], 
+                        "cup" => $row["cup"], 
+                        "qty_order" => $row["QTY_ORDER"], 
+                        "today" => $row["TODAY"],
+                        "total" => $row["TOTAL"], 
+                        "bal" => $row["BAL"], 
+                        "tanggal" => $row["tanggal"], 
+                        "jam" => $row["JAM"]
+                    ];
+                    array_push($dataArray, $data);
+                }
+
+                $dataOutput = [];
+                $hasilOutput = get_output_qc_endline($tgl, $line);
+                while($r = mysqli_fetch_assoc($hasilOutput)){
+                    $dt = [
+                        "id" => $r["id"], 
+                        "orc" => preg_replace("/\s+/","",$r["orc"]), 
+                        "line" => $r["line"], 
+                        "style" => $r["style"], 
+                        "smv" => $r["smv"],
+                        "qty_order" => $r["qty_order"],
+                        "qty" => $r["qty"], 
+                        "tanggal" => $r["tanggal"], 
+                        "jam" => $r["jam"]
+                    ];
+                    array_push($dataOutput, $dt);
+                }
+    
+                $dtTrans = [
+                    "dataOutput" => $dataArray,
+                    "dataEff" => $dataOutput
+                ];                
+                
+                $dataTransaksi = json_encode($dataArray);            
+                
+                $_SESSION['pesan'] = "Data Transaksi $proses Berhasil disimpan";
+                // header('Location: index.php');
+                // header("Location:$temp_table.php");
             }else{
                 $_SESSION['pesan'] = "Data Transaksi $proses Berhasil disimpan";
-                header("Location:$temp_table.php");
+                // header("Location:$temp_table.php");
             }
         }else{
         echo "gagal menyalin data";
@@ -122,25 +169,27 @@ if(isset($_POST['kirim'])){
         <div></div>
         <script src="assets/js/jquery.min.js"></script>
         <script>
-            // var qcEndline = new WebSocket("ws://localhost:10000/?service=qc_endline");
+            var qcEndline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");
             // var qcEndline = new WebSocket("ws://192.168.2.120:10000/?service=qc_endline");
             // var qcEndline = new WebSocket("ws://localhost:10000/?service=packing");
 
-            // qcEndline.onopen = function(){
-            //     let dataTransaksi = '<//?= $dataTransaksi; ?>';
-            //     let line = '<//?= $line ?>';
-            //     let tempTable = '<//?= $temp_table; ?>';
+            qcEndline.onopen = function(){
+                let dataTransaksi = '<?= $dataTransaksi; ?>';
+                let line = '<?= $line ?>';
+                let tempTable = '<?= $temp_table; ?>';
 
-            //     qcEndline.send(dataTransaksi);
+                qcEndline.send(dataTransaksi);
 
-            //     if(line != null){
-            //         // window.open("http://localhost/produksi-skm/index.php", "_self");
-            //         window.open("http://192.168.2.120/produksi-skm/index.php", "_self");
-            //     }else{
-            //         // window.open("http://localhost/produksi-skm/" + tempTable + ".php", "_self");
-            //         window.open("http://192.168.2.120/produksi-skm/" + tempTable + ".php", "_self");
-            //     }
-            // }
+                if(line != null){
+                    // window.open("http://localhost/produksi-skm/index.php", "_self");
+                    window.open("http://192.168.90.100/produksi-skm/index.php", "_self");
+                    // window.open("http://192.168.2.120/produksi-skm/index.php", "_self");
+                }else{
+                    // window.open("http://localhost/produksi-skm/" + tempTable + ".php", "_self");
+                    window.open("http://192.168.90.100/produksi-skm/" + tempTable + ".php", "_self");
+                    // window.open("http://192.168.2.120/produksi-skm/" + tempTable + ".php", "_self");
+                }
+            }
 
         </script>
     </body>

@@ -7543,8 +7543,10 @@ function hapus_transaksi_shipment($data)
 // ---------------Monitor-------------------------------
 function tampil_monitor_qc_endline($tgl, $line){
   global $koneksi;
+  // $dateYesterday = date_sub($tgl, date_interval_create_from_date_string("1 days"));
+  // $strYesterday = date_format($dateYesterday, "Y-m-d");
  
-  $query = "SELECT B.id, B.orc, B.line, B.`status`, B.style, B.color, B.size, B.cup, B.qty_order AS `QTY_ORDER`,B.tanggal,
+  $query = "SELECT B.id, B.orc, B.line, B.`status`, B.style, B.smv, B.color, B.size, B.cup, B.qty_order AS `QTY_ORDER`,B.tanggal,
             (SELECT MAX(A.jam) FROM view_transaksi_qc_endline A WHERE A.tanggal = '$tgl' AND A.orc = B.orc ) AS JAM,
             (SELECT IFNULL( SUM( A.qty ), 0 ) FROM view_transaksi_qc_endline A WHERE A.tanggal = '$tgl' AND A.orc = B.orc AND A.line = B.line ) AS TODAY,
             (SELECT SUM( A.qty ) FROM view_transaksi_qc_endline A WHERE A.tanggal <= '$tgl' AND A.orc = B.orc) AS TOTAL,
@@ -7557,6 +7559,29 @@ function tampil_monitor_qc_endline($tgl, $line){
   
   $rst = mysqli_query($koneksi, $query);
   return $rst;
+}
+
+function get_output_qc_endline($tgl, $line){
+  global $koneksi;
+
+  $query = "SELECT id, orc, line, style, smv, qty_order, qty, tanggal, jam 
+            FROM view_transaksi_qc_endline WHERE tanggal='$tgl' AND line='$line' AND status='open' ORDER BY jam";
+
+  $rst = mysqli_query($koneksi, $query);
+  return $rst;
+
+}
+
+function get_output_qc_endline_yesterday($tgl, $line){
+  global $koneksi;
+  $date = date_create($tgl);
+  date_sub($date, date_interval_create_from_date_string("1 day"));
+  $strDate = date_format($date, "Y-m-d");
+
+  $query = "SELECT SUM(qty) AS Output_Yesterday FROM `transaksi_qc_endline` WHERE tanggal='$strDate' AND line='$line'";
+  $rst = mysqli_query($koneksi, $query);
+  return $rst;  
+
 }
 
 function tampil_monitor_packing($tgl, $orc){
@@ -8000,7 +8025,8 @@ function delete_qty_temp_part_cutting($idTemp)
 
 function tampilkan_spv_by_namaline($namaline){
   global $koneksi;
-  $query = "SELECT * FROM master_line WHERE nama_line = '$namaline'";
+  // $query = "SELECT * FROM master_line WHERE nama_line = '$namaline'";
+  $query = "SELECT * FROM view_master_line_operator WHERE nama_line = '$namaline'";
   $result = mysqli_query($koneksi, $query) or die('gagal menampilkan data');
 
   return $result;  
