@@ -199,7 +199,7 @@ if(isset($_POST['kirim'])){
             // var qcEndline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");
             // var qcEndline = new WebSocket("ws://192.168.2.120:10000/?service=qc_endline");
             // var sendMessage = new WebSocket("ws://localhost:10000/?service=send_message");
-            var sendMessage = new WebSocket("ws://192.168.90.100:10000/?service=send_message");
+            // var sendMessage = new WebSocket("ws://192.168.90.100:10000/?service=send_message");
             var proses = '<?= $proses; ?>';
             
             if(proses === 'Tatami'){
@@ -209,7 +209,8 @@ if(isset($_POST['kirim'])){
             }
 
             function sendQCEndlineMsg(){
-                sendMessage.onopen = function(){
+                var qcEndline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");
+                qcEndline.onopen = function(){
                     let dataTransaksi = '<?= $dataTransaksi; ?>';
                     let line = '<?= $line ?>';
                     let tempTable = '<?= $temp_table; ?>';
@@ -231,7 +232,8 @@ if(isset($_POST['kirim'])){
             }
 
             function sendPackingMsg(){
-                sendMessage.onopen = function(){
+                var packing = new WebSocket("ws://192.168.90.100:10000/?service=packing");
+                packing.onopen = function(){
                     let dataTransaksiTatami = '<?= $dataTransaksiTatami; ?>';
                     let tempTableTatami = '<?= $temp_table; ?>';
                     if(dataTransaksiTatami != ''){

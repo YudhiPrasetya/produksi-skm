@@ -490,8 +490,8 @@
          var arrEffPros = [];
 
          // var qc_endline = new WebSocket("ws://localhost:10000/?service=send_message");
-         var qc_endline = new WebSocket("ws://192.168.90.100:10000/?service=send_message");
-         // var qc_endline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");
+         // var qc_endline = new WebSocket("ws://192.168.90.100:10000/?service=send_message");
+         var qc_endline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");
          // var objDataQCEndlineOnMessage;
 
          function LoadDataEffQCEndline(dataArr){
