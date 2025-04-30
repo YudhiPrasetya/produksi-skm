@@ -19,7 +19,7 @@ class QCEndlineMonitor implements MessageComponentInterface{
    public function onOpen(ConnectionInterface $conn){
       $this->clients->attach($conn);
 
-      echo "New Connection - QCEndline - " . $conn->resourceId;
+      echo "New Connection - onOpen(QCEndline) - " . $conn->resourceId;
    }
 
    public function onClose(ConnectionInterface $conn){}
