@@ -19,10 +19,6 @@ if(isset($_POST['kirim'])){
     $table = $_POST['table'];
     $proses = ucfirst($_POST['proses']);
 
-    // var_dump($temp_table);
-    // var_dump($table);
-    // var_dump($proses);
-    
     if(isset($_POST['line'])){
         $line = $_POST['line'];
         $id = kirim_data_transaksi_produksi_bundle_sewing($user, $temp_table, $table, $line);
@@ -179,8 +175,9 @@ if(isset($_POST['kirim'])){
                     }
                     $dataTransaksiTatami = json_encode($hasilOutputTatami);                
                     $_SESSION['pesan'] = "Data Transaksi $proses Berhasil disimpan";
+                }else{
+                    header("Location:$temp_table.php");
                 }                
-                // header("Location:$temp_table.php");
             }
         }
         // echo "gagal menyalin data";
@@ -210,6 +207,7 @@ if(isset($_POST['kirim'])){
 
             function sendQCEndlineMsg(){
                 var qcEndline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");
+                // var qcEndline = new WebSocket("ws://localhost:10000/?service=qc_endline");
                 qcEndline.onopen = function(){
                     let dataTransaksi = '<?= $dataTransaksi; ?>';
                     let line = '<?= $line ?>';
@@ -219,11 +217,13 @@ if(isset($_POST['kirim'])){
                         qcEndline.send(dataTransaksi);
     
                         if(line != null){
-                            window.open("http://192.168.90.100/produksi-skm/index.php", "_self");
+                            window.open("http://localhost/produksi-skm/index.php", "_self");
+                            // window.open("http://192.168.90.100/produksi-skm/index.php", "_self");
                             // window.open("http://192.168.90.100/produksi-skm/index.php", "_self");
                             // window.open("http://192.168.2.120/produksi-skm/index.php", "_self");
                         }else{
-                            window.open("http://192.168.90.100/produksi-skm/" + tempTable + ".php", "_self");
+                            window.open("http://localhost/produksi-skm/" + tempTable + ".php", "_self");
+                            // window.open("http://192.168.90.100/produksi-skm/" + tempTable + ".php", "_self");
                             // window.open("http://192.168.90.100/produksi-skm/" + tempTable + ".php", "_self");
                             // window.open("http://192.168.2.120/produksi-skm/" + tempTable + ".php", "_self");
                         }
@@ -233,14 +233,16 @@ if(isset($_POST['kirim'])){
 
             function sendPackingMsg(){
                 var packing = new WebSocket("ws://192.168.90.100:10000/?service=packing");
+                // var packing = new WebSocket("ws://localhost:10000/?service=packing");
                 packing.onopen = function(){
                     let dataTransaksiTatami = '<?= $dataTransaksiTatami; ?>';
+                    console.table(dataTransaksiTatami);
                     let tempTableTatami = '<?= $temp_table; ?>';
                     if(dataTransaksiTatami != ''){
                         packing.send(dataTransaksiTatami);
                         
-                        // window.open("http://localhost/produksi-skm/" + tempTableTatami + ".php", "_self");                
-                        window.open("http://192.168.90.100/produksi-skm/" + tempTableTatami + ".php", "_self");                
+                        window.open("http://localhost/produksi-skm/" + tempTableTatami + ".php", "_self");                
+                        // window.open("http://192.168.90.100/produksi-skm/" + tempTableTatami + ".php", "_self");                
                     }
                 }
             }
