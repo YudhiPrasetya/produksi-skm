@@ -264,8 +264,10 @@
                   destroy: true,
                   info: false,
                   searching: false,
-                  paging: true,
+                  paging: false,
                   fixedHeader: true,
+                  scrollX: true,
+                  animate: true,
                   order: [[0, 'desc']],
                   columnDefs: [
                      {'className': 'dt-center', 'targets': '_all'},
@@ -290,7 +292,13 @@
                }
                $('#packingToday').text(todayPackingSUM)
                // qcEndlineOutputTable.columns([6,7]).visible(false);
+               $('#packingTable > tbody > tr').each(function{
+                  $('html, body').animate({
+                     scrollTop: $(this).offset().top
+                  }, 200).delay(1500);
+               });
             }
+
          });
          
          packing.onmessage = function(msg){
