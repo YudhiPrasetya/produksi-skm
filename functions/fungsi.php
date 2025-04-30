@@ -7584,20 +7584,36 @@ function get_output_qc_endline_yesterday($tgl, $line){
 
 }
 
-function tampil_monitor_packing($tgl, $orc){
+function tampil_monitor_tatami($tgl){
   global $koneksi;
 
   $yesterday = date('Y-m-d', strtotime("-1 days"));
 
-  $query = "SELECT B.orc, B.`status`, B.style, B.color, 
-            B.qty_order AS `QTY_ORDER`, (SELECT IFNULL(SUM(A.qty), 0) FROM view_style_masterorder_transaksipacking A 
-            WHERE A.tanggal ='$tgl' AND A.orc = B.orc) AS TODAY, (SELECT IFNULL(SUM(C.qty), 0) 
-            FROM view_style_masterorder_transaksipacking C WHERE C.tanggal ='$yesterday' AND C.orc = B.orc) AS YESTERDAY, SUM(B.qty) AS TOTAL, 
-            SUM(B.qty)-B.qty_order AS BAL FROM view_style_masterorder_transaksipacking B WHERE B.orc='$orc' AND B.tanggal <= '$tgl' 
-            AND B.`status`='open' GROUP BY B.orc";
+  $query = "SELECT B.id, B.orc, B.`status`, B.style, B.color, B.size, B.cup, B.qty_order AS `QTY_ORDER`,B.tanggal,
+            (SELECT MAX(A.jam) FROM view_transaksi_tatami A WHERE A.tanggal = '$tgl' AND A.orc = B.orc ) AS JAM,
+            (SELECT IFNULL( SUM( A.qty ), 0 ) FROM view_transaksi_tatami A WHERE A.tanggal = '$tgl' AND A.orc = B.orc) AS TODAY,
+            (SELECT SUM( A.qty ) FROM view_transaksi_tatami A WHERE A.tanggal <= '$tgl' AND A.orc = B.orc) AS TOTAL,
+            ((SELECT SUM( A.qty ) FROM view_transaksi_tatami A WHERE A.tanggal <= '$tgl' AND A.orc = B.orc) - B.qty_order) AS BAL 
+            FROM `view_transaksi_tatami` B 
+            WHERE B.tanggal = '$tgl' 
+              AND B.`status` = 'open' 
+            GROUP BY B.orc ORDER BY B.id DESC";
   
   $rst = mysqli_query($koneksi, $query);
   return $rst;
+}
+
+function get_output_packing_yesterday($tgl){
+  global $koneksi;
+  $date = date_create($tgl);
+  date_sub($date, date_interval_create_from_date_string("1 day"));
+  $strDate = date_format($date, "Y-m-d");
+
+  $query = "SELECT SUM(qty) AS Packing_Yesterday FROM `transaksi_tatami` WHERE tanggal='$strDate'";
+  $rst = mysqli_query($koneksi, $query);
+
+  return $rst;  
+
 }
 
 

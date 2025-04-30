@@ -9,9 +9,10 @@ $ds = new \Fr\DiffSocket(array(
       "port" => "10000"
    ),
    "services" => array(
-      "qc_endline" => __DIR__ . "/monitor-services/qc_endline_monitor_service.php",
-      "packing_in" => __DIR__ . "/monitor-services/packing_in_monitor_service.php"
-   )
+         // "qc_endline" => __DIR__ . "/monitor-services/qc_endline_monitor_service.php",
+         "packing" => __DIR__ . "/monitor-services/packing_monitor_service.php",
+         "send_message" => __DIR__ . "/monitor-services/send_message_monitor_service.php"
+      )
    ));
 
 $ds->run();

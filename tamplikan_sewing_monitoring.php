@@ -70,6 +70,10 @@
 
    $dtQCEndLineYesterday = mysqli_fetch_assoc($dataQCYesterday);
 
+   $dataPackingYesterday = get_output_packing_yesterday($tgl);
+
+   $dtPackingYesterday = mysqli_fetch_assoc($dataPackingYesterday);
+
    
 ?>
 
@@ -459,8 +463,10 @@
          var strCurrentDate = new Date().toJSON().slice(0, 10);
 
          var dtQCEndLineYesterday = '<?= $dtQCEndLineYesterday['Output_Yesterday']; ?>';
+         var dtPackingYesterday = '<?= $dtPackingYesterday['Packing_Yesterday']; ?>';
+         $('#packingYesterday').text(dtPackingYesterday == "" ? 0 : dtPackingYesterday);
 
-         $('#sewingYesterday').text(dtQCEndLineYesterday);
+         $('#sewingYesterday').text(dtQCEndLineYesterday == "" ? 0 : dtQCEndLineYesterday);
          
          var arrWorkingHours = [
             {'JamKe': 1, "start": new Date(strCurrentDate + " 07:30:00")},
@@ -483,8 +489,9 @@
 
          var arrEffPros = [];
 
-         // var qc_endline = new WebSocket("ws://localhost:10000/?service=qc_endline");
-         var qc_endline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");
+         // var qc_endline = new WebSocket("ws://localhost:10000/?service=send_message");
+         var qc_endline = new WebSocket("ws://192.168.90.100:10000/?service=send_message");
+         // var qc_endline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");
          // var objDataQCEndlineOnMessage;
 
          function LoadDataEffQCEndline(dataArr){

@@ -350,7 +350,7 @@
 
             </ul>
           </li>          
-          <!-- <li style="background: #254681"><a style="background: #254681" target="_blank" href="tamplikan_packing_monitoring.php">TAMPILKAN MONITOR PACKING  </a></li> -->
+          <li style="background: #254681"><a style="background: #254681" target="_blank" href="tampilkan_tatami_monitoring.php">TAMPILKAN MONITOR PACKING  </a></li>
           <li style="float:right; background:#254681;"><a href="logout.php">LOG OUT</a></li>
 
         <?php } else { ?>

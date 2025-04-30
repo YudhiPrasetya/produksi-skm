@@ -8,8 +8,9 @@ $user;
 $temp_table;
 $table;
 $proses;
-$line;
-$dataTransaksi;
+$line='';
+$dataTransaksi='';
+$dataTransaksiTatami='';
 $tgl = date('Y-m-d');
 
 if(isset($_POST['kirim'])){
@@ -86,10 +87,9 @@ if(isset($_POST['kirim'])){
             // header('Location: index.php');
             
             // header("Location:$temp_table.php");
-            }else{
-            echo "gagal menyalin data";
-            }
-    
+        }else{
+            // echo "gagal menyalin data";
+        }
     }else{
         $id = kirim_data_transaksi_produksi_bundle($user, $temp_table, $table);
         if($id > 0 && reset_temp_produksi_bundle($user, $temp_table)) {
@@ -151,12 +151,39 @@ if(isset($_POST['kirim'])){
                 // header('Location: index.php');
                 // header("Location:$temp_table.php");
             }else{
-                $_SESSION['pesan'] = "Data Transaksi $proses Berhasil disimpan";
+                if($proses == "Tatami"){
+                    // session_destroy();
+                    // session_start();
+
+                    // $dataTransaksi = null;
+                    // $line = null;
+                    $hasilTatami = tampil_monitor_tatami($tgl);
+                    $hasilOutputTatami = [];
+                    while($row = mysqli_fetch_assoc($hasilTatami)){
+                        $d = [
+                            "id" => $row["id"],
+                            "orc" => preg_replace("/\s+/","",$row["orc"]), 
+                            "status" => $row["status"], 
+                            "style" => $row["style"],
+                            "color" => $row["color"],
+                            "size" => $row["size"], 
+                            "cup" => $row["cup"], 
+                            "qty_order" => $row["QTY_ORDER"], 
+                            "today" => $row["TODAY"],
+                            "total" => $row["TOTAL"], 
+                            "bal" => $row["BAL"], 
+                            "tanggal" => $row["tanggal"], 
+                            "jam" => $row["JAM"]
+                        ];
+                        array_push($hasilOutputTatami, $d);
+                    }
+                    $dataTransaksiTatami = json_encode($hasilOutputTatami);                
+                    $_SESSION['pesan'] = "Data Transaksi $proses Berhasil disimpan";
+                }                
                 // header("Location:$temp_table.php");
             }
-        }else{
-        echo "gagal menyalin data";
         }
+        // echo "gagal menyalin data";
     }
 } 
 
@@ -169,28 +196,52 @@ if(isset($_POST['kirim'])){
         <div></div>
         <script src="assets/js/jquery.min.js"></script>
         <script>
-            var qcEndline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");
+            // var qcEndline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");
             // var qcEndline = new WebSocket("ws://192.168.2.120:10000/?service=qc_endline");
-            // var qcEndline = new WebSocket("ws://localhost:10000/?service=packing");
+            // var sendMessage = new WebSocket("ws://localhost:10000/?service=send_message");
+            var sendMessage = new WebSocket("ws://192.168.90.100:10000/?service=send_message");
+            var proses = '<?= $proses; ?>';
+            
+            if(proses === 'Tatami'){
+                sendPackingMsg();
+            }else{
+                sendQCEndlineMsg();
+            }
 
-            qcEndline.onopen = function(){
-                let dataTransaksi = '<?= $dataTransaksi; ?>';
-                let line = '<?= $line ?>';
-                let tempTable = '<?= $temp_table; ?>';
+            function sendQCEndlineMsg(){
+                sendMessage.onopen = function(){
+                    let dataTransaksi = '<?= $dataTransaksi; ?>';
+                    let line = '<?= $line ?>';
+                    let tempTable = '<?= $temp_table; ?>';
 
-                qcEndline.send(dataTransaksi);
-
-                if(line != null){
-                    // window.open("http://localhost/produksi-skm/index.php", "_self");
-                    window.open("http://192.168.90.100/produksi-skm/index.php", "_self");
-                    // window.open("http://192.168.2.120/produksi-skm/index.php", "_self");
-                }else{
-                    // window.open("http://localhost/produksi-skm/" + tempTable + ".php", "_self");
-                    window.open("http://192.168.90.100/produksi-skm/" + tempTable + ".php", "_self");
-                    // window.open("http://192.168.2.120/produksi-skm/" + tempTable + ".php", "_self");
+                    if(dataTransaksi != '' && line != ''){
+                        sendMessage.send(dataTransaksi);
+    
+                        if(line != null){
+                            window.open("http://192.168.90.100/produksi-skm/index.php", "_self");
+                            // window.open("http://192.168.90.100/produksi-skm/index.php", "_self");
+                            // window.open("http://192.168.2.120/produksi-skm/index.php", "_self");
+                        }else{
+                            window.open("http://192.168.90.100/produksi-skm/" + tempTable + ".php", "_self");
+                            // window.open("http://192.168.90.100/produksi-skm/" + tempTable + ".php", "_self");
+                            // window.open("http://192.168.2.120/produksi-skm/" + tempTable + ".php", "_self");
+                        }
+                    }
                 }
             }
 
+            function sendPackingMsg(){
+                sendMessage.onopen = function(){
+                    let dataTransaksiTatami = '<?= $dataTransaksiTatami; ?>';
+                    let tempTableTatami = '<?= $temp_table; ?>';
+                    if(dataTransaksiTatami != ''){
+                        sendMessage.send(dataTransaksiTatami);
+                        
+                        // window.open("http://localhost/produksi-skm/" + tempTableTatami + ".php", "_self");                
+                        window.open("http://192.168.90.100/produksi-skm/" + tempTableTatami + ".php", "_self");                
+                    }
+                }
+            }
         </script>
     </body>
 </html>
