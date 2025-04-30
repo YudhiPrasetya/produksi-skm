@@ -19,7 +19,7 @@ class PackingMonitorService implements MessageComponentInterface{
    public function onOpen(ConnectionInterface $conn){
       $this->clients->attach($conn);
 
-      echo "New Connection - " . $conn->resourceId;
+      echo "New Connection - Packing - " . $conn->resourceId;
    }
 
    public function onClose(ConnectionInterface $conn){}
