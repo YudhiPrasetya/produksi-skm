@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . "/vendor/autoload.php";
+require_once __DIR__ . "/../vendor/autoload.php";
 
-$ds = new \Fr\DiffSocket(array(
+$ds = new Fr\DiffSocket(array(
    "server" => array(
       // "host" => "127.0.0.1",
       "host" => "192.168.90.100",
