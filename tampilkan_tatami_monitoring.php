@@ -292,7 +292,7 @@
                }
                $('#packingToday').text(todayPackingSUM)
                // qcEndlineOutputTable.columns([6,7]).visible(false);
-               $('#packingTable > tbody > tr').each(function{
+               $('#packingTable > tbody > tr').each(function(){
                   $('html, body').animate({
                      scrollTop: $(this).offset().top
                   }, 200).delay(1500);
