@@ -216,7 +216,7 @@ if(isset($_POST['kirim'])){
                     let tempTable = '<?= $temp_table; ?>';
 
                     if(dataTransaksi != '' && line != ''){
-                        sendMessage.send(dataTransaksi);
+                        qcEndline.send(dataTransaksi);
     
                         if(line != null){
                             window.open("http://192.168.90.100/produksi-skm/index.php", "_self");
@@ -237,7 +237,7 @@ if(isset($_POST['kirim'])){
                     let dataTransaksiTatami = '<?= $dataTransaksiTatami; ?>';
                     let tempTableTatami = '<?= $temp_table; ?>';
                     if(dataTransaksiTatami != ''){
-                        sendMessage.send(dataTransaksiTatami);
+                        packing.send(dataTransaksiTatami);
                         
                         // window.open("http://localhost/produksi-skm/" + tempTableTatami + ".php", "_self");                
                         window.open("http://192.168.90.100/produksi-skm/" + tempTableTatami + ".php", "_self");                
