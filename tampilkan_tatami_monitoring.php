@@ -247,18 +247,12 @@
 
          var strCurrentDate = new Date().toJSON().slice(0, 10);
 
-         // var dtQCEndLineYesterday = '<//?= $dtQCEndLineYesterday['Output_Yesterday']; ?>';
-
-         // $('#sewingYesterday').text(dtQCEndLineYesterday);
          var dtPackingYesterday = "<?= $dtPackingYesterday['Packing_Yesterday']; ?>";
          $('#packingYesterday').text(dtPackingYesterday == "" ? 0 : dtPackingYesterday);
         
          var today = new Date();
          
-         // var packing = new WebSocket("ws://localhost:10000/?service=packing");
          var packing = new WebSocket("ws://192.168.90.100:10000/?service=packing");
-         // var qc_endline = new WebSocket("ws://192.168.90.100:10000/?service=packing");
-         // var objDataQCEndlineOnMessage;
 
          $(document).ready(function(){
             initPacking();
@@ -336,7 +330,6 @@
             s = (s < 10) ? s = "0" + s : s;
 
             let time = h + ":" + m + ":" + s;
-            // console.log('time: ' + time);
             document.getElementById('jam').innerHTML = time;
             setTimeout(showTime, 1000);            
          }

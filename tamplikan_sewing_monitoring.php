@@ -485,18 +485,12 @@
          var today = new Date();
          
          var jamKe = arrWorkingHours.reduce((a, b) => Math.abs(a.start - today) < Math.abs(b.start - today) ? a : b);
-         console.table(objDataOutputInit);
 
          var arrEffPros = [];
 
-         // var qc_endline = new WebSocket("ws://localhost:10000/?service=send_message");
-         // var qc_endline = new WebSocket("ws://192.168.90.100:10000/?service=send_message");
          var qc_endline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");
-         // var qc_endline = new WebSocket("ws://localhost:10000/?service=qc_endline");
-         // var objDataQCEndlineOnMessage;
 
          function LoadDataEffQCEndline(dataArr){
-            console.table(dataArr);
             arrEffPros = [];
 
             const effHourly = dataArr.map((el) => {
@@ -799,10 +793,8 @@
 
          qc_endline.onmessage = function(msg){
             var objDataQCEndlineOnMessage = JSON.parse(msg.data);
-            console.table(objDataQCEndlineOnMessage);
 
             if(line == objDataQCEndlineOnMessage.dataOutput[0].line){
-               console.log('jamKe.JamKe: ', jamKe.JamKe);
                if(jamKe.JamKe > 0){
                   totEff = 0;
                   todayQCEndLineSUM = 0;
@@ -890,7 +882,6 @@
             s = (s < 10) ? s = "0" + s : s;
 
             let time = h + ":" + m + ":" + s;
-            // console.log('time: ' + time);
             document.getElementById('jam').innerHTML = time;
             setTimeout(showTime, 1000);            
          }
