@@ -50,6 +50,7 @@
       <style>
          #rowsPackingList {
             height: 55vh;
+            overflow: hidden;
          }
       </style>
    </head>
