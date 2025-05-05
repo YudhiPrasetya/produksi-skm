@@ -347,12 +347,12 @@
             while(y < arrPackingLengthOnMessage){
                todayPackingSUM += parseInt(objDataPackingOnMessage[y].today);
                html += `<div class='row my-2 child'>`;
-               html += `   <p class='col-2 align-middle text-center'>${objDataPackingInit[y].orc}</p>`;
-               html += `   <p class='col-2 align-middle text-center'>${objDataPackingInit[y].style}</p>`;
-               html += `   <p class='col-2 align-middle text-center'>${objDataPackingInit[y].qty_order}</p>`;
-               html += `   <p class='col-2 align-middle text-center'>${objDataPackingInit[y].today}</p>`;
-               html += `   <p class='col-2 align-middle text-center'>${objDataPackingInit[y].total}</p>`;
-               html += `   <p class='col-2 align-middle text-center'>${objDataPackingInit[y].bal}</p>`;
+               html += `   <p class='col-2 align-middle text-center'>${objDataPackingOnMessage[y].orc}</p>`;
+               html += `   <p class='col-2 align-middle text-center'>${objDataPackingOnMessage[y].style}</p>`;
+               html += `   <p class='col-2 align-middle text-center'>${objDataPackingOnMessage[y].qty_order}</p>`;
+               html += `   <p class='col-2 align-middle text-center'>${objDataPackingOnMessage[y].today}</p>`;
+               html += `   <p class='col-2 align-middle text-center'>${objDataPackingOnMessage[y].total}</p>`;
+               html += `   <p class='col-2 align-middle text-center'>${objDataPackingOnMessage[y].bal}</p>`;
                html += `</div>`;                  
                ++y;
             }
