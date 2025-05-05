@@ -49,40 +49,8 @@
    <head>
       <style>
          #rowsPackingList {
-            /* position: relative; */
             height: 55vh;
-            /* height: 100px; */
-            /* overflow-y: scroll; */
          }
-
-         /* #content{
-            position: absolute;
-         } */
-
-         /* .child{
-            position: relative
-            overflow-y: scroll
-         } */
-
-         /* body{
-            overflow: hidden;
-         }
-         th.dt-center, td.dt-center { text-align: center; } */
-
-         /* #qcEndlineEffTable.table td{
-            font-size: 0.9em;
-            padding-left: 2px;
-            padding-right: 2px;
-            padding-top: 8px;
-            padding-bottom: 8px;
-         }         
-         #qcEndlineEffTable.table th{
-            font-size: 0.8em;
-            padding-left: 2px;
-            padding-right: 2px;
-            padding-top: 4px;
-            padding-bottom: 4px;
-         }          */
       </style>
    </head>
    <body class="g-sidenav-show" onload="showTime()">
@@ -287,7 +255,6 @@
          var html = "";
          
          var packing = new WebSocket("ws://192.168.90.100:10000/?service=packing");
-         // $('#content').hide();
 
          $(document).ready(function(){
             packingListHeight = parseInt($('#rowsPackingList').height());
@@ -308,8 +275,6 @@
 
                   ++x;
                }
-               // var x = 0, arrLength = objDataPackingInit.length
-
                $('#content').append(html);
                contentHeight = parseInt($('#content').height());
                if(packingListHeight > contentHeight){
@@ -376,26 +341,29 @@
             var objDataPackingOnMessage = JSON.parse(msg.data);
 
             todayPackingSUM = 0;
-            packingTable.clear().draw();
-
+            $('#content').empty();
+            html="";
             var y = 0, arrPackingLengthOnMessage = objDataPackingOnMessage.length;
             while(y < arrPackingLengthOnMessage){
                todayPackingSUM += parseInt(objDataPackingOnMessage[y].today);
-               packingTable.row.add([
-                  objDataPackingOnMessage[y].id,
-                  objDataPackingOnMessage[y].orc,
-                  objDataPackingOnMessage[y].style,
-                  objDataPackingOnMessage[y].qty_order,
-                  objDataPackingOnMessage[y].today,
-                  objDataPackingOnMessage[y].total,
-                  objDataPackingOnMessage[y].bal,
-                  objDataPackingOnMessage[y].tanggal,
-                  objDataPackingOnMessage[y].jam
-               ]).draw();                  
+               html += `<div class='row my-2 child'>`;
+               html += `   <p class='col-2 align-middle text-center'>${objDataPackingInit[y].orc}</p>`;
+               html += `   <p class='col-2 align-middle text-center'>${objDataPackingInit[y].style}</p>`;
+               html += `   <p class='col-2 align-middle text-center'>${objDataPackingInit[y].qty_order}</p>`;
+               html += `   <p class='col-2 align-middle text-center'>${objDataPackingInit[y].today}</p>`;
+               html += `   <p class='col-2 align-middle text-center'>${objDataPackingInit[y].total}</p>`;
+               html += `   <p class='col-2 align-middle text-center'>${objDataPackingInit[y].bal}</p>`;
+               html += `</div>`;                  
                ++y;
             }
             $('#packingToday').text(todayPackingSUM);
-            setTimeout(animateScrollTop, 500);
+            $('#content').append(html);
+            contentHeight = parseInt($('#content').height());
+            if(packingListHeight > contentHeight){
+               repeatAnimateRows();
+            }else{
+               repeatScrollTop();
+            }            
          }
 
          function showTime(){
