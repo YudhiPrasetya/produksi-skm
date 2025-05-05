@@ -48,12 +48,28 @@
 <html>
    <head>
       <style>
-         body{
+         #rowsPackingList {
+            /* position: relative; */
+            height: 55vh;
+            /* height: 100px; */
+            /* overflow-y: scroll; */
+         }
+
+         /* #content{
+            position: absolute;
+         } */
+
+         /* .child{
+            position: relative
+            overflow-y: scroll
+         } */
+
+         /* body{
             overflow: hidden;
          }
-         th.dt-center, td.dt-center { text-align: center; }
+         th.dt-center, td.dt-center { text-align: center; } */
 
-         #qcEndlineEffTable.table td{
+         /* #qcEndlineEffTable.table td{
             font-size: 0.9em;
             padding-left: 2px;
             padding-right: 2px;
@@ -66,7 +82,7 @@
             padding-right: 2px;
             padding-top: 4px;
             padding-bottom: 4px;
-         }         
+         }          */
       </style>
    </head>
    <body class="g-sidenav-show" onload="showTime()">
@@ -195,7 +211,7 @@
                            </div>
                            <div class="card-body px-0 pb-2">
                               <!-- <div class="table-responsive p-0"> -->
-                                 <table class="table align-items-center mb-0" id="packingTable">
+                                 <!-- <table class="table align-items-center mb-0" id="packingTable">
                                     <thead>
                                        <tr>
                                           <th class="text-uppercase text-secondary font-weight-bolder align-middle text-center">ID</th>
@@ -209,8 +225,22 @@
                                           <th class="text-uppercase text-secondary font-weight-bolder align-middle text-center">Jam</th>
                                        </tr>
                                     </thead>
-                                 </table>
+                                 </table> -->
                               <!-- </div> -->
+
+                              <div id="headerPackingList">
+                                 <div class="row">
+                                    <div class="col-2 text-uppercase text-secondary font-weight-bolder align-middle text-center">ORC</div>
+                                    <div class="col-2 text-uppercase text-secondary font-weight-bolder align-middle text-center">STYLE</div>
+                                    <div class="col-2 text-uppercase text-secondary font-weight-bolder align-middle text-center">QTY ORDER</div>
+                                    <div class="col-2 text-uppercase text-secondary font-weight-bolder align-middle text-center">TODAY</div>
+                                    <div class="col-2 text-uppercase text-secondary font-weight-bolder align-middle text-center">TOTAL</div>
+                                    <div class="col-2 text-uppercase text-secondary font-weight-bolder align-middle text-center">BALANCE</div>
+                                 </div>
+                              </div>
+                              <div id="rowsPackingList">
+                                 <div id="content"></div>
+                              </div>                                 
                            </div> 
                         </div>
 
@@ -251,55 +281,96 @@
          $('#packingYesterday').text(dtPackingYesterday == "" ? 0 : dtPackingYesterday);
         
          var today = new Date();
+
+         var packingListHeight = 0;
+         var contentHeight = 0;
+         var html = "";
          
          var packing = new WebSocket("ws://192.168.90.100:10000/?service=packing");
+         // $('#content').hide();
 
          $(document).ready(function(){
+            packingListHeight = parseInt($('#rowsPackingList').height());
             initPacking();
-
             function initPacking(){
-               packingTable = $('#packingTable').DataTable({
-                  autoWidth: true,
-                  processing: true,
-                  destroy: true,
-                  info: false,
-                  searching: false,
-                  paging: false,
-                  fixedHeader: true,
-                  scrollX: true,
-                  animate: true,
-                  order: [[0, 'desc']],
-                  columnDefs: [
-                     {'className': 'dt-center', 'targets': '_all'},
-                     {'targets': [0,7,8], 'visible': false},
-                  ]
-               });
                var x = 0, arrLength = objDataPackingInit.length;
                while(x < arrLength){
                   todayPackingSUM += parseInt(objDataPackingInit[x].today);
-                  packingTable.row.add([
-                     objDataPackingInit[x].id,
-                     objDataPackingInit[x].orc,
-                     objDataPackingInit[x].style,
-                     objDataPackingInit[x].qty_order,
-                     objDataPackingInit[x].today,
-                     objDataPackingInit[x].total,
-                     objDataPackingInit[x].bal,
-                     objDataPackingInit[x].tanggal,
-                     objDataPackingInit[x].jam,
-                  ]).draw();
+
+                  html += `<div class='row my-2 child'>`;
+                  html += `   <p class='col-2 align-middle text-center'>${objDataPackingInit[x].orc}</p>`;
+                  html += `   <p class='col-2 align-middle text-center'>${objDataPackingInit[x].style}</p>`;
+                  html += `   <p class='col-2 align-middle text-center'>${objDataPackingInit[x].qty_order}</p>`;
+                  html += `   <p class='col-2 align-middle text-center'>${objDataPackingInit[x].today}</p>`;
+                  html += `   <p class='col-2 align-middle text-center'>${objDataPackingInit[x].total}</p>`;
+                  html += `   <p class='col-2 align-middle text-center'>${objDataPackingInit[x].bal}</p>`;
+                  html += `</div>`;
+
                   ++x;
                }
-               $('#packingToday').text(todayPackingSUM)
-               // qcEndlineOutputTable.columns([6,7]).visible(false);
-               $('#packingTable > tbody > tr').each(function(){
-                  $('html, body').animate({
-                     scrollTop: $(this).offset().top
-                  }, 200).delay(1500);
-               });
+               // var x = 0, arrLength = objDataPackingInit.length
+
+               $('#content').append(html);
+               contentHeight = parseInt($('#content').height());
+               if(packingListHeight > contentHeight){
+                  repeatAnimateRows();
+               }else{
+                  repeatScrollTop();
+               }
+
+
+               // $('#packingTable > tbody > tr').each(function(){
+               //    $('html, body').animate({
+               //       scrollTop: $(this).offset().top
+               //    }, 200).delay(1500);
+               // });
             }
 
          });
+
+         function repeatAnimateRows(){
+            $('#rowsPackingList').css('overflow-y', '');
+            let durasi = $('#content').children().length;
+            $('#content').children('.child').each(function(idx){
+               $(this).hide();
+               $(this).delay(1300 * idx).fadeIn(500);
+            });
+            setTimeout(function(){
+               $('#content').fadeOut(3000, function(){
+                  $('#content').css('display','');
+                  repeatAnimateRows();
+               })
+            },durasi * 3 * 1000);
+         }
+     
+         function repeatScrollTop(){
+            function animateScrollTop(){
+               $('#rowsPackingList').css('overflow-y', 'scroll');
+               $('#content').hide();
+               $('#content').fadeIn('slow');
+               let countChildEl = $('#content').children().length;
+   
+               $('#content').children('.child').each(function(idx){
+                  let childOffsetTop = $(this).height();
+                  let childMarginTop = parseInt($(this).css('marginTop'));
+                  let childMarginBottom = parseInt($(this).css('marginBottom'));
+                  let totalChildOffsetTop = childOffsetTop + childMarginTop + childMarginBottom;
+                  $('#rowsPackingList').animate({
+                     // scrollTop: totalChildOffsetTop
+                     scrollTop: contentHeight
+                  },countChildEl * 2500, function(){
+                     $('#rowsPackingList').css('overflow-y', '');
+                     $('#content').css('display', '');
+                     setTimeout(animateScrollTop, 3000);
+                  });
+   
+               });
+
+            }
+
+            animateScrollTop();
+                       
+         }
          
          packing.onmessage = function(msg){
             var objDataPackingOnMessage = JSON.parse(msg.data);
@@ -324,7 +395,7 @@
                ++y;
             }
             $('#packingToday').text(todayPackingSUM);
-
+            setTimeout(animateScrollTop, 500);
          }
 
          function showTime(){
