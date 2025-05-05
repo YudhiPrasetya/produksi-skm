@@ -325,7 +325,7 @@
                //    }, 200).delay(1500);
                // });
             }
-
+            $('#packingToday').text(todayPackingSUM);
          });
 
          function repeatAnimateRows(){
