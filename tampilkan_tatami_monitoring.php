@@ -287,13 +287,6 @@
                }else{
                   repeatScrollTop();
                }
-
-
-               // $('#packingTable > tbody > tr').each(function(){
-               //    $('html, body').animate({
-               //       scrollTop: $(this).offset().top
-               //    }, 200).delay(1500);
-               // });
             }
             $('#packingToday').text(todayPackingSUM);
          });
@@ -328,9 +321,9 @@
                   $('#rowsPackingList').animate({
                      // scrollTop: totalChildOffsetTop
                      scrollTop: contentHeight
-                  },countChildEl * 2500, function(){
-                     $('#rowsPackingList').css('overflow-y', '');
-                     $('#content').css('display', '');
+                  },countChildEl * 1500, function(){
+                     // $('#rowsPackingList').css('overflow-y', '');
+                     // $('#content').css('display', '');
                      setTimeout(animateScrollTop, 3000);
                   });
    
