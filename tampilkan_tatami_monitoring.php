@@ -48,9 +48,13 @@
 <html>
    <head>
       <style>
+         ::-webkit-scrollbar{
+            width: 0px;
+            background: transparent;
+         }
          #rowsPackingList {
             height: 55vh;
-            overflow: hidden;
+            /* overflow: hidden; */
          }
       </style>
    </head>
