@@ -323,7 +323,7 @@
                      scrollTop: contentHeight
                   },countChildEl * 1500, function(){
                      // $('#rowsPackingList').css('overflow-y', '');
-                     // $('#content').css('display', '');
+                     $('#content').css('display', '');
                      setTimeout(animateScrollTop, 3000);
                   });
    
