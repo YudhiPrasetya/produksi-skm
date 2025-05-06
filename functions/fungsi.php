@@ -4022,11 +4022,19 @@ function tampilkan_master_order_bom_open()
 {
   global $koneksi;
 
-  $query = "SELECT D.costomer, A.id_order, B.orc, B.no_po, C.style, B.label, B.color, C.item FROM master_bom_orc A 
-  JOIN master_order B ON A.id_order = B.id_order
-  JOIN style C ON B.id_style = C.id_style 
-  JOIN costomer D ON D.id_costomer = B.id_costomer 
-  WHERE B.status = 'open' ORDER BY B.id_order desc ";
+  // $query = "SELECT D.costomer, A.id_order, B.orc, B.no_po, C.style, B.label, B.color, C.item FROM master_bom_orc A 
+  // JOIN master_order B ON A.id_order = B.id_order
+  // JOIN style C ON B.id_style = C.id_style 
+  // JOIN costomer D ON D.id_costomer = B.id_costomer 
+  // WHERE B.status = 'open' ORDER BY B.id_order desc ";
+
+  $query = "SELECT D.costomer, A.id_order, B.orc, B.no_po, C.style, B.label, B.color, C.item
+            FROM master_bom_orc AS A
+	          RIGHT JOIN master_order AS B ON A.id_order = B.id_order
+	          LEFT JOIN style AS C ON B.id_style = C.id_style
+	          LEFT JOIN costomer AS D ON D.id_costomer = B.id_costomer
+            WHERE B.`status` = 'open' ORDER BY B.id_order DESC";
+
   $result = mysqli_query($koneksi, $query) or die('gagal menampilkan data');
 
   return $result;
