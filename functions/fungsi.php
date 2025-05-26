@@ -143,6 +143,28 @@ function tampilkan_master_karton()
   return $result;
 }
 
+function tampilkan_master_karton_full()
+{
+  global $koneksi;
+
+  $query = "SELECT * FROM view_karton_full ORDER by id DESC";
+  $result = mysqli_query($koneksi, $query) or die('gagal menampilkan data');
+
+  $data = [];
+  while($row =  mysqli_fetch_assoc($result)){
+    $dtArr = [
+      'orc' => $row['orc'],
+      'style' => $row['style'],
+      'color' => $row['color'],
+      'qty_order' => $row['qty_order'],
+      'costomer' => $row['costomer'],
+    ];
+    array_push($data, $dtArr);
+  }
+  var_dump($data);
+  return json_encode($data);
+}
+
 function tampilkan_master_smv()
 {
   global $koneksi;
@@ -2468,7 +2490,7 @@ function tampilkan_laporan_bundle_record_allproses($tgl, $orc, $style, $status, 
   }
   $query .= " GROUP BY A.id_order
       order by B.daily desc, H.daily desc, I.daily desc, J.tanggal_max desc
-      limit 500";
+      limit 1000";
 
   // var_dump($query);
   $result = mysqli_query($koneksi, $query) or die('gagal menampilkan data');
@@ -5689,12 +5711,54 @@ function tambah_data_item($item, $category)
 
 function tambah_data_master_qty_karton($style, $qty_karton, $username)
 {
+  global $koneksi;
+
   $style = escape($style);
   $qty_karton = escape($qty_karton);
   $query = "INSERT INTO master_qty_karton (id_style, qty_karton, username, waktu)
   VALUES ($style, $qty_karton, '$username', now())";
 
   return run($query);
+}
+
+function tambah_data_master_qty_karton_full($orc, $qty_karton, $username)
+{
+  global $koneksi;
+  $orc = escape($orc);
+  $qty_karton = escape($qty_karton);
+
+  $queryOrder = "SELECT * FROM master_order WHERE orc='$orc'";
+  // $result = mysqli_query($koneksi, $query) or die('gagal menampilkan data');
+  $responseOrder = mysqli_query($koneksi, $queryOrder) or die('gagal');
+  $rstOrder = mysqli_fetch_assoc($responseOrder);
+  // var_dump($rstOrder);
+  if($rstOrder){
+    $id_order = $rstOrder['id_order'];
+    $id_style = $rstOrder['id_style'];
+    $qty_order = $rstOrder['qty_order'];
+    $qty_qrcode = ceil($qty_order/$qty_karton);
+    $dateNow = date('Y-m-d H:i:s');
+
+    $queryKartonFull = "INSERT INTO master_qty_karton_full 
+                        (id_style, id_order, qty_karton, qty_qrcode, username, waktu, username_edit, waktu_edit)
+                        VALUES ('$id_style', '$id_order', '$qty_karton', '$qty_qrcode', '$username', '$dateNow', '$username', '$dateNow')";
+    
+    $rst = mysqli_query($koneksi, $queryKartonFull) or die('gagal menampilkan data');
+
+    $insertedID = mysqli_insert_id($koneksi);
+  
+    return $insertedID;
+  }
+}
+
+function get_data_master_order_by_orc($orc){
+  global $koneksi;
+
+  $queryOrder = "SELECT * FROM master_order WHERE orc='$orc'";
+  $responseOrder = mysqli_query($koneksi, $queryOrder) or die('gagal');
+  $rstOrder = mysqli_fetch_assoc($responseOrder);
+
+  return $rstOrder;
 }
 
 function tambah_data_master_smv($style, $nilai_smv, $username)

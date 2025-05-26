@@ -5,28 +5,28 @@
 
 <head>
   <title>APLIKASI PRODUKSI GI</title>
-  <script src="assets/js/jquery.js"></script>
+  <script src="/produksi-skm/assets/js/jquery.js"></script>
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
-  <script type="text/javascript" src="assets/DataTables/js/jquery.js"></script>
-  <script type="text/javascript" src="assets/js/bootstrap.js"></script>
-  <script type="text/javascript" src="assets/DataTables/js/jquery.dataTables.min.js"></script>
-  <script type="text/javascript" src="assets/popper.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
-  <link rel="stylesheet" type="text/css" href="assets/DataTables/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" type="text/css" href="assets/DataTables/css/dataTables.bootstrap.css">
-  <link rel="stylesheet" type="text/css" href="assets/DataTables/css/select2.min.css" />
+  <script type="text/javascript" src="/produksi-skm/assets/DataTables/js/jquery.js"></script>
+  <script type="text/javascript" src="/produksi-skm/assets/js/bootstrap.js"></script>
+  <script type="text/javascript" src="/produksi-skm/assets/DataTables/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="/produksi-skm/assets/popper.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/produksi-skm/assets/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="/produksi-skm/assets/DataTables/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="/produksi-skm/assets/DataTables/css/dataTables.bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="/produksi-skm/assets/DataTables/css/select2.min.css" />
 
   <!-- jika menggunakan bootstrap4 gunakan css ini  -->
-  <link rel="stylesheet" href="assets/css/select2-bootstrap4.min.css">
-  <link rel="stylesheet" type="text/css" href="assets/FixedColumns/css/fixedColumns.dataTables.min.css">
-  <script type="text/javascript" src="assets/FixedColumns/js/dataTables.fixedColumns.min.js"></script>
+  <link rel="stylesheet" href="/produksi-skm/assets/css/select2-bootstrap4.min.css">
+  <link rel="stylesheet" type="text/css" href="/produksi-skm/assets/FixedColumns/css/fixedColumns.dataTables.min.css">
+  <script type="text/javascript" src="/produksi-skm/assets/FixedColumns/js/dataTables.fixedColumns.min.js"></script>
   <!-- <link rel="stylesheet" type="text/css" href="assets/row-reorder/css/rowReorder.dataTables.min.css">
 <script type="text/javascript" src="assets/row-reorder/js/dataTables.rowReorder.min.js"></script> -->
-  <link rel="stylesheet" type="text/css" href="assets/FixedHeader/css/fixedHeader.dataTables.min.css">
-  <script type="text/javascript" src="assets/FixedHeader/js/dataTables.fixedHeader.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/produksi-skm/assets/FixedHeader/css/fixedHeader.dataTables.min.css">
+  <script type="text/javascript" src="/produksi-skm/assets/FixedHeader/js/dataTables.fixedHeader.min.js"></script>
 
   <!-- <link rel="stylesheet" href="assets/sweetalert2/sweetalert2.min.css" /> -->
-  <script src="assets/sweetalert2/sweetalert2.all.min.js"></script>
+  <script src="/produksi-skm/assets/sweetalert2/sweetalert2.all.min.js"></script>
   <!-- <script src="assets/sweetalert2/sweetalert2.all.min.js"></script> -->
 
   <!-- cdn bootstrap4 -->
@@ -34,25 +34,25 @@
             integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous"> -->
 
   <!-- <link rel="stylesheet" href="view/nav_style.css"> -->
-  <link rel="stylesheet" href="view/style.css">
+  <link rel="stylesheet" href="/produksi-skm/view/style.css">
   <link rel="icon" href="img/skm_icon.png">
 
-  <link rel="stylesheet" href="assets/Datatables2/css/cdn.datatables.net_1.13.5_css_jquery.dataTables.min.css">
-  <link rel="stylesheet" href="assets/Datatables2/css/cdn.datatables.net_buttons_2.4.1_css_buttons.dataTables.min.css">
-  <link rel="stylesheet" href="assets/Datatables2/css/cdn.datatables.net_select_1.7.0_css_select.dataTables.min.css">
+  <link rel="stylesheet" href="/produksi-skm/assets/Datatables2/css/cdn.datatables.net_1.13.5_css_jquery.dataTables.min.css">
+  <link rel="stylesheet" href="/produksi-skm/assets/Datatables2/css/cdn.datatables.net_buttons_2.4.1_css_buttons.dataTables.min.css">
+  <link rel="stylesheet" href="/produksi-skm/assets/Datatables2/css/cdn.datatables.net_select_1.7.0_css_select.dataTables.min.css">
 
   <!-- <script src="assets/Datatables2/js/code.jquery.com_jquery-3.7.0.js"></script> -->
-  <script src="assets/Datatables2/js/cdn.datatables.net_1.13.5_js_jquery.dataTables.min.js"></script>
+  <script src="/produksi-skm/assets/Datatables2/js/cdn.datatables.net_1.13.5_js_jquery.dataTables.min.js"></script>
 
-  <script src="assets/Datatables2/js/cdn.datatables.net_buttons_2.4.1_js_dataTables.buttons.min.js"></script>
+  <script src="/produksi-skm/assets/Datatables2/js/cdn.datatables.net_buttons_2.4.1_js_dataTables.buttons.min.js"></script>
 
-  <script src="assets/Datatables2/js/cdnjs.cloudflare.com_ajax_libs_jszip_3.10.1_jszip.min.js"></script>
-  <script src="assets/Datatables2/js/cdnjs.cloudflare.com_ajax_libs_pdfmake_0.1.53_pdfmake.min.js"></script>
-  <script src="assets/Datatables2/js/cdnjs.cloudflare.com_ajax_libs_pdfmake_0.1.53_vfs_fonts.js"></script>
+  <script src="/produksi-skm/assets/Datatables2/js/cdnjs.cloudflare.com_ajax_libs_jszip_3.10.1_jszip.min.js"></script>
+  <script src="/produksi-skm/assets/Datatables2/js/cdnjs.cloudflare.com_ajax_libs_pdfmake_0.1.53_pdfmake.min.js"></script>
+  <script src="/produksi-skm/assets/Datatables2/js/cdnjs.cloudflare.com_ajax_libs_pdfmake_0.1.53_vfs_fonts.js"></script>
   <!--<script src="assets/Datatables2/js/cdn.datatables.net_buttons_2.4.1_js_buttons.html5.min.js"></script>-->
-  <script src="assets/Datatables2/js/cdn.datatables.net_buttons_2.4.1_js_buttons.html5.js"></script>
-  <script src="assets/Datatables2/js/cdn.datatables.net_buttons_2.4.1_js_buttons.print.min.js"></script>
-  <script src="assets/Datatables2/js/cdn.datatables.net_select_1.7.0_js_dataTables.select.min.js"></script>
+  <script src="/produksi-skm/assets/Datatables2/js/cdn.datatables.net_buttons_2.4.1_js_buttons.html5.js"></script>
+  <script src="/produksi-skm/assets/Datatables2/js/cdn.datatables.net_buttons_2.4.1_js_buttons.print.min.js"></script>
+  <script src="/produksi-skm/assets/Datatables2/js/cdn.datatables.net_select_1.7.0_js_dataTables.select.min.js"></script>
 
   <style>
     .swal2-modal {
@@ -143,6 +143,7 @@
               <li style="background: #254681"><a style="background: #254681" href="master-line.php">MASTER LINE</a></li>
               <li style="background: #254681"><a style="background: #254681" href="master_karton.php">MASTER QTY CTN</a></li>
               <li style="background: #254681"><a style="background: #254681" href="master-user.php">MASTER USER</a></li>
+              <li style="background: #254681"><a style="background: #254681" href="master_karton_full.php">MASTER KARTON FULL</a></li>
             </ul>
 
           </li>
@@ -192,6 +193,7 @@
               <li style="background: #254681"><a style="background: #254681" href="temp_kenzin.php">KENZIN</a></li>
               <li style="background: #254681"><a style="background: #254681" href="temp_packing.php">PACKING</a></li>
               <li style="background: #254681"><a style="background: #254681" href="#">REJECT</a>
+              <li style="background: #254681"><a style="background: #254681" href="#">SCAN KARTON FULL</a>
                 <ul>
                   <!-- <li><a href="temp_reject_tatami.php">TATAMI REJECT</a></li> -->
                 </ul>
@@ -338,6 +340,22 @@
           <li style="background: #254681"><a style="background: #254681" target="_blank" href="tamplikan_sewing_monitoring.php">TAMPILKAN MONITOR OUTPUT SEWING  </a></li>
           <li style="float:right; background:#254681;"><a href="logout.php">LOG OUT</a></li>
         <?php } else if(cek_status($_SESSION['username']) == 'tatami') { ?>
+          <li class="nav-link" style="background: #254681"><a href="#">DATA MASTER</a>
+            <ul>
+              <li style="background: #254681"><a style="background: #254681" href="master_karton_full.php">MASTER KARTON FULL</a></li>
+            </ul>
+          </li>
+          <li style="background: #254681" class="nav-link"><a style="background: #254681" href="#">TRANSAKSI</a>
+            <ul style="background: #254681">
+              <!-- <li><a href="temp_qc_kensa.php">QC KENSA</a></li> -->
+              <!-- <li><a href="temp_tatami_in.php">TATAMI</a></li> -->
+              <li style="background: #254681"><a style="background: #254681" href="#">SCAN KARTON FULL</a>
+                <ul>
+                  <!-- <li><a href="temp_reject_tatami.php">TATAMI REJECT</a></li> -->
+                </ul>
+              </li>
+            </ul>
+          </li>                    
           <li style="background: #254681"><a style="background: #254681" target="_blank" href="cetak_laporan_hasil_scan_global.php">REPORT SCAN BUNDLE</a>
             <ul style="background: #254681">
 
@@ -354,6 +372,22 @@
           <li style="float:right; background:#254681;"><a href="logout.php">LOG OUT</a></li>
 
         <?php } else { ?>
+          <li class="nav-link" style="background: #254681"><a href="#">DATA MASTER</a>
+            <ul>
+              <li style="background: #254681"><a style="background: #254681" href="master_karton_full.php">MASTER KARTON FULL</a></li>
+            </ul>
+          </li>
+          <li style="background: #254681" class="nav-link"><a style="background: #254681" href="#">TRANSAKSI</a>
+            <ul style="background: #254681">
+              <!-- <li><a href="temp_qc_kensa.php">QC KENSA</a></li> -->
+              <!-- <li><a href="temp_tatami_in.php">TATAMI</a></li> -->
+              <li style="background: #254681"><a style="background: #254681" href="#">SCAN KARTON FULL</a>
+                <ul>
+                  <!-- <li><a href="temp_reject_tatami.php">TATAMI REJECT</a></li> -->
+                </ul>
+              </li>
+            </ul>
+          </li>                    
           <li style="background: #254681"><a style="background: #254681" target="_blank" href="cetak_laporan_hasil_scan_global.php">REPORT SCAN BUNDLE</a>
             <ul style="background: #254681">
 
