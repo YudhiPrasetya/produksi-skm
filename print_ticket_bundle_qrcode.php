@@ -1,7 +1,9 @@
 <title>TICKET BUNDLE</title>
 <?php
 require_once 'core/init.php';
-include('assets/qrcode/qrlib.php');
+use chillerlan\QRCode\QRCode;
+require_once __DIR__ . '/vendor/autoload.php';
+// include('assets/qrcode/qrlib.php');
 include('barcode128.php'); // include php barcode 128 class
 
 
@@ -12,13 +14,16 @@ $dataperusahaan = mysqli_fetch_array($nama);
 $namaperusahaan = $dataperusahaan['nama_perusahaan'];
 $qtyprint = 1;
 $kolom = 2;  // jumlah kolom
+// $proses = explode(",",$_POST['prosesTransaksi']);
+// $countProses = count($proses);
+// var_dump($proses);
 // $sisaBawahKertas = 150; // F4
 ?>
   <style type="text/css" media="print">
             @page { 
-                /* width: 210mm;
-                height: 320mm; */
-                size: auto
+                width: 210mm;
+                height: 320mm;
+                /* size: auto */
             }
     </style>
 <?php
@@ -27,13 +32,11 @@ $kolom = 2;  // jumlah kolom
         $lembarTicket = ceil($jumlahTicket / $limitTicket);
         $offsetLembar = -6;
         for($p=1; $p<= $lembarTicket; $p++){
+        // for($p=1; $p<=count($proses); $p++){
             $offsetLembar += 6;
-
-        
-          
 ?>
 
-   <div style="width: 200mm; height 320mm; margin-bottom: <?php echo 92+$p ?>px;" >
+   <div style="width: 210mm; height 320mm; margin-bottom: <?php echo 92+$p ?>px;" >
         <table border="1px solid blue" cellspacing="1"  width="100%">
             <tr>       
         <?php
@@ -42,8 +45,7 @@ $kolom = 2;  // jumlah kolom
         $jumlahTiketPerhal = cek_jumlah_ticket_bundle_hal($id_order, $offsetLembar, $limitTicket);
         $sql = tampilkan_ticket_bundle($id_order, $offsetLembar, $limitTicket); // memilih entri nim pada database
         while($data = mysqli_fetch_assoc($sql)){
-            
-        $i++;
+            $i++;
         ?>
             <td>
             <table style="margin-left: 5px; font-size: 12px" width="100%">
@@ -107,19 +109,22 @@ $kolom = 2;  // jumlah kolom
                     <!-- <//?= $barcode ?> -->
                     <td colspan="3" rowspan="3">
                         <?php
-                        $tempDir = "qrcodes/ ";
+                        // $tempDir = "qrcodes/ ";
                         $barcode = $data['barcode_bundle'];
-                        $fileName = $barcode.'.png';
+                        $qrCode = new QRCode();
+                        $qrCodeImage = $qrCode->render($barcode);
+                        printf('<img src="%s" alt="QR Code" width="80px;" height="80px;" />', $qrCodeImage);                        
+                        // $fileName = $barcode.'.png';
     
                         // $pngAbsoluteFilePath = $tempDir.$fileName;
-                        $urlRelativeFilePath = $tempDir.$fileName;
+                        // $urlRelativeFilePath = $tempDir.$fileName;
                         // generating
-                        if (!file_exists($urlRelativeFilePath)) {
-                            QRcode::png($barcode, $urlRelativeFilePath, QR_ECLEVEL_H);
-                        }
+                        // if (!file_exists($urlRelativeFilePath)) {
+                        //     QRcode::png($barcode, $urlRelativeFilePath, QR_ECLEVEL_H);
+                        // }
 
                         // displaying
-                        echo '<img src="'.$urlRelativeFilePath.'" width="80px" height="80px" />';
+                        // echo '<img src="'.$urlRelativeFilePath.'" width="80px" height="80px" />';
                         
                         ?>
                         <!-- <img src="filename.png" alt="" width=""> -->
@@ -137,7 +142,7 @@ $kolom = 2;  // jumlah kolom
                     </td>
                 </tr>
                
-    </table>
+            </table>
     
         <?php
             $j = 0;

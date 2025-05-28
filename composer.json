@@ -1,6 +1,7 @@
 {
     "require": {
         "phpoffice/phpspreadsheet": "^1.7",
-        "francium/diffsocket": "^0.1.1"
+        "francium/diffsocket": "^0.1.1",
+        "chillerlan/php-qrcode": "4.3.4"
     }
 }

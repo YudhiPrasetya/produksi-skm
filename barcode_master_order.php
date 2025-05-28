@@ -14,6 +14,7 @@ require_once 'view/header.php';
   $sql = tampilkan_master_order_id($id); // memilih entri nim pada database
 	$data = mysqli_fetch_array($sql);
   $category = $data['category'];
+  $prosesTrans = [];
  
 ?>
   
@@ -247,7 +248,7 @@ require_once 'view/header.php';
   <table>
     <tr>
       <!-- <td >   
-<a href="print_barcode_size_all.php?id=<?= $id ?>" class="btn btn-success" name="print_all"  target="_blank" >PRINT BARCODE</a>
+<a href="print_barcode_size_all.php?id=<//?= $id ?>" class="btn btn-success" name="print_all"  target="_blank" >PRINT BARCODE</a>
 
 </td>  -->
     <td style="padding-right: 30px; padding-bottom: 20px">
@@ -294,10 +295,12 @@ require_once 'view/header.php';
       <button type="submit" class="btn btn-info"  name="print_all">PRINT BUNDLE IN OUT</button>
     </td>
     </form>  
-    <form action="print_ticket_bundle_qrcode.php" method="post"  target="_blank" >  
+    <form action="print_ticket_bundle_qrcode.php" method="post" target="_blank" >  
+    <!-- <form action="print_ticket_bundle_qrcode_new.php" method="post" target="_blank" >   -->
     <td style="padding-left: 20px; padding-bottom: 20px">
       <input type="hidden" name="id_order" value=<?= $id ?>>
       <input type="hidden" name="ukuran_kertas" id="ukuran_kertas2" class="ukuran_kertas" required>
+      <!-- <input type="hidden" name="prosesTransaksi" id="prosesTransaksi" value=<//?= implode(",", $prosesTransaksi); ?> /> -->
       <button type="submit" class="btn btn-warning"  name="print_all">PRINT TICKET</button>
     </td>
     </form>   
@@ -306,6 +309,48 @@ require_once 'view/header.php';
 </td>
 </tr>
 </table>
+</center>
+
+<center>
+  <div style="margin: 20px;">
+    <div class="panel panel-default">
+      <div class="panel-heading" style="padding-top: 4px; padding-bottom: 4px;">
+        <h3 style="margin-top: 6px; margin-bottom: 6px;">Cetak Tiket dan Barcode</h3>
+      </div>
+      <div class="panel-body">
+        <center>
+          <form action="print_ticket_bundle_qrcode_new.php" method="post" target="_blank">
+            <table>
+              <tr>
+                <?php
+                  $x = 0;
+                  $prosesTransaksi = tampilkan_transaksi_proses_category($category);
+                  while($dt = mysqli_fetch_assoc($prosesTransaksi)){
+                    $x++;
+                    $namaTransaksi = $dt['nama_transaksi'];
+                    if($x != 9){ ?>
+                      <td width="180px">
+                        <input class="form-check-input" type="checkbox" name="prosesTrans[]" id="prosesTrans<?= $x; ?>" value="<?= $namaTransaksi; ?>" />
+                        <label class="form-check-label" for="namaTransaksi<?=$x; ?>"><?=strtoupper($namaTransaksi); ?></label>
+                      </td>
+                  <?php }else{ ?>
+              </tr>
+              <tr>
+                <td width="180px;">
+                  <input class="form-check-input" type="checkbox" name="prosesTrans[]" id="prosesTrans<?= $x; ?>" value="<?= $namaTransaksi; ?>" />
+                  <label class="form-check-label" for="namaTransaksi<?=$x; ?>"><?=strtoupper($namaTransaksi); ?></label>                    
+                </td>
+                <?php }} ?>
+              </tr>
+            </table>
+            <input type="hidden" name="id_order" value=<?= $id ?>>
+            <!-- <input type="hidden" name="prosesTrans" id="prosesTrans" value=<//?= implode(",", $prosesTrans); ?> />             -->
+            <button type="submit" class="btn btn-default"  name="print_ticket" id="print_ticket">PRINT TICKET</button>
+          </form>
+        </center>
+      </div>
+    </div>
+  </div>
 </center>
 
 <!-- <div id="hasil"></div> -->
@@ -318,6 +363,7 @@ require_once 'view/header.php';
 
 <!-- <a href="hapus_temp_master_order.php" name="reset"><button type="button" class="btn btn-danger" onclick="return konfirmasi()">RESET</button></a> -->
 </center>
+
 
 <!-- Load file JS untuk JQuery dan Selec2.js melalui CDN -->
 
