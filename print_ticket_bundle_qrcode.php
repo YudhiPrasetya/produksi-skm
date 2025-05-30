@@ -118,12 +118,12 @@ $kolom = 2;  // jumlah kolom
     
                         $pngAbsoluteFilePath = $tempDir.$fileName;
                         $urlRelativeFilePath = $tempDir.$fileName;
-                        generating
+                        // generating
                         if (!file_exists($urlRelativeFilePath)) {
                             QRcode::png($barcode, $urlRelativeFilePath, QR_ECLEVEL_H);
                         }
 
-                        displaying
+                        // displaying
                         echo '<img src="'.$urlRelativeFilePath.'" width="80px" height="80px" />';
                         
                         ?>
