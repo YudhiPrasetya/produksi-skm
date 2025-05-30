@@ -1,9 +1,9 @@
 <title>TICKET BUNDLE</title>
 <?php
 require_once 'core/init.php';
-use chillerlan\QRCode\QRCode;
-require_once __DIR__ . '/vendor/autoload.php';
-// include('assets/qrcode/qrlib.php');
+// use chillerlan\QRCode\QRCode;
+// require_once __DIR__ . '/vendor/autoload.php';
+include('assets/qrcode/qrlib.php');
 include('barcode128.php'); // include php barcode 128 class
 
 
@@ -109,22 +109,22 @@ $kolom = 2;  // jumlah kolom
                     <!-- <//?= $barcode ?> -->
                     <td colspan="3" rowspan="3">
                         <?php
-                        // $tempDir = "qrcodes/ ";
+                        $tempDir = "qrcodes/ ";
                         $barcode = $data['barcode_bundle'];
-                        $qrCode = new QRCode();
-                        $qrCodeImage = $qrCode->render($barcode);
-                        printf('<img src="%s" alt="QR Code" width="80px;" height="80px;" />', $qrCodeImage);                        
-                        // $fileName = $barcode.'.png';
+                        // $qrCode = new QRCode();
+                        // $qrCodeImage = $qrCode->render($barcode);
+                        // printf('<img src="%s" alt="QR Code" width="80px;" height="80px;" />', $qrCodeImage);                        
+                        $fileName = $barcode.'.png';
     
-                        // $pngAbsoluteFilePath = $tempDir.$fileName;
-                        // $urlRelativeFilePath = $tempDir.$fileName;
-                        // generating
-                        // if (!file_exists($urlRelativeFilePath)) {
-                        //     QRcode::png($barcode, $urlRelativeFilePath, QR_ECLEVEL_H);
-                        // }
+                        $pngAbsoluteFilePath = $tempDir.$fileName;
+                        $urlRelativeFilePath = $tempDir.$fileName;
+                        generating
+                        if (!file_exists($urlRelativeFilePath)) {
+                            QRcode::png($barcode, $urlRelativeFilePath, QR_ECLEVEL_H);
+                        }
 
-                        // displaying
-                        // echo '<img src="'.$urlRelativeFilePath.'" width="80px" height="80px" />';
+                        displaying
+                        echo '<img src="'.$urlRelativeFilePath.'" width="80px" height="80px" />';
                         
                         ?>
                         <!-- <img src="filename.png" alt="" width=""> -->
