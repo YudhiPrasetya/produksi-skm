@@ -368,7 +368,8 @@ require_once 'view/header.php';
 <!-- Load file JS untuk JQuery dan Selec2.js melalui CDN -->
 
 
-<script type="text/javascript" language="JavaScript">
+<!-- <script type="text/javascript" language="JavaScript"> -->
+<script>
   function konfirmasi_generate(){
     tanya = confirm("Anda Yakin Data yang akan tergenerate benar ?");
     if (tanya == true) return true;
