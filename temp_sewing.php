@@ -93,7 +93,7 @@ Username Aktif : <?= cek_status($_SESSION['username']) ?></font>
           <div class="input-group-addon">
           <i class="glyphicon glyphicon-barcode"></i>
         </div>
-        <select id="line" class="form-control" name="line" required >
+        <select id="line" class="form-control" name="line" required disabled>
             <option value="">- Pilih LINE -</option>
               <?php
               // $line = tampilkan_master_line();
