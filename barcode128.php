@@ -42,8 +42,15 @@ $html .= "
 <td>
 <div class=\"b128\" style=\"border-left-width:{$w[$x]};width:{$w[$x+1]}\"></div>
 ";
+// return $html;
+
+// return "$html
+// <tr><td  colspan=".strlen($w)." align=center><font face='Arial, Helvetica, sans-serif' size='1'><b>$text</table>
+// ";
+
 return "$html
-<tr><td  colspan=".strlen($w)." align=center><font face='Arial, Helvetica, sans-serif' size='1'><b>$text</table>
+<tr><td  colspan=".strlen($w)." align=center><font face='Arial, Helvetica, sans-serif' size='1'><b></table>
 ";
+
 }
 ?>

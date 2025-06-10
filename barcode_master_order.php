@@ -14,6 +14,7 @@ require_once 'view/header.php';
   $sql = tampilkan_master_order_id($id); // memilih entri nim pada database
 	$data = mysqli_fetch_array($sql);
   $category = $data['category'];
+  // var_dump($category);
   $prosesTrans = [];
  
 ?>
@@ -198,6 +199,7 @@ require_once 'view/header.php';
           while($data2 = mysqli_fetch_assoc($proses)){
             $i++;
             $transaksi = $data2['nama_transaksi'];
+            // var_dump($transaksi);
             if($i != 9){
           ?>
          <td width="180px">
@@ -327,7 +329,8 @@ require_once 'view/header.php';
                   $prosesTransaksi = tampilkan_transaksi_proses_category($category);
                   while($dt = mysqli_fetch_assoc($prosesTransaksi)){
                     $x++;
-                    $namaTransaksi = $dt['nama_transaksi'];
+                    // $namaTransaksi = $dt['nama_transaksi'];
+                    $namaTransaksi = $dt['singkatan'];
                     if($x != 9){ ?>
                       <td width="180px">
                         <input class="form-check-input" type="checkbox" name="prosesTrans[]" id="prosesTrans<?= $x; ?>" value="<?= $namaTransaksi; ?>" />

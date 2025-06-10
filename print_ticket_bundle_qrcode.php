@@ -136,6 +136,7 @@ $kolom = 2;  // jumlah kolom
                     <td><?= $data['item'] ?></td>
                     <td width="2%"></td>
                     <td></td>
+                </tr>
                 <tr>
                     <td colspan=6>
                     <center><?= bar128(stripslashes($data['barcode_bundle'])); ?></center>
