@@ -124,11 +124,13 @@ else return false;
   <td class="tengah"><font color="blue"><b><?= $row['qty_scan']; ?></b></font></td>
   <td class="tengah"><?= $row['balance']; ?></td>
   <td>
-  <button type="button" id="edit" data-toggle="modal" data-target="#myEdit" class="btn btn-success edit_komentar kecil" data-order="<?= $row['id_order']; ?>" data-id="<?= $row['id_transaksi']; ?>"><i class="glyphicon glyphicon-edit"></i></button>  
-  <button type="button" data-id="<?= $row['id_transaksi'] ?>" class="btn btn-xs btn-danger kecil kurangi"><i class="glyphicon glyphicon-trash"></i></button>
-  <!-- <a href="hapus_trx_produksi_bundle.php?id=<?= $row['id_transaksi'] ?>&tbl=<?= $temp_table ?>"><button type="button" onclick="return konfirmasi()" class="btn btn-xs btn-danger kecil"><i class="glyphicon glyphicon-trash"></i></button></a> -->
+  <!-- <button type="button" id="edit" data-toggle="modal" data-target="#myEdit" class="btn btn-success edit_komentar kecil" data-order="<//?= $row['id_order']; ?>" data-id="<//?= $row['id_transaksi']; ?>"><i class="glyphicon glyphicon-edit"></i></button>   -->
+
+  <!-- <button type="button" data-id="<//?= $row['id_transaksi'] ?>" class="btn btn-xs btn-danger kecil kurangi"><i class="glyphicon glyphicon-trash"></i></button> -->
+
+  <!-- <a href="hapus_trx_produksi_bundle.php?id=<//?= $row['id_transaksi'] ?>&tbl=<//?= $temp_table ?>"><button type="button" onclick="return konfirmasi()" class="btn btn-xs btn-danger kecil"><i class="glyphicon glyphicon-trash"></i></button></a> -->
   
-  <!-- <td class="tengah"><a href="hapus_qc_kensa_satu.php?id=<?= $row['id_transaksi']; ?>" onclick="return konfirmasi_kurangi()">DEL</a></td> -->
+  <!-- <td class="tengah"><a href="hapus_qc_kensa_satu.php?id=<//?= $row['id_transaksi']; ?>" onclick="return konfirmasi_kurangi()">DEL</a></td> -->
   </td>  
   </tr>
 
