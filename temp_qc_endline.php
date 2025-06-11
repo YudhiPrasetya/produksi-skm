@@ -98,7 +98,7 @@ Username Aktif : <?= cek_status($_SESSION['username']) ?></font>
     <br>
 
     <div  style="width: 40%; border: 2px solid blue; padding:20px;">
-      <font color="blue" align="left"><b>PILIH LINE SEWING</font><br><br></b>
+      <font color="blue" align="left"><b>LINE SEWING</font><br><br></b>
         <div class="input-group">
           <div class="input-group-addon">
           <i class="glyphicon glyphicon-barcode"></i>
