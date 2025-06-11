@@ -89,7 +89,7 @@ if (
       <div class="col-sm-3 tetep">
          <br><br><br><br><br><br><br>
          <h3>
-            <center>Tambah Data Master Label</center>
+            <center>Tambah Data Master Size</center>
          </h3>
          <br>
 
@@ -132,7 +132,7 @@ if (
       <!-- <div id="hasil"></div> -->
       <div class="col-sm-8 diam">
          <center>
-            <h2>MASTER LABEL </h2>
+            <h2>MASTER SIZE </h2>
          </center>
          <div style="height:55px;">
             <?php
