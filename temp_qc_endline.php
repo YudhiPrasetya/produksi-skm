@@ -105,17 +105,17 @@ Username Aktif : <?= cek_status($_SESSION['username']) ?></font>
         </div>
             <select id="line" class="form-control" name="line" required readonly >
             <option value="">- Pilih LINE -</option>
-              <?php
-              // $line = tampilkan_master_line();
-              $line = tampilkan_master_line_open();
-              while($hasil = mysqli_fetch_assoc($line)){
-                if($hasil['nama_line'] == $dataline['line']){
-                  echo "<option value = '$hasil[nama_line]' selected>Line $hasil[nama_line]</option>";
-                }else{
-                  echo "<option value = '$hasil[nama_line]'>Line $hasil[nama_line]</option>";
-                }
-              }
-              ?>
+              <!-- <//?//php -->
+              <!-- //$line = tampilkan_master_line_open(); -->
+              <!-- //while($hasil = mysqli_fetch_assoc($line)){ -->
+                <!-- //if($hasil['nama_line'] == $dataline['line']){ -->
+                 <!-- // echo "<option value = '$hasil[nama_line]' selected>Line $hasil[nama_line]</option>"; -->
+                <!-- //}else{ -->
+                  <!-- //echo "<option value = '$hasil[nama_line]'>Line $hasil[nama_line]</option>"; -->
+                <!-- //} -->
+              <!-- //} -->
+              <!-- //?//> -->
+               <option value='<?= $dataline["line"]; ?>' selected>LINE <?= $dataline["line"]; ?></option>
             </select>
         </div>
     <INPUT type="submit" class="btn btn-primary" name="kirim" value="SIMPAN DATA" id="submit_barang" onclick="return konfirmasi_simpan()" style="margin-right: 40px; margin-top: 20px">
