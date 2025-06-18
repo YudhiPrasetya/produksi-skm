@@ -6288,7 +6288,7 @@ function cek_item($item)
   global $koneksi;
 
   $contract = escape($item);
-  $query = "SELECT item FROM item where item='$item'";
+  $query = "SELECT items FROM item where item='$item'";
 
   if ($result = mysqli_query($koneksi, $query)) {
     return mysqli_num_rows($result);
