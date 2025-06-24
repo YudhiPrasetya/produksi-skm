@@ -168,6 +168,7 @@
                     <a href="#"> <?= $pilih3['no_bundle']; ?> </a></center></td>
 
                     <!-- <a href="print_ticket_pecah_bundle.php?id=<//?= $id_order ?>&barcode=<//?= $pilih3['barcode_bundle']; ?>&proses=<//?= $proses ?>&balance=<//?= $pilih3['balance']; ?>" target="_blank"> <//?= $pilih3['no_bundle']; ?> </a></center></td> -->
+                     
                 <td <?php if($pilih3['output_total'] == $pilih3['qty_isi_bundle']) { ?> style="background: #7FFFD4" <?php }elseif(($pilih3['output_total'] > 0) && ($pilih3['output_total'] < $pilih3['qty_isi_bundle'])){ ?> style="background: #FFB6C1" <?php } ?> ><center><?= $pilih3['output_total']; ?></center></td>
                 <td <?php if($pilih3['output_total'] == $pilih3['qty_isi_bundle']) { ?> style="background: #7FFFD4" <?php }elseif(($pilih3['output_total'] > 0) && ($pilih3['output_total'] < $pilih3['qty_isi_bundle'])){ ?> style="background: #FFB6C1" <?php } ?> ><center><?= $pilih3['balance']; ?></center></td>
                 <td <?php if($pilih3['output_total'] == $pilih3['qty_isi_bundle']) { ?> style="background: #7FFFD4" <?php }elseif(($pilih3['output_total'] > 0) && ($pilih3['output_total'] < $pilih3['qty_isi_bundle'])){ ?> style="background: #FFB6C1" <?php } ?> ><center><?= tgl_indonesia3($pilih3['tanggal_max']); ?></td>

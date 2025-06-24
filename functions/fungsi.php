@@ -5688,13 +5688,10 @@ function tambah_master_barang_no_barcode_buyer($barcode2, $idstyle, $size, $colo
 
 function tambah_data_size($size)
 {
-  global $koneksi;
-  $query = "INSERT INTO `size` (`size`) VALUES ('$size')";
-
-  $result = mysqli_query($koneksi, $query);
-  // var_dump($result);
-  echo $result;
-  return $result;
+  $ct = escape($size);
+  $query = "INSERT INTO size (size) VALUES ('$ct')";
+  $result = run($query);
+  var_dump($result);
   // return run($query);
 }
 

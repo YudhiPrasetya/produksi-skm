@@ -80,7 +80,7 @@ if(isset($_POST['kirim'])){
             $_SESSION['pesan'] = "Data Transaksi $proses Berhasil disimpan";
             
 
-            // header('Location: index.php');
+            header('Location: index.php');
             
             // header("Location:$temp_table.php");
         }else{
@@ -144,7 +144,7 @@ if(isset($_POST['kirim'])){
                 $dataTransaksi = json_encode($dataArray);            
                 
                 $_SESSION['pesan'] = "Data Transaksi $proses Berhasil disimpan";
-                // header('Location: index.php');
+                header('Location: index.php');
                 // header("Location:$temp_table.php");
             }else{
                 if($proses == "Tatami"){
