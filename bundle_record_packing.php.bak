@@ -19,7 +19,6 @@
          $id_order = $_GET['id'];
          $proses = $_GET['proses'];
          $tgl = $_GET['tgl'];
-		 $jam = $_GET['jam'];
          $total_input = 0;
          $total_balance_input = 0;
          $total_output = 0;
@@ -141,41 +140,37 @@
 
          ?>
          <!-- <div> -->
-           <table style="float: left; font-size: 12px" border='1' width='24.7%' cellpadding=3 cellspacing=0 >
+           <table style="float: left; font-size: 12px" border='1' width='19.7%' cellpadding=2 cellspacing=0 >
                 <tr>
                     <th width="4%">SIZE</th>
-                    <th colspan="7"><?= $pilih2['size'].$pilih2['cup'] ?></th>
+                    <th colspan="5"><?= $pilih2['size'].$pilih2['cup'] ?></th>
                 </tr>
                 <tr> 
                     <th>QTY</th>
-                    <th colspan=7><?= $pilih2['qty_order'] ?></th>
+                    <th colspan=5><?= $pilih2['qty_order'] ?></th>
                 </tr>
                 <tr>
                     <th width="2%">NO</th>
-                    <th width="5%" colspan=2>IN</th>
-                    <th width="5%" colspan=2 style="background: yellow">OUT</th>
-                    <th width="5%" style="background: yellow">L-DATE</th>
-					<th width="5%" style="background: yellow">JAM</th>
-                    <th width="5%">LINE</th>
+                    <th width="5%" colspan=2>TTM</th>
+                    <th width="5%" colspan=2 style="background: yellow">PKG</th>
+                    <th width="7%" style="background: yellow">DATE</th>
                 </tr>
             <?php
                     $jumlah_bundle =  cek_jumlah_bundle_persize($id_order_detail, $offsetbundle, $limit_baris);
                     $kekurangan_baris = $limit_baris - $jumlah_bundle;
                     
-                    $bundle_data = tampilkan_bundle_orc_nomer_new_transaksi_sewing_in_out($id_order_detail, $offsetbundle, $limit_baris, $tgl, $jam);
+                    $bundle_data = tampilkan_bundle_orc_nomer_new_transaksi_packing_bundle($id_order_detail, $offsetbundle, $limit_baris, $tgl);
                     while($pilih3 = mysqli_fetch_array($bundle_data)){
     
                 ?>
                
             <tr height="23px">
-                <td <?php if($pilih3['total_input'] == $pilih3['qty_isi_bundle']) { ?> style="background: #7FFFD4" <?php }elseif(($pilih3['total_input'] > 0) && ($pilih3['total_input'] < $pilih3['qty_isi_bundle'])){ ?> style="background: #FFB6C1" <?php } ?> ><center><php? id=<?= $id_order ?>&barcode=<?= $pilih3['barcode_bundle']; ?>&proses=<?= $proses ?>&balance=<?= $pilih3['balance_output']; ?>" target="_blank"> <?= $pilih3['no_bundle']; ?> </a></center></td>
-                <td <?php if($pilih3['total_input'] == $pilih3['qty_isi_bundle']) { ?> style="background: #7FFFD4" <?php }elseif(($pilih3['total_input'] > 0) && ($pilih3['total_input'] < $pilih3['qty_isi_bundle'])){ ?> style="background: #FFB6C1" <?php } ?>><center><?= $pilih3['total_input']; ?></center></td>
-                <td <?php if($pilih3['total_input'] == $pilih3['qty_isi_bundle']) { ?> style="background: #7FFFD4" <?php }elseif(($pilih3['total_input'] > 0) && ($pilih3['total_input'] < $pilih3['qty_isi_bundle'])){ ?> style="background: #FFB6C1" <?php } ?>><center><?= $pilih3['balance_input']; ?></center></td>
-                <td <?php if($pilih3['total_output'] == $pilih3['qty_isi_bundle']) { ?> style="background: #7FFFD4" <?php }elseif(($pilih3['total_output'] > 0) && ($pilih3['total_output'] < $pilih3['qty_isi_bundle'])){ ?> style="background: #FFB6C1" <?php } ?>><center><?= $pilih3['total_output']; ?></center></td>
-                <td <?php if($pilih3['total_output'] == $pilih3['qty_isi_bundle']) { ?> style="background: #7FFFD4" <?php }elseif(($pilih3['total_output'] > 0) && ($pilih3['total_output'] < $pilih3['qty_isi_bundle'])){ ?> style="background: #FFB6C1" <?php } ?>><center><?= $pilih3['balance_output']; ?></center></td>
-                <td <?php if($pilih3['total_output'] == $pilih3['qty_isi_bundle']) { ?> style="background: #7FFFD4" <?php }elseif(($pilih3['total_output'] > 0) && ($pilih3['total_output'] < $pilih3['qty_isi_bundle'])){ ?> style="background: #FFB6C1" <?php } ?>><center><?= tgl_indonesia4($pilih3['tanggal_max']); ?></td>
-				<td <?php if($pilih3['total_output'] == $pilih3['qty_isi_bundle']) { ?> style="background: #7FFFD4" <?php }elseif(($pilih3['total_output'] > 0) && ($pilih3['total_output'] < $pilih3['qty_isi_bundle'])){ ?> style="background: #FFB6C1" <?php } ?>><center><?= $jam ?></td>
-                <td <?php if($pilih3['total_output'] == $pilih3['qty_isi_bundle']) { ?> style="background: #7FFFD4" <?php }elseif(($pilih3['total_output'] > 0) && ($pilih3['total_output'] < $pilih3['qty_isi_bundle'])){ ?> style="background: #FFB6C1" <?php } ?>><center><?= ucfirst($pilih3['line']); ?></td>
+                <td <?php if($pilih3['total_input'] == $pilih3['qty_isi_bundle']) { ?> style="background: #7FFFD4" <?php } ?> ><center><a href="print_ticket_pecah_bundle.php?id=<?= $id_order ?>&barcode=<?= $pilih3['barcode_bundle']; ?>&proses=<?= $proses ?>&balance=<?= $pilih3['balance_output']; ?>" target="_blank"> <?= $pilih3['no_bundle']; ?> </a></center></td>
+                <td <?php if($pilih3['total_input'] == $pilih3['qty_isi_bundle']) { ?> style="background: #7FFFD4" <?php } ?>><center><?= $pilih3['total_input']; ?></center></td>
+                <td <?php if($pilih3['total_input'] == $pilih3['qty_isi_bundle']) { ?> style="background: #7FFFD4" <?php } ?>><center><?= $pilih3['balance_input']; ?></center></td>
+                <td <?php if($pilih3['total_output'] == $pilih3['qty_isi_bundle']) { ?> style="background: #7FFFD4" <?php } ?>><center><?= $pilih3['total_output']; ?></center></td>
+                <td <?php if($pilih3['total_output'] == $pilih3['qty_isi_bundle']) { ?> style="background: #7FFFD4" <?php } ?>><center><?= $pilih3['balance_output']; ?></center></td>
+                <td <?php if($pilih3['total_output'] == $pilih3['qty_isi_bundle']) { ?> style="background: #7FFFD4" <?php } ?>><center><?= tgl_indonesia4($pilih3['tanggal_max']); ?></td>
                 <?php
                      $total_input += $pilih3['total_input']; 
                      $total_balance_input += $pilih3['balance_input'];
@@ -197,7 +192,6 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
             </tr>
             <?php } } ?>
             <tr>
@@ -206,7 +200,7 @@
                 <td style="background: yellow"><center><b><?= $total_balance_input ?></b></center></td>
                 <td style="background: yellow"><center><b><?= $total_output ?></b></center></td>
                 <td style="background: yellow"><center><b><?= $total_balance_output ?></b></center></td>
-                <td style="background: yellow" colspan="2"><center><b><?= $jumlah_bundle_size ?> BOX</b></center></td>
+                <td style="background: yellow"><center><b><?= $jumlah_bundle_size ?> BOX</b></center></td>
             </tr>
         </table>
         <?php 
@@ -214,7 +208,7 @@
         $total_balance_input = 0;
         $total_output = 0;
         $total_balance_output = 0;
-        $hasil = $a%4;
+        $hasil = $a%5;
         if($hasil == 0){
         ?>
        

@@ -23,7 +23,7 @@ cek_status($_SESSION['username'] ) == 'packing_outerware' ) {
 </style>
 
 <center>
-<h2>TRANSAKSI AFTER NEEDLE</h2>
+<h2>TRANSAKSI PACKING</h2>
 
 </div>
 <div style="width: 25%; margin-left: 40%">
