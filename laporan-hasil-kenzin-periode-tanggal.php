@@ -36,6 +36,11 @@ $qty_total_semua = 0;
     foreach($ctk as $tanggal=>$kdcostomer)
     foreach($kdcostomer as $costomer=>$data){
  ?>
+<div style="margin-left: 20px; margin-right: 20px; margin-bottom: 20px;">
+  <button class="btn btn-info" style="background: #254681" id="btnExportToExcel">Export To Excel</button>
+</div>
+
+<div class="tableContainer">
 
 <table width = 100%>
   <tr style="font-weight:bold">
@@ -114,4 +119,27 @@ $qty_total_semua = 0;
   <td width="20%" align="center">PACKING</td>
 </tr>
 </table>
+
+</div>
+
+  <script>
+    $(document).ready(function(){
+      var tglawal = '<?= $tglawal; ?>';
+      var tglakhir = '<?= $tglakhir; ?>';
+
+      $('#btnExportToExcel').click(function(e) {
+        // let fileName = $('#proses').val();
+        let file = new Blob([$('#tableContainer').html()], {
+            type: "application/vnd.ms-excel"
+        });
+        let url = URL.createObjectURL(file);
+        let a = $("<a />", {
+            href: url,
+            download: `laporan_hasil_kenzin_periode_tanggal_${tglawal}-${tglakhir}` + ".xls"
+        }).appendTo("body").get(0).click();
+        e.preventDefault();
+      });    
+
+    });
+  </script>
 </body>
