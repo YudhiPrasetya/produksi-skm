@@ -54,7 +54,7 @@ $qty_total_semua = 0;
 
 <center>
 <div class="tableContainer">
-<table  border='1' class='table table-hover' width=100% cellpadding=6 >
+<table border='1' class='table table-hover' width=100% cellpadding=6 id="tableHasilKenzin">
   <thead>
     <tr>
       <th style="background-color:#f4f4f4; "><center>NO</center></th>
@@ -129,6 +129,15 @@ $qty_total_semua = 0;
     $(document).ready(function(){
       var tglawal = '<?= $tglawal; ?>';
       var tglakhir = '<?= $tglakhir; ?>';
+
+      $('#tableHasilKenzin').DataTable({
+        "paging": false,
+        "deferRender": true,
+        "scrollY": 500,
+        "scrollCollapse": true,
+        "scroller": true,
+        "scrollX": true,        
+      });
 
       $('#btnExportToExcel').click(function(e) {
         // let fileName = $('#proses').val();
