@@ -1,7 +1,7 @@
 <?php 
   require_once 'core/init.php';
   require_once 'view/header.php';
-      
+
   $tglawal = $_POST['tgl_awal'];
   $tglakhir = $_POST['tgl_akhir'];
 ?>
@@ -42,7 +42,6 @@ $qty_total_semua = 0;
   <button class="btn btn-info" style="background: #254681" id="btnExportToExcel">Export To Excel</button>
 </div>
 
-<div class="tableContainer">
 
 <table width = 100%>
   <tr style="font-weight:bold">
@@ -53,6 +52,7 @@ $qty_total_semua = 0;
   </tr>
 </table>
 
+<div class="tableContainer">
 <center>
 <table  border='1' class='table table-hover' width=100% cellpadding=6 >
   <thead>
