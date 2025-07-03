@@ -1,5 +1,7 @@
 <?php 
-  require_once 'core/init.php';    
+  require_once 'core/init.php';
+  require_once 'view/header.php';
+      
   $tglawal = $_POST['tgl_awal'];
   $tglakhir = $_POST['tgl_akhir'];
 ?>
