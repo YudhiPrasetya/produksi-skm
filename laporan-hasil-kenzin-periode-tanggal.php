@@ -52,8 +52,8 @@ $qty_total_semua = 0;
   </tr>
 </table>
 
-<div class="tableContainer">
 <center>
+<div class="tableContainer">
 <table  border='1' class='table table-hover' width=100% cellpadding=6 >
   <thead>
     <tr>
@@ -97,6 +97,7 @@ $qty_total_semua = 0;
     </tr>
   </tbody>
 </table>
+</div>
 <br>
 <br>
     <?php   
@@ -122,7 +123,7 @@ $qty_total_semua = 0;
 </tr>
 </table>
 
-</div>
+
 
   <script>
     $(document).ready(function(){
