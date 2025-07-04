@@ -5,6 +5,12 @@
   $id_costomer = $_POST['costomer'];
 ?>
 <!-- <body onLoad="window.print()"> -->
+
+<head>
+  <script src="/produksi-skm/assets/js/jquery.js"></script>
+  <link rel="stylesheet" type="text/css" href="/produksi-skm/assets/css/bootstrap.css">
+</head>
+
 <title>Laporan SCAN PACKING (READY KARTON)</title>
 <center>
 <h1>PT. Globalindo Intimates</h1>
