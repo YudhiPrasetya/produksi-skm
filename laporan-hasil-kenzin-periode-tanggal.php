@@ -56,8 +56,8 @@ $qty_total_semua = 0;
 
 <!-- <center> -->
 
-<div class="tableContainer">
-<table border='1' class='table table-hover' width=100% cellpadding=6 id="tableHasilKenzin">
+<div id="tableContainer">
+<table border='1' class='table table-hover display' width=100% cellpadding=6 id="tableHasilKenzin">
   <thead>
     <tr>
       <th style="background-color:#f4f4f4; "><center>NO</center></th>
@@ -134,52 +134,53 @@ $qty_total_semua = 0;
 
 
 
-  <script type="text/javascript">
-    $(document).ready(function(){
-      var tglawal = '<?= $tglawal; ?>';
-      var tglakhir = '<?= $tglakhir; ?>';
+<script type="text/javascript">
+  $(document).ready(function(){
+    var tglawal = '<?= $tglawal; ?>';
+    var tglakhir = '<?= $tglakhir; ?>';
 
-      $('#tableHasilKenzin').DataTable({
-        "paging": false,
-        "deferRender": true,
-        "scrollY": 500,
-        "scrollCollapse": true,
-        "scroller": true,
-        "scrollX": true,
-        "footerCallback": function(row, data, start, end, display){
-          var api = this.api(), data;
-          // converting to interger to find total
-          var intVal = function ( i ) {
-              return typeof i === 'string' ?
-                  i.replace(/[\$,]/g, '')*1 :
-                  typeof i === 'number' ?
-                      i : 0;
-          };
+    $('#tableHasilKenzin').DataTable({
+      "paging": false,
+      "deferRender": true,
+      "scrollY": 500,
+      "scrollCollapse": true,
+      "scroller": true,
+      "scrollX": true,
+      "footerCallback": function(row, data, start, end, display){
+        var api = this.api(), data;
+        // converting to interger to find total
+        var intVal = function ( i ) {
+            return typeof i === 'string' ?
+                i.replace(/[\$,]/g, '')*1 :
+                typeof i === 'number' ?
+                    i : 0;
+        };
 
-          var totalScan = api.column(8).data().reduce(function (a, b) {
-                  return intVal(a) + intVal(b);
-              }, 0
-          );                    
+        var totalScan = api.column(8).data().reduce(function (a, b) {
+                return intVal(a) + intVal(b);
+            }, 0
+        );                    
 
-          $( api.column( 0 ).footer() ).html('Total : ');
-          $( api.column( 8 ).footer() ).html(totalScan);
-        }        
-      });
-
-      $('#btnExportToExcel').click(function(e) {
-        // let fileName = $('#proses').val();
-        let file = new Blob([$('#tableContainer').html()], {
-            type: "application/vnd.ms-excel"
-        });
-        let url = URL.createObjectURL(file);
-        let a = $("<a />", {
-            href: url,
-            // download: `laporan_kenzin_${tglawal}-${tglakhir}` + ".xls"
-            download: "lap_kenzin.xls"
-        }).appendTo("body").get(0).click();
-        e.preventDefault();
-      });    
-
+        $( api.column( 0 ).footer() ).html('Total : ');
+        $( api.column( 8 ).footer() ).html(totalScan);
+      }        
     });
-  </script>
+
+    $('#btnExportToExcel').click(function(e) {
+      // let fileName = $('#proses').val();
+      // console.log($('#tableContainer').html());
+      let file = new Blob([$('#tableContainer').html()], {
+          type: "application/vnd.ms-excel"
+      });
+      let url = URL.createObjectURL(file);
+      let a = $("<a />", {
+          href: url,
+          download: `laporan_kenzin_${tglawal}-${tglakhir}` + ".xls"
+          // download: "lap_kenzin.xls"
+      }).appendTo("body").get(0).click();
+      e.preventDefault();
+    });    
+
+  });
+</script>
 <!-- </body> -->
