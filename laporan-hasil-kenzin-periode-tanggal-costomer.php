@@ -153,8 +153,7 @@ $qty_total_semua = 0;
       let url = URL.createObjectURL(file);
       let a = $("<a />", {
           href: url,
-          download: `laporan_kenzin_${tglawal}-${tglakhir}` + ".xls"
-          // download: "lap_kenzin.xls"
+          download: "lap_kenzin.xls"
       }).appendTo("body").get(0).click();
       e.preventDefault();
     });    
