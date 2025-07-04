@@ -90,12 +90,18 @@ $qty_total_semua = 0;
         $qty_total_semua += $pilih['qtya'];
       }
        ?>
-    <tr>
+    <!-- <tr>
       <td style='background-color:#f4f4f4;' colspan='8' >Total Semua QTY :</td>
-      <td style='background-color:#f4f4f4;' align='center'><?= $qty_total_a ?></td>
+      <td style='background-color:#f4f4f4;' align='center'><//?= $qty_total_a ?></td>
       
-    </tr>
+    </tr> -->
   </tbody>
+  <tfoot>
+    <tr>
+      <th colspan=8 style="text-align: right; background: #254681; color: white;"></th>
+      <th style="text-align: center; background: #254681; color: white;"></th>
+    </tr>
+  </tfoot>
 </table>
 </div>
 <br>
@@ -136,7 +142,25 @@ $qty_total_semua = 0;
         "scrollY": 500,
         "scrollCollapse": true,
         "scroller": true,
-        "scrollX": true,        
+        "scrollX": true,
+        "footerCallback": function(row, data, start, end, display){
+          var api = this.api(), data;
+          // converting to interger to find total
+          var intVal = function ( i ) {
+              return typeof i === 'string' ?
+                  i.replace(/[\$,]/g, '')*1 :
+                  typeof i === 'number' ?
+                      i : 0;
+          };
+
+          var totalScan = api.column(8).data().reduce(function (a, b) {
+                  return intVal(a) + intVal(b);
+              }, 0
+          );                    
+
+          $( api.column( 0 ).footer() ).html('Total : ');
+          $( api.column( 8 ).footer() ).html(totalScan);
+        }        
       });
 
       $('#btnExportToExcel').click(function(e) {
