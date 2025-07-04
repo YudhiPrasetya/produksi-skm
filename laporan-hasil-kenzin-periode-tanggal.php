@@ -38,9 +38,7 @@ $qty_total_semua = 0;
     foreach($ctk as $tanggal=>$kdcostomer)
     foreach($kdcostomer as $costomer=>$data){
  ?>
-<div style="margin-left: 20px; margin-right: 20px; margin-bottom: 20px;">
-  <button class="btn btn-info" style="background: #254681" id="btnExportToExcel">Export To Excel</button>
-</div>
+
 
 
 <table width = 100%>
@@ -52,7 +50,12 @@ $qty_total_semua = 0;
   </tr>
 </table>
 
-<center>
+<div style="margin-left: 20px; margin-right: 20px; margin-bottom: 20px;">
+  <button class="btn btn-info" style="background: #254681" id="btnExportToExcel">Export To Excel</button>
+</div>
+
+<!-- <center> -->
+  
 <div class="tableContainer">
 <table border='1' class='table table-hover' width=100% cellpadding=6 id="tableHasilKenzin">
   <thead>
