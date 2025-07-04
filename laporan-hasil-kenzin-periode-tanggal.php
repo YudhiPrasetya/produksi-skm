@@ -1,12 +1,22 @@
 <?php 
   require_once 'core/init.php';
-  require_once 'view/header.php';
+  // require_once 'view/header.php';
 
   $tglawal = $_POST['tgl_awal'];
   $tglakhir = $_POST['tgl_akhir'];
 ?>
 <!-- <body onLoad="window.print()"> -->
+
+<head>
+  <script src="/produksi-skm/assets/js/jquery.js"></script>
+  <link rel="stylesheet" type="text/css" href="/produksi-skm/assets/css/bootstrap.css">
+</head>
+
 <title>Laporan SCAN KENZIN</title>
+<div style="margin-left: 20px; margin-right: 20px; margin-bottom: 20px; margin-top: 20px">
+  <button class="btn btn-info" style="background: #254681" id="btnExportToExcel">Export To Excel</button>
+</div>
+<div id="tableContainer">
 <center>
 <h1>PT. Globalindo Intimates</h1>
 <h3>LAPORAN HASIL SCAN KENZIN</h3>
@@ -41,6 +51,8 @@ $qty_total_semua = 0;
 
 
 
+
+
 <table width = 100%>
   <tr style="font-weight:bold">
     
@@ -50,14 +62,10 @@ $qty_total_semua = 0;
   </tr>
 </table>
 
-<div style="margin-left: 20px; margin-right: 20px; margin-bottom: 20px;">
-  <button class="btn btn-info" style="background: #254681" id="btnExportToExcel">Export To Excel</button>
-</div>
 
 <!-- <center> -->
 
-<div id="tableContainer">
-<table border='1' class='table table-hover display' width=100% cellpadding=6 id="tableHasilKenzin">
+<table border="1" class='table table-hover table-bordered display' width=100% cellpadding=6 id="tableHasilKenzin">
   <thead>
     <tr>
       <th style="background-color:#f4f4f4; "><center>NO</center></th>
@@ -82,7 +90,7 @@ $qty_total_semua = 0;
       <td align='center'><?php echo $pilih['orc'] ?></td>
       <td align='center'><?php echo $pilih['no_po'] ?></td>
       <td align='center'><?php echo $pilih['label'] ?></td>
-      <td align='center'><?php echo $pilih['kode_barcode'] ?></td>
+      <td align='center'><?php echo "'" .$pilih['kode_barcode']."'" ?></td>
       <td align='center'><?php echo $pilih['style'] ?></td>
       <td align='center'><?php echo $pilih['warna'] ?></td>
       <td align='center'><?php echo $pilih['size'].$pilih['cup'] ?></td>
@@ -93,20 +101,20 @@ $qty_total_semua = 0;
         $qty_total_semua += $pilih['qtya'];
       }
        ?>
-    <!-- <tr>
+    <tr>
       <td style='background-color:#f4f4f4;' colspan='8' >Total Semua QTY :</td>
-      <td style='background-color:#f4f4f4;' align='center'><//?= $qty_total_a ?></td>
+      <td style='background-color:#f4f4f4;' align='center'><?= $qty_total_a ?></td>
       
-    </tr> -->
+    </tr>
   </tbody>
-  <tfoot>
+  <!-- <tfoot>
     <tr>
       <th colspan=8 style="text-align: right; background: #254681; color: white;"></th>
       <th style="text-align: center; background: #254681; color: white;"></th>
     </tr>
-  </tfoot>
+  </tfoot> -->
 </table>
-</div>
+
 <br>
 <br>
     <?php   
@@ -132,39 +140,40 @@ $qty_total_semua = 0;
 </tr>
 </table>
 
-
+</div>
 
 <script type="text/javascript">
   $(document).ready(function(){
     var tglawal = '<?= $tglawal; ?>';
     var tglakhir = '<?= $tglakhir; ?>';
 
-    $('#tableHasilKenzin').DataTable({
-      "paging": false,
-      "deferRender": true,
-      "scrollY": 500,
-      "scrollCollapse": true,
-      "scroller": true,
-      "scrollX": true,
-      "footerCallback": function(row, data, start, end, display){
-        var api = this.api(), data;
-        // converting to interger to find total
-        var intVal = function ( i ) {
-            return typeof i === 'string' ?
-                i.replace(/[\$,]/g, '')*1 :
-                typeof i === 'number' ?
-                    i : 0;
-        };
+    // $('#tableHasilKenzin').DataTable({
+    //   "autoWidth": true,
+    //   "paging": false,
+    //   "deferRender": true,
+    //   "scrollY": 500,
+    //   "scrollCollapse": true,
+    //   "scroller": true,
+    //   "scrollX": true,
+    //   "footerCallback": function(row, data, start, end, display){
+    //     var api = this.api(), data;
+    //     // converting to interger to find total
+    //     var intVal = function ( i ) {
+    //         return typeof i === 'string' ?
+    //             i.replace(/[\$,]/g, '')*1 :
+    //             typeof i === 'number' ?
+    //                 i : 0;
+    //     };
 
-        var totalScan = api.column(8).data().reduce(function (a, b) {
-                return intVal(a) + intVal(b);
-            }, 0
-        );                    
+    //     var totalScan = api.column(8).data().reduce(function (a, b) {
+    //             return intVal(a) + intVal(b);
+    //         }, 0
+    //     );                    
 
-        $( api.column( 0 ).footer() ).html('Total : ');
-        $( api.column( 8 ).footer() ).html(totalScan);
-      }        
-    });
+    //     $( api.column( 0 ).footer() ).html('Total : ');
+    //     $( api.column( 8 ).footer() ).html(totalScan);
+    //   }        
+    // });
 
     $('#btnExportToExcel').click(function(e) {
       // let fileName = $('#proses').val();
