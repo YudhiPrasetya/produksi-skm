@@ -5,19 +5,7 @@
   $id_costomer = $_POST['costomer'];
 ?>
 <!-- <body onLoad="window.print()"> -->
-
-<head>
-  <script src="/produksi-skm/assets/js/jquery.js"></script>
-  <link rel="stylesheet" type="text/css" href="/produksi-skm/assets/css/bootstrap.css">
-</head>
-
 <title>Laporan SCAN PACKING (READY KARTON)</title>
-
-<div style="margin-left: 20px; margin-right: 20px; margin-bottom: 20px; margin-top: 20px">
-  <button class="btn btn-info" style="background: #254681" id="btnExportToExcel">Export To Excel</button>
-</div>
-
-<div id="tableContainer">
 <center>
 <h1>PT. Globalindo Intimates</h1>
 <h3>LAPORAN HASIL SCAN PACKING</h3>
@@ -136,21 +124,4 @@ $qty_total_semua = 0;
   <td width="20%" align="center">PACKING</td>
 </tr>
 </table>
-</div>
-
-<script>
-  $(document).ready(function(){
-    $('#btnExportToExcel').click(function(e) {
-      let file = new Blob([$('#tableContainer').html()], {
-          type: "application/vnd.ms-excel"
-      });
-      let url = URL.createObjectURL(file);
-      let a = $("<a />", {
-          href: url,
-          download: "laporan_kenzin.xls"
-      }).appendTo("body").get(0).click();
-      e.preventDefault();
-    });  
-  });
-</script>
 </body>
