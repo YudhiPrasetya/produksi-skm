@@ -55,7 +55,7 @@ $qty_total_semua = 0;
 </div>
 
 <!-- <center> -->
-  
+
 <div class="tableContainer">
 <table border='1' class='table table-hover' width=100% cellpadding=6 id="tableHasilKenzin">
   <thead>
@@ -134,7 +134,7 @@ $qty_total_semua = 0;
 
 
 
-  <script>
+  <script type="text/javascript">
     $(document).ready(function(){
       var tglawal = '<?= $tglawal; ?>';
       var tglakhir = '<?= $tglakhir; ?>';
