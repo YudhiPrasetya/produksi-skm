@@ -157,5 +157,5 @@ $qty_total_semua = 0;
       }).appendTo("body").get(0).click();
       e.preventDefault();
     });    
-  })
-<script>
+  });
+</script>
