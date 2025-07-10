@@ -2905,7 +2905,7 @@ function tampilkan_hasil_kenzin_periode_hari($tglawal, $tglakhir){
   JOIN size F on C.size = F.size AND IFNULL(C.cup, '') = IFNULL(F.cup, '')
      WHERE A.tanggal BETWEEN '$tglawal' AND '$tglakhir' 
   GROUP BY A.tanggal, B.id_costomer, A.kode_barcode
-  ORDER BY B.no_po, B.orc, D.style, C.warna, F.urutan, A.tanggal";
+  ORDER BY  A.tanggal, B.no_po, B.orc, D.style, C.warna, F.urutan";
 
   $result = mysqli_query($koneksi, $query) or die('gagal menampilkan data');
   return $result;
