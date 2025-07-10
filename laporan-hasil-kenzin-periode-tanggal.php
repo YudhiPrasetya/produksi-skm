@@ -12,14 +12,14 @@
   <link rel="stylesheet" type="text/css" href="/produksi-skm/assets/css/bootstrap.css">
 </head>
 
-<title>Laporan SCAN KENZIN</title>
+<title>Laporan SCAN NEEDLE DETECTOR</title>
 <div style="margin-left: 20px; margin-right: 20px; margin-bottom: 20px; margin-top: 20px">
   <button class="btn btn-info" style="background: #254681" id="btnExportToExcel">Export To Excel</button>
 </div>
 <div id="tableContainer">
 <center>
 <h1>PT. Globalindo Intimates</h1>
-<h3>LAPORAN HASIL SCAN KENZIN</h3>
+<h3>LAPORAN HASIL SCAN NEEDLE DETECTOR</h3>
 Periode Tanggal : <?= tanggal_indo2($tglawal, false) ?> s/d <?= tanggal_indo2($tglakhir, false) ?>
 </center>
 

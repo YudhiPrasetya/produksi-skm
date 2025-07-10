@@ -190,7 +190,7 @@
             <ul style="background: #254681">
               <!-- <li><a href="temp_qc_kensa.php">QC KENSA</a></li> -->
               <!-- <li><a href="temp_tatami_in.php">TATAMI</a></li> -->
-              <li style="background: #254681"><a style="background: #254681" href="temp_kenzin.php">KENZIN</a></li>
+              <li style="background: #254681"><a style="background: #254681" href="temp_kenzin.php">NEEDLE DETECTOR</a></li>
               <li style="background: #254681"><a style="background: #254681" href="temp_packing.php">PACKING</a></li>
               <li style="background: #254681"><a style="background: #254681" href="#">REJECT</a>
               <li style="background: #254681"><a style="background: #254681" href="#">SCAN KARTON FULL</a>
@@ -243,7 +243,7 @@
               <!-- <li><a href="cetak_laporan_hasil_qc_kensa.php">QC KENSA</a></li> -->
               <!-- <li><a href="cetak_laporan_hasil_tatami_buyer.php">TATAMI</a></li> -->
 
-              <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_kenzin_buyer.php">KENZIN</a></li>
+              <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_kenzin_buyer.php">NEEDLE DETECTOR</a></li>
               <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_packing_buyer.php">PACKING OUTER</a>
                 <ul style="background: #254681">
                   <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_packing_buyer.php">REPORT HARIAN</a></li>
@@ -298,7 +298,7 @@
           <li style="background: #254681"><a style="background: #254681" href="#">TRANSAKSI</a>
             <ul style="background: #254681">
 
-              <li style="background: #254681"><a style="background: #254681" href="temp_kenzin.php">KENZIN</a></li>
+              <li style="background: #254681"><a style="background: #254681" href="temp_kenzin.php">NEEDLE DETECTOR</a></li>
               <li style="background: #254681"><a style="background: #254681" href="temp_packing.php">PACKING</a></li>
 
             </ul>
@@ -313,7 +313,7 @@
           <li style="background: #254681"><a style="background: #254681" target="_blank" href="cetak_laporan_hasil_scan_global.php">REPORT SCAN</a>
             <ul style="background: #254681">
               <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_balance_order_barcode_buyer.php">BAL ORDER</a></li>
-              <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_kenzin_buyer.php">KENZIN</a></li>
+              <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_kenzin_buyer.php">NEEDLE DETECTOR</a></li>
               <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_packing_buyer.php">PACKING OUTER</a>
                 <ul style="background: #254681">
                   <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_packing_buyer.php">REPORT HARIAN</a></li>

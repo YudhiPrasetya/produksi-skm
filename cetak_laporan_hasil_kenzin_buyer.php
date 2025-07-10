@@ -22,9 +22,9 @@ if( !isset($_SESSION['username']) ){
     
   </style>
 <center>
-<h2>CETAK LAPORAN HASIL KENZIN</h2>
+<h2>CETAK LAPORAN HASIL NEEDLE DETECTOR</h2>
 <br>
-<h3 align="left">LAPORAN SCAN KENZIN PERIODE TANGGAL</h3>
+<h3 align="left">LAPORAN SCAN NEEDLE DETECTOR PERIODE TANGGAL</h3>
 </center>
 <br>
 <table width="70%">
@@ -46,7 +46,7 @@ if( !isset($_SESSION['username']) ){
 </table>
 <br>
 <hr width="100%" />
-<h3 align="left">LAPORAN HASIL KENZIN PER TANGGAL BUYER</h3>
+<h3 align="left">LAPORAN HASIL NEEDLE DETECTOR PER TANGGAL BUYER</h3>
 </center>
 <br>
 <table width="100%">

@@ -26,7 +26,7 @@ cek_status($_SESSION['username'] ) == 'kenzin' ) {
 
   
 <center>
-<h2>TRANSAKSI BEFORE NEEDLE</h2>
+<h2>TRANSAKSI NEEDLE DETECTOR</h2>
 <div style="height:55px;">
   <?php
       if (isset($_SESSION['pesan']) && $_SESSION['pesan'] <> '') {
