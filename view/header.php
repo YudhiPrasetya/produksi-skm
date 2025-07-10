@@ -36,7 +36,8 @@
   <!-- <link rel="stylesheet" href="view/nav_style.css"> -->
   <link rel="stylesheet" href="/produksi-skm/view/style.css">
   <!-- <link rel="icon" href="img/skm_icon.png"> -->
-  <link rel="icon" href="img/gi-logo.png">
+  <!-- <link rel="icon" href="img/gi-logo-removebg.png"> -->
+  <link rel="icon" href="img/icon.PNG">
 
   <link rel="stylesheet" href="/produksi-skm/assets/Datatables2/css/cdn.datatables.net_1.13.5_css_jquery.dataTables.min.css">
   <link rel="stylesheet" href="/produksi-skm/assets/Datatables2/css/cdn.datatables.net_buttons_2.4.1_css_buttons.dataTables.min.css">
