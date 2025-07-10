@@ -76,7 +76,7 @@ $qty_total_semua = 0;
       <th style="background-color:#f4f4f4; "><center>STYLE</center></th>
       <th style="background-color:#f4f4f4; "><center>COLOR</center></th>
       <th style="background-color:#f4f4f4; "><center>SIZE</center></th>
-      <th style="background-color:#f4f4f4; "><center>SCAN</center></th>
+      <th style="background-color:#f4f4f4; "><center>SCAN NEEDLE DETECTOR</center></th>
     </tr>
   </thead>
   <tbody>
@@ -184,7 +184,7 @@ $qty_total_semua = 0;
       let url = URL.createObjectURL(file);
       let a = $("<a />", {
           href: url,
-          download: `laporan_kenzin_${tglawal}-${tglakhir}` + ".xls"
+          download: `laporan_needle_detector_${tglawal}-${tglakhir}` + ".xls"
           // download: "lap_kenzin.xls"
       }).appendTo("body").get(0).click();
       e.preventDefault();
