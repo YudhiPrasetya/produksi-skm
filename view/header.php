@@ -179,6 +179,7 @@
               <li style="background: #254681"><a style="background: #254681" href="temp_sewing.php">IN SEWING</a></li>
               <li style="background: #254681"><a style="background: #254681" href="temp_bbl.php">BBL</a></li>
               <li style="background: #254681"><a style="background: #254681" href="temp_qc_endline.php">QC ENDLINE</a></li>
+              <li><a href="temp_qc_kensa.php">QC KENSA</a></li>
               <!-- <li><a href="temp_ht2.php">HT AFTER SEWING</a></li> -->
               <!-- <li style="background: #254681"><a style="background: #254681" href="temp_washing.php">WASHING</a></li> -->
               <li style="background: #254681"><a style="background: #254681" href="temp_washing.php">F QC</a></li>
@@ -190,9 +191,10 @@
               <li style="background: #254681"><a style="background: #254681" href="temp_packing_bundle.php">PACKING</a></li>
             </ul>
           </li>
+
           <li style="background: #254681" class="nav-link"><a style="background: #254681" href="#">TRANSAKSI</a>
             <ul style="background: #254681">
-              <li><a href="temp_qc_kensa.php">QC KENSA</a></li>
+              <!-- <li><a href="temp_qc_kensa.php">QC KENSA</a></li> -->
               <!-- <li><a href="temp_tatami_in.php">TATAMI</a></li> -->
               <li style="background: #254681"><a style="background: #254681" href="temp_kenzin.php">NEEDLE DETECTOR</a></li>
               <li style="background: #254681"><a style="background: #254681" href="temp_packing.php">PACKING</a></li>
