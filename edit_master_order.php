@@ -208,7 +208,9 @@ require_once 'view/header.php';
                     }
                 }
               ?>>
-          <label class="form-check-label" style="font-weight: normal" for="inlineCheckbox<?= $i; ?>"><?= strtoupper(($data2['nama_transaksi'] == "press" ? "washing" : $data2['nama_transaksi'])) ?></label>
+          <!-- <label class="form-check-label" style="font-weight: normal" for="inlineCheckbox<//?= $i; ?>"><//?= strtoupper(($data2['nama_transaksi'] == "press" ? "washing" : $data2['nama_transaksi'])) ?></label> -->
+
+          <label class="form-check-label" style="font-weight: normal" for="inlineCheckbox<?= $i; ?>"><?= strtoupper(($data2['nama_transaksi'] == "washing" ? "f qc" : ($data2['nama_transaksi'] == "qc_buyer" ? "furushima" : $data2['nama_transaksi']))) ?></label>
         </td>
         <?php }else{ ?>
       </tr>
