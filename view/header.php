@@ -180,9 +180,11 @@
               <li style="background: #254681"><a style="background: #254681" href="temp_bbl.php">BBL</a></li>
               <li style="background: #254681"><a style="background: #254681" href="temp_qc_endline.php">QC ENDLINE</a></li>
               <!-- <li><a href="temp_ht2.php">HT AFTER SEWING</a></li> -->
-              <li style="background: #254681"><a style="background: #254681" href="temp_washing.php">WASHING</a></li>
+              <!-- <li style="background: #254681"><a style="background: #254681" href="temp_washing.php">WASHING</a></li> -->
+              <li style="background: #254681"><a style="background: #254681" href="temp_washing.php">F QC</a></li>
               <li style="background: #254681"><a style="background: #254681" href="temp_iron.php">IRON</a></li>
-              <li style="background: #254681"><a style="background: #254681" href="temp_qc_buyer.php">QC BUYER</a></li>
+              <!-- <li style="background: #254681"><a style="background: #254681" href="temp_qc_buyer.php">QC BUYER</a></li> -->
+              <li style="background: #254681"><a style="background: #254681" href="temp_qc_buyer.php">FURUSHIMA</a></li>
               <li style="background: #254681"><a style="background: #254681" href="temp_qc_transfer.php">QC TRANSFER</a></li>
               <li style="background: #254681"><a style="background: #254681" href="temp_tatami.php">TATAMI OUT</a></li>
               <li style="background: #254681"><a style="background: #254681" href="temp_packing_bundle.php">PACKING</a></li>
