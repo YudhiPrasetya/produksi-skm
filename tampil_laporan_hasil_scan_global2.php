@@ -230,7 +230,7 @@ $(document).ready(function() {
     let url = URL.createObjectURL(file);
     let a = $("<a />", {
         href: url,
-        download: fileName + ".xls"
+        download: (fileName == "washing" ? "f_qc" : (fileName == "qc_buyer" ? "furushima" : fileName)) + ".xls"
     }).appendTo("body").get(0).click();
     e.preventDefault();
   });
