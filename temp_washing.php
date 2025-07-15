@@ -8,7 +8,8 @@ require_once 'view/header.php';
 if(cek_status($_SESSION['username'] ) == 'admin' OR 
 cek_status($_SESSION['username'] ) == 'washing' ) {
   $user = $_SESSION['username'];
-  $proses = 'washing';
+  // $proses = 'washing';
+  $proses = 'f qc';
   
   $temp1 = mencari_data_master_transaksi($proses);
   $datatransaksi = mysqli_fetch_array($temp1);
