@@ -108,9 +108,12 @@ require_once 'view/header.php';
                     echo "<option value = '$hasil[nama_transaksi]'>INPUT SEWING</option>";
                   }elseif($hasil['nama_transaksi'] == 'tatami'){
                     echo "<option value = '$hasil[nama_transaksi]'>INPUT TATAMI</option>";
-                  }elseif($hasil['nama_transaksi'] == 'press'){
-                    // echo "<option value='$hasil[nama_transaksi]'>WASHING</option>";
+                  // }elseif($hasil['nama_transaksi'] == 'press'){
+                  //   echo "<option value='$hasil[nama_transaksi]'>WASHING</option>";
+                  }elseif($hasil['nama_transaksi'] == 'washing'){
                     echo "<option value='$hasil[nama_transaksi]'>F QC</option>";
+                  }elseif($hasil['nama_transaksi'] == 'qc_buyer'){
+                    echo "<option value='$hasil[nama_transaksi]'>FURUSHIMA</option>";
                   }else{
                     echo "<option value = '$hasil[nama_transaksi]'>".strtoupper($hasil['nama_transaksi'])."</option>";
                   }
