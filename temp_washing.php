@@ -46,7 +46,8 @@ cek_status($_SESSION['username'] ) == 'washing' ) {
 
 <center>
 <font color="blue">
-<h2>TRANSAKSI WASHING</h2>
+<!-- <h2>TRANSAKSI WASHING</h2> -->
+<h2>TRANSAKSI F QC</h2>
 Username Aktif : <?= cek_status($_SESSION['username']) ?></font>
 <div style="height:55px;">
                  <?php

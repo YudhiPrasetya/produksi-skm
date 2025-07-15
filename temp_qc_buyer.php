@@ -46,7 +46,8 @@ cek_status($_SESSION['username'] ) == 'qc_buyer' ) {
 
 <center>
 <font color="blue">
-<h2>TRANSAKSI QC BUYER</h2>
+<!-- <h2>TRANSAKSI QC BUYER</h2> -->
+<h2>TRANSAKSI FURUSHIMA</h2>
 Username Aktif : <?= cek_status($_SESSION['username']) ?></font>
 <div style="height:55px;">
                  <?php
