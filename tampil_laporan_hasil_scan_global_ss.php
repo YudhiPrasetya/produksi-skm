@@ -157,7 +157,7 @@ sum(A.qty_isi_bundle) qty_order, C.status, F.category, G.plan_line FROM master_b
     AND A.no_po LIKE '%$no_po%' ";
   }else{
     $where = " WHERE A.orc LIKE '%$orc%' AND A.style LIKE '%$style%' AND AC.table_transaksi = '$table' AND A.status = '$status' 
-    AND A.costomer like '%$costomer%' AND A.category LIKE '%$category%' AND IFNULL(AD.line, 'not_yet') = '$line'
+    AND A.costomer like '%$costomer%' AND A.category LIKE '%$category%' AND AD.line = '$line'
     AND A.no_po LIKE '%$no_po%' ";
   }
 }
