@@ -552,8 +552,7 @@ cek_status($_SESSION['username'] ) == 'kenzin' ) {
               }else if(data.trim() == "over_order"){
                 var audioQtyOrder = new Audio('audio/qty_order.mp3');
                 audioQtyOrder.play();
-                // swal("Gagal Qty Sudah FULL Order!", "Periksa Kembali Data Order", "error");
-                swal("Periksaan QC", "Periksaan QC", "error");
+                swal("Gagal Qty Sudah FULL Order!", "Periksa Kembali Data Order", "error");
               }else if(data.trim() == "error_no_order"){
                   Swal.fire({
                   type: 'error',
