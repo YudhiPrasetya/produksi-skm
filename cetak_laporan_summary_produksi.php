@@ -144,13 +144,13 @@
       function loadInitializeData(){
          $.when(loadCustomer(), loadLine()).done(function(rstCustomer, rstLine){
             if(rstCustomer[0].length > 0){
-               $('#category').empty();
-               $('#category').append($('<option>', {
+               $('#customer').empty();
+               $('#customer').append($('<option>', {
                   value: "all",
                   text: "Semua"
                }));
                $.each(rstCustomer[0], function(i, item) {
-                  $('#category').append($('<option>', {
+                  $('#customer').append($('<option>', {
                      value: item.costomer,
                      text: item.costomer
                   }));
