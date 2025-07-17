@@ -230,6 +230,7 @@
                   <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_scan_global_allproses.php">ALL PROSES</a></li>
                   <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_scan_global_sewing.php">SEWING LANTAI</a></li>
                   <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_reminder_target_qc_endline.php">REMINDER TARGET</a></li>
+                  <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_summary_produksi.php">Summary Production</a></li>
                 </ul>
               </li>
               <li style="background: #254681"><a style="background: #254681" href="#">REPORT TV</a>

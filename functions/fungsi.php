@@ -4994,7 +4994,7 @@ function tampilkan_master_line()
 {
   global $koneksi;
 
-  $query = "SELECT id_line, nama_line, lantai, supervisor, chief  from master_line order by nama_line";
+  $query = "SELECT id_line, nama_line, lantai, supervisor, chief  FROM master_line WHERE `status`='aktif' ORDER BY nama_line";
   $result = mysqli_query($koneksi, $query) or die('gagal menampilkan data');
 
   return $result;
@@ -5037,7 +5037,7 @@ function tampilkan_master_line_open()
 {
   global $koneksi;
 
-  $query = "SELECT id_line, nama_line, lantai, supervisor, chief  from master_line where status = 'aktif' order by nama_line";
+  $query = "SELECT id_line, nama_line, lantai, supervisor, chief  from master_line where `status` = 'aktif' order by nama_line";
   $result = mysqli_query($koneksi, $query) or die('gagal menampilkan data');
 
   return $result;

@@ -4,6 +4,7 @@ require_once 'db.php';
 if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
    if (isset($_GET['action'])) {
        $action = $_GET['action'];
+       var_dump($action);
        switch($action){
          case "tampilkanPackingKartonFull":
             tampilkan_packing_karton_full();
@@ -20,7 +21,12 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                cari_packing_karton_full_by_id($idPacking);
                break;
             }
-            
+         case 'ajax_getCustomers':
+            getCustomers();
+            break;
+         case 'ajax_getLines':
+            getLines();
+            break;
        }
       //  }
    } else if(isset($_POST['action'])){
@@ -219,4 +225,23 @@ function simpan_detail_packing_karton_full($payload){
 
    // }
 }
+
+function getCustomers(){
+   global $koneksi;
+
+   $query = "SELECT * FROM costomer";
+   $responseCust = mysqli_query($koneksi, $query) or die('Gagal menampilkan data!');
+   $jsonResult = json_encode($responseCust);
+   echo $jsonResult;
+}
+
+function getLines(){
+   global $koneksi;
+
+   $query = "SELECT * FROM master_line";
+   $responseLine = mysqli_query($koneksi, $query) or die('Gagal menampilkan data!');
+   $jsonResult = json_encode($responseLine);
+   echo $jsonResult;
+}
+
 ?>
