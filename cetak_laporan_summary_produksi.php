@@ -143,15 +143,40 @@
       loadInitializeData();
       function loadInitializeData(){
          $.when(loadCustomer(), loadLine()).done(function(rstCustomer, rstLine){
-            console.table(rstCustomer);
-            console.table(rstLine);
+            if(rstCustomer[0].length > 0){
+               $('#category').empty();
+               $('#category').append($('<option>', {
+                  value: "all",
+                  text: "Semua"
+               }));
+               $.each(rstCustomer[0], function(i, item) {
+                  $('#category').append($('<option>', {
+                     value: item.costomer,
+                     text: item.costomer
+                  }));
+               });
+            }
+
+            if(rstLine[0].length > 0){
+               $('#line').empty();
+               $('#line').append($('<option>', {
+                  value: "all",
+                  text: "Semua"
+               }));
+               $.each(rstLine[0], function(i, item) {
+                  $('#line').append($('<option>', {
+                     value: item.nama_line,
+                     text: item.nama_line
+                  }));
+               });
+            }
          });
 
       }
 
       function loadCustomer(){
          try{
-            const returnData = $.ajax({
+            const dataCust = $.ajax({
                type: 'GET',
                url: 'functions/ajax_functions_handler.php',
                data: {
@@ -160,8 +185,8 @@
                dataType: 'JSON',
                
             });
-            console.log('returnData:', returnData);
-            return returnData;
+            console.log('dataCust:', dataCust);
+            return dataCust;
 
          }catch(err){
             throw err;
@@ -170,7 +195,7 @@
 
       function loadLine(){
          try{
-            const returnData = $.ajax({
+            const dataLines = $.ajax({
                type: 'GET',
                url: 'functions/ajax_functions_handler.php',
                data: {
@@ -179,7 +204,7 @@
                dataType: 'JSON',
                
             });   
-            return returnData;
+            return dataLines;
 
          }catch(err){
             throw err;

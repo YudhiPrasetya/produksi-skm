@@ -4,7 +4,7 @@ require_once 'db.php';
 if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
    if (isset($_GET['action'])) {
        $action = $_GET['action'];
-       var_dump($action);
+      //  var_dump($action);
        switch($action){
          case "tampilkanPackingKartonFull":
             tampilkan_packing_karton_full();
@@ -229,19 +229,35 @@ function simpan_detail_packing_karton_full($payload){
 function getCustomers(){
    global $koneksi;
 
-   $query = "SELECT * FROM costomer";
+   $query = "SELECT id_costomer,costomer FROM costomer";
    $responseCust = mysqli_query($koneksi, $query) or die('Gagal menampilkan data!');
-   $jsonResult = json_encode($responseCust);
-   echo $jsonResult;
+   $dataCustomer = [];
+   while($row =  mysqli_fetch_assoc($responseCust)){
+     $dtArr = [
+      'id' => $row['id_costomer'],
+      'costomer' => $row['costomer']
+     ];
+     array_push($dataCustomer, $dtArr);
+   }   
+   $jsonCust = json_encode($dataCustomer);
+   echo $jsonCust;
 }
 
 function getLines(){
    global $koneksi;
 
-   $query = "SELECT * FROM master_line";
+   $query = "SELECT id_line,nama_line FROM master_line";
    $responseLine = mysqli_query($koneksi, $query) or die('Gagal menampilkan data!');
-   $jsonResult = json_encode($responseLine);
-   echo $jsonResult;
+   $dataLines = [];
+   while($row =  mysqli_fetch_assoc($responseLine)){
+     $dtArr = [
+      'id_line' => $row['id_line'],
+      'nama_line' => $row['nama_line']
+     ];
+     array_push($dataLines, $dtArr);
+   }   
+   $jsonLines = json_encode($dataLines);
+   echo $jsonLines;
 }
 
 ?>
