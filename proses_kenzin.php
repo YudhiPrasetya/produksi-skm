@@ -194,7 +194,7 @@
     $data = tampilkan_data_temp_scan_kenzin($user);
     while($row=mysqli_fetch_assoc($data))
     {
-      if((($row['total_temp'] + $row['total']) > $row['qty_order']) && ($row['qty_order'] != 0) ){
+      if((($row['total_temp'] + $row['total']) < $row['qty_order']) && ($row['qty_order'] != 0) ){
         echo "over_order";
         die();
       }elseif($row['qty_order'] == 0){
