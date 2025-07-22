@@ -4,12 +4,13 @@
 
    date_default_timezone_set('Asia/Jakarta');
 
-   if( !isset($_SESSION['username']) ){
-      echo "<script>alert('Silakan Login terlebih dahulu untuk mengakses halaman ini');window.location='index.php'</script>";
-    }
+   // if( !isset($_SESSION['username']) ){
+   //    echo "<script>alert('Silakan Login terlebih dahulu untuk mengakses halaman ini');window.location='index.php'</script>";
+   //  }
 
     $userName = $_SESSION['username'];
-    $dataUser = tampilkan_line_username($_SESSION['username']);
+   //  $dataUser = tampilkan_line_username($_SESSION['username']);
+    $dataUser = tampilkan_line_username($userName);
 
     $tempLine = mysqli_fetch_array($dataUser);
     $line = $tempLine['line'];
@@ -793,7 +794,7 @@
 
          qc_endline.onmessage = function(msg){
             var objDataQCEndlineOnMessage = JSON.parse(msg.data);
-
+            console.log("objDataQCEndlineOnMessage.dataOutput[0].line: ", objDataQCEndlineOnMessage.dataOutput[0].line);
             if(line == objDataQCEndlineOnMessage.dataOutput[0].line){
                if(jamKe.JamKe > 0){
                   totEff = 0;
