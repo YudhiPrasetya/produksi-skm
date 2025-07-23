@@ -96,6 +96,7 @@ $error = '';
       if (cek_username($username) != 0){
         if($pilih = cek_data($username, $pass) == true){       
             $_SESSION['username'] = $username;
+            $_SESSION['monitor'] = $username;
           if(cek_status($_SESSION['username'] ) == 'admin'){
           header('Location: master_barang2.php');
           }elseif(cek_status($_SESSION['username'] ) == 'packing_outerware'){
@@ -158,6 +159,9 @@ $error = '';
           $error = 'Data tidak boleh ada yang kosong';
         }
     }
+    // session_destroy();
+    // session_set_cookie_params(3600*24,"/");
+    // session_start();
 
 ?>
 <center>

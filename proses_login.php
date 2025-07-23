@@ -10,6 +10,7 @@
     if (cek_username($username) != 0){
       if($pilih = cek_data($username, $pass) == true){       
           $_SESSION['username'] = $username;
+          $_SESSION['monitor'] = $username;
           $pesan =  cek_status($username);
       }else{
         $pesan = 'pass_salah';

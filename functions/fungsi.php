@@ -8136,7 +8136,6 @@ function tampilkan_spv_by_namaline($namaline){
   // $query = "SELECT * FROM master_line WHERE nama_line = '$namaline'";
   $query = "SELECT * FROM view_master_line_operator WHERE nama_line = '$namaline'";
   $result = mysqli_query($koneksi, $query) or die('gagal menampilkan data');
-
   return $result;  
 }
 

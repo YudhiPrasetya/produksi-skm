@@ -4,16 +4,16 @@
 
    date_default_timezone_set('Asia/Jakarta');
 
-   if( !isset($_SESSION['username']) ){
+   if( !isset($_SESSION['monitor']) ){
       echo "<script>alert('Silakan Login terlebih dahulu untuk mengakses halaman ini');window.location='index.php'</script>";
     }
 
-    $userName = $_SESSION['username'];
-    $dataUser = tampilkan_line_username($_SESSION['username']);
-
+    $userName = $_SESSION['monitor'];
+   //  $dataUser = tampilkan_line_username($_SESSION['username']);
+    $dataUser = tampilkan_line_username($userName);
     $tempLine = mysqli_fetch_array($dataUser);
     $line = $tempLine['line'];
-
+    
     $dataSPV = tampilkan_spv_by_namaline($line);
     $tempSPV = mysqli_fetch_array($dataSPV);
     $spv = $tempSPV['supervisor'];
@@ -488,7 +488,8 @@
 
          var arrEffPros = [];
 
-         var qc_endline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");
+         // var qc_endline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");
+         var qc_endline = new WebSocket("ws://localhost:10000/?service=qc_endline");
 
          function LoadDataEffQCEndline(dataArr){
             arrEffPros = [];

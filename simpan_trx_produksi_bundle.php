@@ -80,7 +80,7 @@ if(isset($_POST['kirim'])){
             $_SESSION['pesan'] = "Data Transaksi $proses Berhasil disimpan";
             
 
-            header('Location: index.php');
+            // header('Location: index.php');
             
             // header("Location:$temp_table.php");
         }else{
@@ -91,8 +91,8 @@ if(isset($_POST['kirim'])){
         if($id > 0 && reset_temp_produksi_bundle($user, $temp_table)) {
             if($proses == 'sewing' || $proses == 'qc_endline' || $proses == 'qc_buyer' || $proses == 'qc_transfer' || $proses == 'tatami_in' || 
                 $proses == 'tatami_out'){
-                session_destroy();
-                session_start();
+                // session_destroy();
+                // session_start();
                 // $dataTransaksi = get_data_transaksi($id, $table);
                 $dataArray = array();
                 // $hasil = tampil_monitor_packing($tgl);
@@ -144,7 +144,7 @@ if(isset($_POST['kirim'])){
                 $dataTransaksi = json_encode($dataArray);            
                 
                 $_SESSION['pesan'] = "Data Transaksi $proses Berhasil disimpan";
-                header('Location: index.php');
+                // header('Location: index.php');
                 // header("Location:$temp_table.php");
             }else{
                 if($proses == "Tatami"){
@@ -194,7 +194,8 @@ if(isset($_POST['kirim'])){
         <script src="assets/js/jquery.min.js"></script>
         <script>
             var proses = '<?= $proses; ?>';
-            
+            // console.log('proses: ', proses);
+            // debugger;
             if(proses === 'Tatami'){
                 sendPackingMsg();
             }else{
@@ -203,18 +204,25 @@ if(isset($_POST['kirim'])){
 
             function sendQCEndlineMsg(){
                 var qcEndline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");
+                // var qcEndline = new WebSocket("ws://localhost:10000/?service=qc_endline");
                 qcEndline.onopen = function(){
                     let dataTransaksi = '<?= $dataTransaksi; ?>';
+                    // console.log('dataTransaksi', dataTransaksi);
                     let line = '<?= $line ?>';
+                    // console.log('line', line);
                     let tempTable = '<?= $temp_table; ?>';
+                    // console.log('tempTable: ', tempTable);
+                    // debugger;
 
                     if(dataTransaksi != '' && line != ''){
                         qcEndline.send(dataTransaksi);
     
                         if(line != null){
                             window.open("http://192.168.90.100/produksi-skm/index.php", "_self");
+                            // window.open("http://localhost/produksi-skm/index.php", "_self");
                         }else{
                             window.open("http://192.168.90.100/produksi-skm/" + tempTable + ".php", "_self");
+                            // window.open("http://localhost/produksi-skm/" + tempTable + ".php", "_self");
                         }
                     }
                 }

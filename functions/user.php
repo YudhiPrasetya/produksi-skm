@@ -121,7 +121,7 @@ function cek_status($username){
   global $koneksi;
 
   $username=escape($username);
-  $query = "SELECT level FROM user where username='$username'";
+  $query = "SELECT `level` FROM user where username='$username'";
 
   $result = mysqli_query($koneksi, $query);
   $status = mysqli_fetch_assoc($result)['level']; 
@@ -177,8 +177,9 @@ function tampilkan_line_username($username){
   global $koneksi;
 
 
-  $query = "SELECT line FROM user where username = '$username'";
+  $query = "SELECT `line` FROM user where username = '$username'";
   $result = mysqli_query($koneksi, $query) or die('gagal menampilkan data');
+  // var_dump($result);
 
   return $result;
 
