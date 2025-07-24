@@ -498,7 +498,7 @@
 
          var arrEffPros = [];
 
-         var qc_endline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");
+         // var qc_endline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");
          // var qc_endline = new WebSocket("ws://localhost:10000/?service=qc_endline");
 
          function LoadDataEffQCEndline(dataArr){
@@ -710,7 +710,8 @@
                      {'targets': [0,7,8], 'visible': false},
                   ]
                });
-               if(jamKe.JamKe > 0){
+               // console.table(jamKe);
+               // if(jamKe.JamKe > 0){
                   var x = 0, arrLength = objDataQCEndline.length;
                   while(x < arrLength){
                      if(line == objDataQCEndline[x].line){
@@ -738,7 +739,7 @@
                   let totEffPros = totEff/arrLength;
                   $('#todayEff').text(totEffPros.toFixed(2));
                   $('#sewingToday').text(todayQCEndLineSUM);            
-               }
+               // }
                // qcEndlineOutputTable.columns([6,7]).visible(false);
             }
 
@@ -799,7 +800,7 @@
             }
          });
          
-         // var qc_endline = new WebSocket("ws://localhost:10000/?service=qc_endline");
+         var qc_endline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");
          // var packing_in = new WebSocket("ws://localhost:10000/?service=packing_in");
 
          qc_endline.onmessage = function(msg){
