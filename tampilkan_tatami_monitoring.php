@@ -321,7 +321,7 @@
                   $('#rowsPackingList').animate({
                      // scrollTop: totalChildOffsetTop
                      scrollTop: contentHeight
-                  },countChildEl * 1500, function(){
+                  },countChildEl * 4000, function(){
                      $('#rowsPackingList').css('overflow-y', '');
                      $('#content').css('display', '');
                      setTimeout(animateScrollTop, 300);
