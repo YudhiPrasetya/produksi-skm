@@ -19,15 +19,15 @@ if(isset($_SESSION['username'])){
     $temp2 = tampilkan_line_username($_SESSION['username']);
     $dataline = mysqli_fetch_array($temp2);
     
-  
+
     if(isset($_POST['update'])){
       $id   = $_POST['id_transaksi'];
       $update_qty_tambah   = $_POST['qty_scan'];
       $balance   = $_POST['balance'];
-  
+
       $tanggal = date("Y-m-d");
       $jam     = date("H:i:s");
-  
+
       if(!empty(trim($update_qty_tambah))){
         if($balance <= 0){  
           if(update_tambah_qty_production_idx($tanggal, $jam, $id, $update_qty_tambah, $temp_table)){
@@ -42,13 +42,6 @@ if(isset($_SESSION['username'])){
         $_SESSION['pesan'] = 'Ada data yang masih kosong, wajib di isi semua';
       }
     }
-  }
-}else{
-  header('index.php');
-}
-
-
-
  ?>
 
 <center>
@@ -288,7 +281,12 @@ Username Aktif : <?= cek_status($_SESSION['username']) ?></font>
 </script>
 
 <!-- // penutup hak akses level -->
-<?php } else {
-  echo 'Anda tidak memiliki akses kehalaman ini'; } ?>
+<?php
+  } else {
+    echo 'Anda tidak memiliki akses kehalaman ini';} 
+  } else{
+    header('index.php');
+  } 
+  ?>
 </body>
 </html>

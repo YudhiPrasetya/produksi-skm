@@ -5,6 +5,7 @@ require_once 'view/header.php';
 // date_default_timezone_set('Asia/Jakarta');
 ?>
 <?php
+
 if(isset($_SESSION['username'])){
   if(cek_status($_SESSION['username'] ) == 'admin' OR cek_status($_SESSION['username'] ) == 'tatami' ) {
     $user = $_SESSION['username'];
@@ -211,7 +212,12 @@ Username Aktif : <?= cek_status($_SESSION['username']) ?></font>
 </script>
 
 <!-- // penutup hak akses level -->
-<?php } else {
-  echo 'Anda tidak memiliki akses kehalaman ini'; } ?>
+<?php
+  } else {
+    echo 'Anda tidak memiliki akses kehalaman ini';} 
+  } else{
+    header('index.php');
+  } 
+  ?>
 </body>
 </html>
