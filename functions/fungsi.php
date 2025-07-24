@@ -7695,17 +7695,30 @@ function tampil_monitor_tatami($tgl){
   return $rst;
 }
 
-function get_output_packing_yesterday($tgl){
+function get_output_packing_yesterday($tgl,$line){
   global $koneksi;
   $date = date_create($tgl);
   date_sub($date, date_interval_create_from_date_string("1 day"));
   $strDate = date_format($date, "Y-m-d");
 
-  $query = "SELECT SUM(qty) AS Packing_Yesterday FROM `transaksi_tatami` WHERE tanggal='$strDate'";
+  $query = "SELECT SUM(qty) AS Packing_Yesterday FROM `view_transaksi_tatami_perline` WHERE tanggal='$strDate' 
+            AND `line`='$line'";
+            
   $rst = mysqli_query($koneksi, $query);
 
   return $rst;  
 
+}
+
+function get_output_packing_today($line){
+  global $koneksi;
+
+  $query = "SELECT SUM(qty) AS Packing_Today FROM `view_transaksi_tatami_perline` WHERE tanggal=CURDATE() 
+            AND `line`='$line'";
+            
+  $rst = mysqli_query($koneksi, $query);
+
+  return $rst;  
 }
 
 

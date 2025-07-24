@@ -70,7 +70,11 @@
 
    $dtQCEndLineYesterday = mysqli_fetch_assoc($dataQCYesterday);
 
-   $dataPackingYesterday = get_output_packing_yesterday($tgl);
+   $dataPackingLineToday = get_output_packing_today($line);
+
+   $dtPackingLineToday = mysqli_fetch_assoc($dataPackingLineToday);
+
+   $dataPackingYesterday = get_output_packing_yesterday($tgl, $line);
 
    $dtPackingYesterday = mysqli_fetch_assoc($dataPackingYesterday);
 
@@ -342,8 +346,8 @@
                            <div class="card-header p-2 ps-3 bg-gradient-dark">
                               <div class="d-flex justify-content-between">
                                  <div>
-                                    <p class="text-sm mb-0 text-capitalize text-white">Packing Today</p>
-                                    <h4 class="mb-0 text-white" id="packingToday">0</h4>
+                                    <p class="text-sm mb-0 text-capitalize text-white">Packing Line Today</p>
+                                    <h4 class="mb-0 text-white" id="packingLineToday">0</h4>
                                  </div>
                                  <div class="icon icon-md icon-shape bg-gradient-success shadow-dark shadow text-center border-radius-lg">
                                     <i class="material-symbols-rounded opacity-10">inventory_2</i>
@@ -463,7 +467,13 @@
          var strCurrentDate = new Date().toJSON().slice(0, 10);
 
          var dtQCEndLineYesterday = '<?= $dtQCEndLineYesterday['Output_Yesterday']; ?>';
+
+         var dtPackingLineToday = '<?= $dtPackingLineToday['Packing_Today']; ?>';
+
          var dtPackingYesterday = '<?= $dtPackingYesterday['Packing_Yesterday']; ?>';
+
+         $('#packingLineToday').text(dtPackingLineToday == "" ? 0 : dtPackingLineToday);
+
          $('#packingYesterday').text(dtPackingYesterday == "" ? 0 : dtPackingYesterday);
 
          $('#sewingYesterday').text(dtQCEndLineYesterday == "" ? 0 : dtQCEndLineYesterday);
@@ -488,7 +498,7 @@
 
          var arrEffPros = [];
 
-         var qc_endline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");
+         // var qc_endline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");
          // var qc_endline = new WebSocket("ws://localhost:10000/?service=qc_endline");
 
          function LoadDataEffQCEndline(dataArr){
