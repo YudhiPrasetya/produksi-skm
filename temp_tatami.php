@@ -40,13 +40,6 @@ if(isset($_SESSION['username'])){
         $_SESSION['pesan'] = 'Ada data yang masih kosong, wajib di isi semua';
       }
     }
-  }
-}else{
-  header('index.php');
-}
-
-
-
 
  ?>
 
