@@ -100,7 +100,7 @@ Username Aktif : <?= cek_status($_SESSION['username']) ?></font>
         onIdle: function(){
             window.location="logout.php";                
         },
-        idle: 300000
+        idle: 3000000
     });
 </script>
 
