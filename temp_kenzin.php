@@ -8,11 +8,11 @@ require_once 'view/header.php';
 <link href="assets/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
 <script src="assets/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
 <?php
-if(cek_status($_SESSION['username'] ) == 'admin' OR 
-cek_status($_SESSION['username'] ) == 'kenzin' ) {
-  $user = $_SESSION['username'];
-  $tanggal = date("Y-d-m H:i:s");
-  ?>
+  if(isset($_SESSION['username'])){
+    if(cek_status($_SESSION['username'] ) == 'admin' OR cek_status($_SESSION['username'] ) == 'kenzin' ) {
+      $user = $_SESSION['username'];
+      $tanggal = date("Y-d-m H:i:s");
+?>
 
 <style>
      .modal-dialog{
@@ -737,6 +737,10 @@ $(document).ready(function() {
 
 <!-- // penutup hak akses level -->
 <?php } else {
-  echo 'Anda tidak memiliki akses kehalaman ini'; } ?>
+    echo 'Anda tidak memiliki akses kehalaman ini'; } 
+  }else{
+    header('index.php');
+  }
+?>
 </body>
 </html>
