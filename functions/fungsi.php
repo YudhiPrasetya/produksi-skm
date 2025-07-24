@@ -7713,7 +7713,7 @@ function get_output_packing_yesterday($tgl,$line=''){
 function get_output_packing_today($line){
   global $koneksi;
 
-  $query = "SELECT SUM(qty) AS Packing_Today FROM `view_transaksi_tatami_perline` WHERE tanggal=CURDATE() 
+  $query = "SELECT SUM(qty) AS Packing_Today,`line` FROM `view_transaksi_tatami_perline` WHERE tanggal=CURDATE() 
             AND `line`='$line'";
             
   $rst = mysqli_query($koneksi, $query);

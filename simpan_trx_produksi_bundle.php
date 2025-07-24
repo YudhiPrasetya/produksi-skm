@@ -147,33 +147,17 @@ if(isset($_POST['kirim'])){
                 // header('Location: index.php');
                 // header("Location:$temp_table.php");
             }else{
-                if($proses == "Tatami"){
+                if($proses == "tatami"){
                     // session_destroy();
                     // session_start();
 
                     // $dataTransaksi = null;
                     // $line = null;
-                    $hasilTatami = tampil_monitor_tatami($tgl);
-                    $hasilOutputTatami = [];
-                    while($row = mysqli_fetch_assoc($hasilTatami)){
-                        $d = [
-                            "id" => $row["id"],
-                            "orc" => preg_replace("/\s+/","",$row["orc"]), 
-                            "status" => $row["status"], 
-                            "style" => $row["style"],
-                            "color" => $row["color"],
-                            "size" => $row["size"], 
-                            "cup" => $row["cup"], 
-                            "qty_order" => $row["QTY_ORDER"], 
-                            "today" => $row["TODAY"],
-                            "total" => $row["TOTAL"], 
-                            "bal" => $row["BAL"], 
-                            "tanggal" => $row["tanggal"], 
-                            "jam" => $row["JAM"]
-                        ];
-                        array_push($hasilOutputTatami, $d);
-                    }
-                    $dataTransaksiTatami = json_encode($hasilOutputTatami);                
+                    $hasilTatami = get_output_packing_today($line);
+                    $packingLineToday = mysqli_fetch_assoc($hasilTatami);
+
+
+                    $dataPackingLineToday = json_encode($packingLineToday);                
                     $_SESSION['pesan'] = "Data Transaksi $proses Berhasil disimpan";
                 }else{
                     header("Location:$temp_table.php");
@@ -231,12 +215,11 @@ if(isset($_POST['kirim'])){
             function sendPackingMsg(){
                 var packing = new WebSocket("ws://192.168.90.100:10000/?service=packing");
                 packing.onopen = function(){
-                    let dataTransaksiTatami = '<?= $dataTransaksiTatami; ?>';
-                    let tempTableTatami = '<?= $temp_table; ?>';
-                    if(dataTransaksiTatami != ''){
-                        packing.send(dataTransaksiTatami);
+                    let dataPackingLineToday = '<?= $dataPackingLineToday; ?>';
+                    if(dataPackingLineToday != ''){
+                        packing.send(dataPackingLineToday);
                         
-                        window.open("http://192.168.90.100/produksi-skm/" + tempTableTatami + ".php", "_self");                
+                        // window.open("http://192.168.90.100/produksi-skm/" + tempTableTatami + ".php", "_self");                
                     }
                 }
             }
