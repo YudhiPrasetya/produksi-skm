@@ -479,17 +479,18 @@
          $('#sewingYesterday').text(dtQCEndLineYesterday == "" ? 0 : dtQCEndLineYesterday);
          
          var arrWorkingHours = [
-            {'JamKe': 1, "start": new Date(strCurrentDate + " 07:30:00")},
-            {'JamKe': 2, "start": new Date(strCurrentDate + " 08:30:00")},
-            {'JamKe': 3, "start": new Date(strCurrentDate + " 09:30:00")},
-            {'JamKe': 4, "start": new Date(strCurrentDate + " 10:30:00")},
-            {'JamKe': 0, "start": new Date(strCurrentDate + " 11:30:00")},
-            {'JamKe': 5, "start": new Date(strCurrentDate + " 12:15:00")},
-            {'JamKe': 6, "start": new Date(strCurrentDate + " 13:15:00")},
-            {'JamKe': 7, "start": new Date(strCurrentDate + " 14:15:00")},
-            {'JamKe': 8, "start": new Date(strCurrentDate + " 15:15:00")},
-            {'JamKe': 9, "start": new Date(strCurrentDate + " 16:15:00")},
-            {'JamKe': 10, "start": new Date(strCurrentDate + " 17:15:00")}
+            {'JamKe': 1, "start": new Date(strCurrentDate + " 07:30:00"), "end": new Date(strCurrentDate + " 08:30:00")},
+            {'JamKe': 2, "start": new Date(strCurrentDate + " 08:31:00"), "end": new Date(strCurrentDate + " 09:30:00")},
+            {'JamKe': 3, "start": new Date(strCurrentDate + " 09:31:00"), "end": new Date(strCurrentDate + " 10:30:00")},
+            {'JamKe': 4, "start": new Date(strCurrentDate + " 10:31:00"), "end": new Date(strCurrentDate + " 11:30:00")},
+            {'JamKe': 5, "start": new Date(strCurrentDate + " 11:31:00"), "end": new Date(strCurrentDate + " 12:30:00")},
+            {'JamKe': 6, "start": new Date(strCurrentDate + " 12:31:00"), "end": new Date(strCurrentDate + " 13:30:00")},
+            {'JamKe': 7, "start": new Date(strCurrentDate + " 13:31:00"), "end": new Date(strCurrentDate + " 14:30:00")},
+            {'JamKe': 8, "start": new Date(strCurrentDate + " 14:31:00"), "end": new Date(strCurrentDate + " 15:30:00")},
+            {'JamKe': 9, "start": new Date(strCurrentDate + " 15:31:00"), "end": new Date(strCurrentDate + " 16:30:00")},
+            {'JamKe': 10, "start": new Date(strCurrentDate + " 16:31:00"), "end": new Date(strCurrentDate +" 17:30:00")},
+            {'JamKe': 11, "start": new Date(strCurrentDate + " 17:31:00"), "end": new Date(strCurrentDate +" 18:30:00")},
+            {'JamKe': 12, "start": new Date(strCurrentDate + " 18:31:00"), "end": new Date(strCurrentDate +" 19:30:00")}
          ];
          
          var today = new Date();

@@ -5,40 +5,45 @@ require_once 'view/header.php';
 // date_default_timezone_set('Asia/Jakarta');
 ?>
 <?php
-if(cek_status($_SESSION['username'] ) == 'admin' OR 
-cek_status($_SESSION['username'] ) == 'tatami' ) {
-  $user = $_SESSION['username'];
-  $proses = 'tatami';
-  
-  
-  $temp1 = mencari_data_master_transaksi($proses);
-  $datatransaksi = mysqli_fetch_array($temp1);
-  $table = $datatransaksi['table_transaksi'];
-  $temp_table = $datatransaksi['table_temporary'];
-  $tipe = $datatransaksi['tipe'];
-  
-  if(isset($_POST['update'])){
-    $id   = $_POST['id_transaksi'];
-    $update_qty_tambah   = $_POST['qty_scan'];
-    $balance   = $_POST['balance'];
+if(isset($_SESSION['username'])){
+  if(cek_status($_SESSION['username'] ) == 'admin' OR cek_status($_SESSION['username'] ) == 'tatami' ) {
+    $user = $_SESSION['username'];
+    $proses = 'tatami';
+    
+    
+    $temp1 = mencari_data_master_transaksi($proses);
+    $datatransaksi = mysqli_fetch_array($temp1);
+    $table = $datatransaksi['table_transaksi'];
+    $temp_table = $datatransaksi['table_temporary'];
+    $tipe = $datatransaksi['tipe'];
+    
+    if(isset($_POST['update'])){
+      $id   = $_POST['id_transaksi'];
+      $update_qty_tambah   = $_POST['qty_scan'];
+      $balance   = $_POST['balance'];
 
-    $tanggal = date("Y-m-d");
-    $jam     = date("H:i:s");
+      $tanggal = date("Y-m-d");
+      $jam     = date("H:i:s");
 
-    if(!empty(trim($update_qty_tambah))){
-      if($balance <= 0){  
-        if(update_tambah_qty_production_idx($tanggal, $jam, $id, $update_qty_tambah, $temp_table)){
-          $_SESSION['pesan'] = 'Qty Berhasil Di Edit';
+      if(!empty(trim($update_qty_tambah))){
+        if($balance <= 0){  
+          if(update_tambah_qty_production_idx($tanggal, $jam, $id, $update_qty_tambah, $temp_table)){
+            $_SESSION['pesan'] = 'Qty Berhasil Di Edit';
+          }else{
+            $_SESSION['pesan'] = 'Ada masalah saat mengedit data';
+          }
         }else{
-          $_SESSION['pesan'] = 'Ada masalah saat mengedit data';
+          $_SESSION['pesan'] = 'Qty Lebih dari isi Bundle';
         }
       }else{
-        $_SESSION['pesan'] = 'Qty Lebih dari isi Bundle';
+        $_SESSION['pesan'] = 'Ada data yang masih kosong, wajib di isi semua';
       }
-    }else{
-      $_SESSION['pesan'] = 'Ada data yang masih kosong, wajib di isi semua';
     }
   }
+}else{
+  header('index.php');
+}
+
 
 
 
