@@ -7695,7 +7695,7 @@ function tampil_monitor_tatami($tgl){
   return $rst;
 }
 
-function get_output_packing_yesterday($tgl,$line){
+function get_output_packing_yesterday($tgl,$line=''){
   global $koneksi;
   $date = date_create($tgl);
   date_sub($date, date_interval_create_from_date_string("1 day"));
