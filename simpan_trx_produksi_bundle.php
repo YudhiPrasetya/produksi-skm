@@ -180,7 +180,7 @@ if(isset($_POST['kirim'])){
             var proses = '<?= $proses; ?>';
             // console.log('proses: ', proses);
             // debugger;
-            if(proses === 'Tatami'){
+            if(proses == 'tatami'){
                 sendPackingMsg();
             }else{
                 sendQCEndlineMsg();

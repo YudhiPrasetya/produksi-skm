@@ -808,7 +808,7 @@
             var objDataQCEndlineOnMessage = JSON.parse(msg.data);
 
             if(line == objDataQCEndlineOnMessage.dataOutput[0].line){
-               if(jamKe.JamKe > 0){
+               // if(jamKe.JamKe > 0){
                   totEff = 0;
                   todayQCEndLineSUM = 0;
                   qcEndlineOutputTable.clear().draw();
@@ -879,7 +879,7 @@
 
                      ]).draw();
                   }                  
-               }
+               // }
             }
 
          }
