@@ -8373,3 +8373,23 @@ function getRomawi($bln)
       break;
   }
 }
+
+function get_temp_tatami_barcode_by_user($user){
+  global $koneksi;
+  $query = "SELECT kode_barcode, qty, username FROM temp_tatami WHERE
+            username='$user' AND tanggal=CURDATE()";
+  // var_dump($query);
+
+  $rst = mysqli_query($koneksi, $query);
+
+  return $rst;  
+}
+
+function get_data_qc_endline_by_barcode($barcode){
+  global $koneksi;
+
+  $query = "SELECT `line`, qty FROM transaksi_qc_endline WHERE kode_barcode='$barcode'";
+  $rst = mysqli_query($koneksi, $query);
+
+  return $rst;  
+}

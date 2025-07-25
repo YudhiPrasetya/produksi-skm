@@ -88,7 +88,7 @@ if(isset($_POST['kirim'])){
         }
     }else{
         $id = kirim_data_transaksi_produksi_bundle($user, $temp_table, $table);
-        if($id > 0 && reset_temp_produksi_bundle($user, $temp_table)) {
+        if($id > 0) {
             if($proses == 'sewing' || $proses == 'qc_endline' || $proses == 'qc_buyer' || $proses == 'qc_transfer' || $proses == 'tatami_in' || 
                 $proses == 'tatami_out'){
                 // session_destroy();
@@ -147,22 +147,36 @@ if(isset($_POST['kirim'])){
                 // header('Location: index.php');
                 // header("Location:$temp_table.php");
             }else{
-                if($proses == "tatami"){
+                if($proses == "Tatami"){
                     // session_destroy();
                     // session_start();
 
                     // $dataTransaksi = null;
                     // $line = null;
-                    $hasilTatami = get_output_packing_today($line);
-                    $packingLineToday = mysqli_fetch_assoc($hasilTatami);
 
 
-                    $dataPackingLineToday = json_encode($packingLineToday);                
+                    // $hasilTatami = get_output_packing_today($line);
+                    // $packingLineToday = mysqli_fetch_assoc($hasilTatami);
+                    // $dataPackingLineToday = json_encode($packingLineToday);
+
+                    $tempTatami = get_temp_tatami_barcode_by_user($user);
+                    $qty = 0;
+                    $ln = "";
+                    while($r = mysqli_fetch_assoc($tempTatami)){
+                      $kodeBarcode = $r['kode_barcode'];
+                      $responseQCEndline = get_data_qc_endline_by_barcode($kodeBarcode);
+                      $rstQCEndline = mysqli_fetch_assoc($responseQCEndline);
+                      $ln = $rstQCEndline['line'];
+                      $qty += (int)$rstQCEndline['qty'];
+                    }
+                    $dataPackingLineToday = json_encode(['line' => $ln, 'qty_today' => $qty]);
                     $_SESSION['pesan'] = "Data Transaksi $proses Berhasil disimpan";
+                    // header("Location:$temp_table.php");
                 }else{
                     header("Location:$temp_table.php");
                 }                
             }
+            reset_temp_produksi_bundle($user, $temp_table);
         }
         // echo "gagal menyalin data";
     }
@@ -180,7 +194,7 @@ if(isset($_POST['kirim'])){
             var proses = '<?= $proses; ?>';
             // console.log('proses: ', proses);
             // debugger;
-            if(proses == 'tatami'){
+            if(proses == 'Tatami'){
                 sendPackingMsg();
             }else{
                 sendQCEndlineMsg();
@@ -214,12 +228,14 @@ if(isset($_POST['kirim'])){
 
             function sendPackingMsg(){
                 var packing = new WebSocket("ws://192.168.90.100:10000/?service=packing");
+                // var packing = new WebSocket("ws://127.0.0.1:10000/?service=packing");
                 packing.onopen = function(){
                     let dataPackingLineToday = '<?= $dataPackingLineToday; ?>';
+                    let tempTable = '<?= $temp_table; ?>';
                     if(dataPackingLineToday != ''){
                         packing.send(dataPackingLineToday);
-                        
-                        // window.open("http://192.168.90.100/produksi-skm/" + tempTableTatami + ".php", "_self");                
+                        // window.open("http://localhost/produksi-skm/" + tempTable + ".php", "_self");                
+                        window.open("http://192.168.90.100/produksi-skm/" + tempTable + ".php", "_self");                
                     }
                 }
             }

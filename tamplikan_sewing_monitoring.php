@@ -468,11 +468,11 @@
 
          var dtQCEndLineYesterday = '<?= $dtQCEndLineYesterday['Output_Yesterday']; ?>';
 
-         var dtPackingLineToday = '<?= $dtPackingLineToday['Packing_Today']; ?>';
+         var dtPackingLineToday = ('<?= $dtPackingLineToday['Packing_Today']; ?>' == "" ? 0 : parseInt('<?= $dtPackingLineToday['Packing_Today']; ?>'));
 
          var dtPackingYesterday = '<?= $dtPackingYesterday['Packing_Yesterday']; ?>';
 
-         $('#packingLineToday').text(dtPackingLineToday == "" ? 0 : dtPackingLineToday);
+         $('#packingLineToday').text(dtPackingLineToday);
 
          $('#packingYesterday').text(dtPackingYesterday == "" ? 0 : dtPackingYesterday);
 
@@ -803,6 +803,7 @@
          
          var qc_endline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");
          var packing = new WebSocket("ws://192.168.90.100:10000/?service=packing");
+         // var packing = new WebSocket("ws://127.0.0.1:10000/?service=packing");
 
          qc_endline.onmessage = function(msg){
             var objDataQCEndlineOnMessage = JSON.parse(msg.data);
@@ -886,7 +887,11 @@
 
          packing.onmessage = function(msg){
             var objDataPackingOnMessage = JSON.parse(msg.data);
-            console.log(objDataPackingOnMessage.dataOutput[0]);
+            console.log(objDataPackingOnMessage);
+            if(line == objDataPackingOnMessage.line){
+               dtPackingLineToday +=objDataPackingOnMessage.qty_today;
+               $('#packingLineToday').text(dtPackingLineToday);
+            }
          }
 
          function showTime(){
