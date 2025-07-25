@@ -366,7 +366,7 @@
                            <div class="card-header p-2 ps-3 bg-gradient-dark">
                               <div class="d-flex justify-content-between">
                                  <div>
-                                    <p class="text-sm mb-0 text-capitalize text-white">Packing Yesterday</p>
+                                    <p class="text-sm mb-0 text-capitalize text-white">Packing line Yesterday</p>
                                     <h4 class="mb-0 text-white" id="packingYesterday">0</h4>
                                  </div>
                                  <div class="icon icon-md icon-shape bg-gradient-info shadow-dark shadow text-center border-radius-lg">
