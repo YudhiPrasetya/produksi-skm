@@ -27,6 +27,19 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
          case 'ajax_getLines':
             getLines();
             break;
+         case 'ajax_getAllProductionSummary':
+            if(isset($_GET['param'])){
+               $param = $_GET['param'];
+               $tgl = $param['tgl'];
+               $kategori = $param['kategori'];
+               $buyer = $param['buyer'];
+               $line = $param['line'];
+            }
+            getAllProductionSummary($tgl, $kategori, $buyer, $line);
+            break;
+         case 'ajax_getAllQcEndlineOutputToday':
+            getAllQcEndlineOutputToday();
+            break;
        }
       //  }
    } else if(isset($_POST['action'])){
@@ -246,7 +259,7 @@ function getCustomers(){
 function getLines(){
    global $koneksi;
 
-   $query = "SELECT id_line,nama_line FROM master_line";
+   $query = "SELECT id_line,nama_line FROM master_line WHERE `status`= 'aktif' ORDER BY nama_line";
    $responseLine = mysqli_query($koneksi, $query) or die('Gagal menampilkan data!');
    $dataLines = [];
    while($row =  mysqli_fetch_assoc($responseLine)){
@@ -258,6 +271,64 @@ function getLines(){
    }   
    $jsonLines = json_encode($dataLines);
    echo $jsonLines;
+}
+
+function getAllProductionSummary($tgl, $kategori, $buyer, $line){
+   global $koneksi;
+
+   $query = "SELECT id_order, `line`, buyer, po, `orc`, `order_status`, style, color, `size`, qty_order, shipment,
+               tgl_trimstore, input_trimstore, balance_trimstore, tgl_sewing, input_sewing, balance_sewing, tgl_qcendline, output_qcendline, balance_qcendline, tgl_packing, output_packing, balance_packing,
+               kode_barcode FROM view_production_summary
+               WHERE tgl_trimstore <= '$tgl'AND tgl_sewing <= '$tgl' AND tgl_qcendline <= '$tgl' AND tgl_packing <= '$tgl' AND `line` LIKE '%$line%' AND buyer LIKE '%$buyer%' ORDER BY id_order DESC";
+
+   $response = mysqli_query($koneksi, $query) or die('Gagal menampilkan data!');
+   $data = [];
+   while($r = mysqli_fetch_assoc($response)){
+      $row = [
+         'id_order' => $r['id_order'],
+         'line' => $r['line'],
+         'buyer' => $r['buyer'],
+         'po' => $r['po'],
+         'orc' => $r['orc'],
+         'style' => $r['style'],
+         'color' => $r['color'],
+         'size' => $r['size'],
+         'qty_order' => $r['qty_order'],
+         'shipment' => $r['shipment'],
+         'tgl_trimstore' => $r['tgl_trimstore'],
+         'input_trimstore' => $r['input_trimstore'],
+         'balance_trimstore' => $r['balance_trimstore'],
+         'tgl_sewing' => $r['tgl_sewing'],
+         'input_sewing' => $r['input_sewing'],
+         'balance_sewing' => $r['balance_sewing'],
+         'output_qcendline' => $r['output_qcendline'],
+         'balance_qcendline' => $r['balance_qcendline'],
+         'output_packing' => $r['output_packing'],
+         'balance_packing' => $r['balance_packing'],
+      ];
+      array_push($data, $row);
+   }
+   // var_dump($data);
+   $jsonData = json_encode($data);
+   echo $jsonData;
+}
+
+function getAllQcEndlineOutputToday(){
+   global $koneksi;
+
+   $query = "SELECT qty, `line` FROM transaksi_qc_endline WHERE tanggal=CURDATE()";
+   $response = mysqli_query($koneksi, $query) or die('Gagal menampilkan data!');
+   $data = [];
+   while($r = mysqli_fetch_assoc($response)){
+      $row = [
+         'line' => $r['line'],
+         'qty' => $r['qty']
+      ];
+      array_push($data, $row);
+   }
+   // var_dump($data);
+   $jsonData = json_encode($data);
+   echo $jsonData;   
 }
 
 ?>
