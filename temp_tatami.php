@@ -95,12 +95,12 @@ Username Aktif : <?= cek_status($_SESSION['username']) ?></font>
 
 <script type="text/javascript" src="assets/idle/jquery.idle.js"></script>
 <script>
-    // $(document).idle({
-    //     onIdle: function(){
-    //         window.location="logout.php";                
-    //     },
-    //     idle: 3000000
-    // });
+    $(document).idle({
+        onIdle: function(){
+            window.location="logout.php";                
+        },
+        idle: 28800000
+    });
 </script>
 
     
