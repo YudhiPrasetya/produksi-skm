@@ -3,15 +3,18 @@ ob_start();
 
 require_once 'core/init.php';
 require_once 'view/header.php';
-if( isset($_SESSION['username'])){
-  header("HTTP/1.1 301 Moved Permanently");
-  header('Location: master-barang.php');
-}
+
 session_unset();
 session_destroy();
 ini_set('session.gc_maxlifetime', 36000);
 session_set_cookie_params(36000);
 session_start();
+
+// if( isset($_SESSION['username'])){
+//   header("HTTP/1.1 301 Moved Permanently");
+//   header('Location: master-barang.php');
+// }
+
 ?>
 <style>
 /* Bordered form */
