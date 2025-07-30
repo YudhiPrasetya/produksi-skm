@@ -7,6 +7,9 @@ if( isset($_SESSION['username'])){
   header("HTTP/1.1 301 Moved Permanently");
   header('Location: master-barang.php');
 }
+ini_set('session.gc_maxlifetime', 36000);
+session_set_cookie_params(36000);
+session_start();
 ?>
 <style>
 /* Bordered form */

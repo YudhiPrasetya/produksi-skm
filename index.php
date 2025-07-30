@@ -6,6 +6,9 @@ $_SESSION["last_login_time"] = time();
 if( isset($_SESSION['username'])){
   header('Location: cetak_laporan_hasil_scan_global.php');
 }
+ini_set('session.gc_maxlifetime', 36000);
+session_set_cookie_params(36000);
+session_start();
 ?>
 <style>
 /* Bordered form */
