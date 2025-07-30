@@ -1,6 +1,6 @@
 <?php
 // require_once 'functions/fungsi_tampil.php';
-session_start();
+// session_start();
 require_once 'functions/fungsi.php';
 require_once 'functions/fungsi-laporan.php';
 
