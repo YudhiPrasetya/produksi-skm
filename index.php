@@ -1,5 +1,5 @@
 <?php
-ob_start();
+// ob_start();
 
 require_once 'core/init.php';
 require_once 'view/header.php';
@@ -8,11 +8,12 @@ require_once 'view/header.php';
 // session_destroy();
 // ini_set('session.gc_maxlifetime', 36000);
 // session_set_cookie_params(36000);
-session_start();
-// $_SESSION["last_login_time"] = time();
-// if( isset($_SESSION['username'])){
-//   header('Location: cetak_laporan_hasil_scan_global.php');
-// }
+// session_start();
+
+$_SESSION["last_login_time"] = time();
+if( isset($_SESSION['username'])){
+  header('Location: cetak_laporan_hasil_scan_global.php');
+}
 ?>
 <style>
 /* Bordered form */
