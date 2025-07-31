@@ -221,9 +221,9 @@ if(isset($_POST['kirim'])){
 
                             // window.open("http://localhost/produksi-skm/index.php", "_self");
                         }else{
-                            // window.open("http://192.168.90.100/produksi-skm/" + tempTable + ".php", "_self");
+                            window.open("http://192.168.90.100/produksi-skm/" + tempTable + ".php", "_self");
 
-                            window.open("http://localhost/produksi-skm/" + tempTable + ".php", "_self");
+                            // window.open("http://localhost/produksi-skm/" + tempTable + ".php", "_self");
                         }
                     }
                 }

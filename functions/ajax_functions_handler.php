@@ -40,6 +40,16 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
          case 'ajax_getAllQcEndlineOutputToday':
             getAllQcEndlineOutputToday();
             break;
+         case 'ajax_getAllQcEndlineOutputYesterday':
+            getAllQcEndlineOutputYesterday();
+            break;
+         case 'ajax_getQCEndlinePerLineYesterday':
+            if(isset($_GET['param'])){
+               $param = $_GET['param'];
+               $line = $param['line'];
+               getQCEndlinePerLineYesterday($line);
+               break;
+            }
        }
       //  }
    } else if(isset($_POST['action'])){
@@ -318,17 +328,53 @@ function getAllQcEndlineOutputToday(){
 
    $query = "SELECT qty, `line` FROM transaksi_qc_endline WHERE tanggal=CURDATE()";
    $response = mysqli_query($koneksi, $query) or die('Gagal menampilkan data!');
-   $data = [];
+   $dataToday = [];
    while($r = mysqli_fetch_assoc($response)){
       $row = [
          'line' => $r['line'],
          'qty' => $r['qty']
       ];
-      array_push($data, $row);
+      array_push($dataToday, $row);
    }
    // var_dump($data);
-   $jsonData = json_encode($data);
-   echo $jsonData;   
+   $jsonDataToday = json_encode($dataToday);
+   echo $jsonDataToday;   
+}
+
+function getAllQcEndlineOutputYesterday(){
+   global $koneksi;
+
+   $query = "SELECT qty, `line` FROM transaksi_qc_endline WHERE tanggal=CURDATE()-1";
+   $response = mysqli_query($koneksi, $query) or die('Gagal menampilkan data!');
+   $dataYesterday = [];
+   while($r = mysqli_fetch_assoc($response)){
+      $row = [
+         'line' => $r['line'],
+         'qty' => $r['qty']
+      ];
+      array_push($dataYesterday, $row);
+   }
+   // var_dump($data);
+   $jsonDataYesterday = json_encode($dataYesterday);
+   echo $jsonDataYesterday;   
+}
+
+function getQCEndlinePerLineYesterday($l){
+   global $koneksi;
+
+   $query = "SELECT qty, `line` FROM transaksi_qc_endline WHERE tanggal=CURDATE()-1 AND `line`= '$l'";
+   $response = mysqli_query($koneksi, $query) or die('Gagal menampilkan data!');
+   $dataLineYesterday = [];
+   while($r = mysqli_fetch_assoc($response)){
+      $row = [
+         'line' => $r['line'],
+         'qty' => $r['qty']
+      ];
+      array_push($dataLineYesterday, $row);
+   }
+   // var_dump($data);
+   $jsonDataLineYesterday = json_encode($dataLineYesterday);
+   echo $jsonDataLineYesterday;   
 }
 
 ?>
