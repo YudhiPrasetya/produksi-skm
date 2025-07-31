@@ -7702,7 +7702,7 @@ function get_output_packing_yesterday($tgl,$line=''){
   $strDate = date_format($date, "Y-m-d");
 
   $query = "SELECT SUM(qty) AS Packing_Yesterday FROM `view_transaksi_tatami_perline` WHERE tanggal='$strDate' 
-            AND `line`='$line'";
+            AND `line` LIKE '%$line%'";
             
   $rst = mysqli_query($koneksi, $query);
 

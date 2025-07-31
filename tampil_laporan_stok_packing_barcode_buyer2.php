@@ -26,7 +26,11 @@
   </center>
   <br>
 
+<div style="margin-left: 20px; margin-right: 20px; margin-bottom: 20px;">
+  <button style="background: #254681; color: white; margin: 4px 4px 4px; padding: 4px 4px 4px;" id="btnExportToExcel">Export To Excel</button>
+</div>
 
+<div id="tableContainer">
 <?php
    
    
@@ -194,5 +198,20 @@ TOTAL SCAN Semuanya : <br>
   </br>
   Jumlah Karton : <?php $total_ctn = $no_karton3 + $tot_jmlh_karton2 + $tot_jmlh_karton3; echo $total_ctn; ?> Karton
 
-
-
+</div>
+<script src="assets/js/jquery.min.js"></script>
+<script>
+  $(document).ready(function(){
+    $('#btnExportToExcel').click(function(e) {
+      let file = new Blob([$('#tableContainer').html()], {
+          type: "application/vnd.ms-excel"
+      });
+      let url = URL.createObjectURL(file);
+      let a = $("<a />", {
+          href: url,
+          download: "scan_packing" + ".xls"
+      }).appendTo("body").get(0).click();
+      e.preventDefault();
+    });    
+  });
+</script>
