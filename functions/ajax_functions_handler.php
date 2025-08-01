@@ -344,7 +344,7 @@ function getAllQcEndlineOutputToday(){
 function getAllQcEndlineOutputYesterday(){
    global $koneksi;
 
-   $query = "SELECT qty, `line` FROM transaksi_qc_endline WHERE tanggal=CURDATE()-1";
+   $query = "SELECT qty, `line` FROM transaksi_qc_endline WHERE DATE(tanggal)=DATE_SUB(CURDATE(), INTERVAL 1 DAY)";
    $response = mysqli_query($koneksi, $query) or die('Gagal menampilkan data!');
    $dataYesterday = [];
    while($r = mysqli_fetch_assoc($response)){
