@@ -42,7 +42,7 @@ cek_status($_SESSION['username'] ) == 'preparation' ) {
 
 <center>
 <font color="blue">
-<h2>TRANSAKSI PREPARATION</h2>
+<h2>TRANSAKSI JUWITA</h2>
 Username Aktif : <?= $_SESSION['username'] ?></font>
 <div style="height:55px;">
                  <?php

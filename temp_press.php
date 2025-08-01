@@ -42,7 +42,7 @@ cek_status($_SESSION['username'] ) == 'press' ) {
 
 <center>
 <font color="blue">
-<h2>TRANSAKSI WASHING</h2>
+<h2>TRANSAKSI PAD PRINT</h2>
 User Aktif Bagian : <?= cek_status($_SESSION['username']) ?></font>
 
 <div style="height:55px;">
