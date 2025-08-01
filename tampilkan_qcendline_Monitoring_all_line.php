@@ -255,7 +255,7 @@
            
             qc_endline.onmessage = function(msg){
                var objDataQCEndlineOnMessage = JSON.parse(msg.data);
-               // console.log('objDataQCEndlineOnMessage', objDataQCEndlineOnMessage);
+               console.log('objDataQCEndlineOnMessage', objDataQCEndlineOnMessage);
    
                // console.log('lines: ', lines);
                var line = objDataQCEndlineOnMessage.dataOutput[0].line.replace(" ", "");
