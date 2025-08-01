@@ -170,11 +170,11 @@
               <li style="background: #254681"><a style="background: #254681" href="temp_cutting.php">CUTTING</a></li>
               <!-- <li><a href="temp_qc_cutpart.php">QC CUTPART</a></li> -->
               <!-- <li><a href="temp_press.php">PRESS</a></li> -->
-              <!-- <li><a href="temp_press.php">PRESS</a></li> -->
-              <!-- <li><a href="temp_moulding.php">MOULDING</a></li> -->
-              <!-- <li><a href="temp_bemis.php">BEMIS</a></li> -->
-              <!-- <li><a href="temp_preparation.php">PREPARATION</a></li> -->
-              <!-- <li><a href="temp_ht.php">HT</a></li> -->
+              <li><a href="temp_press.php">PRESS</a></li>
+              <li><a href="temp_moulding.php">MOULDING</a></li>
+              <li><a href="temp_bemis.php">BEMIS</a></li>
+              <li><a href="temp_preparation.php">PREPARATION</a></li>
+              <li><a href="temp_ht.php">HT</a></li>
               <li style="background: #254681"><a style="background: #254681" href="temp_trimstore.php">TRIMSTORE</a></li>
               <li style="background: #254681"><a style="background: #254681" href="temp_sewing.php">IN SEWING</a></li>
               <li style="background: #254681"><a style="background: #254681" href="temp_bbl.php">BBL</a></li>
@@ -345,6 +345,12 @@
 
             </ul>
           </li>          
+          <li style="background: #254681">
+            <a style="background: #254681" target="_blank" href="input_target_line.php">
+              INPUT TARGET LINE
+            </a>
+          </li>
+
           <li style="background: #254681"><a style="background: #254681" target="_blank" href="tamplikan_sewing_monitoring.php">TAMPILKAN MONITOR OUTPUT SEWING  </a></li>
           <li style="float:right; background:#254681;"><a href="logout.php">LOG OUT</a></li>
         <?php } else if(cek_status($_SESSION['username']) == 'tatami') { ?>
