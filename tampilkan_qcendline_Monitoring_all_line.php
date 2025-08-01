@@ -286,7 +286,7 @@
             }
             
             function AddOutputLine(ln,output){
-               let realLine = ln.slice(0,4) + " " + ln.slice(4);
+               var realLine = ln.slice(0,4) + " " + ln.slice(4);
                console.log('realLine: ', realLine);
 
                $.ajax({
@@ -301,19 +301,24 @@
                   dataType: 'JSON'
                }).done(function(result){
                   console.log('result: ', result);
-                  const summedByLineYesterday1 = result.reduce((a, c) => {
-                     const f = a.find(v => v.line === c.line);
-                     if(f){
-                        f.qty += parseInt(c.qty);
-                     }else{
-                        a.push({...c, qty: parseInt(c.qty)});
-                     }
-                     return a;
-                  }, []);
+                  var qtyYesterday = 0;
+                  
+                  if(result.length > 0){
+                     const summedByLineYesterday1 = result.reduce((a, c) => {
+                        const f = a.find(v => v.line === c.line);
+                        if(f){
+                           f.qty += parseInt(c.qty);
+                        }else{
+                           a.push({...c, qty: parseInt(c.qty)});
+                        }
+                        return a;
+                     }, []);
 
-                  console.log('summedByLineYesterday1: ', summedByLineYesterday1);
-                  lines.push(ln);
-
+                     qtyYesterday = summedByLineYesterday1[0].qty;
+   
+                     console.log('summedByLineYesterday1: ', summedByLineYesterday1);
+                     lines.push(ln);
+                  }
                   $('#cardContainer').append(
                      `<div class="col-xl-2 col-sm-6 mb-4" id="${ln}">
                            <div class="card shadow">
@@ -329,7 +334,7 @@
                                     </div>
                                     <div>
                                        <p class="text-sm mb-0 text-white">Yesterday</p>
-                                       <h4 class="mb-0 text-white text-center" id="output-yesterday-${ln}">${summedByLineYesterday1[0].qty}</h4>
+                                       <h4 class="mb-0 text-white text-center" id="output-yesterday-${ln}">${qtyYesterday}</h4>
                                     </div>
                                     <div class="icon icon-sm icon-shape bg-gradient-success shadow-dark shadow text-center border-radius-lg">
                                     <i class="material-symbols-rounded opacity-10">person</i>
@@ -340,7 +345,7 @@
                               <div class="card-footer p-2 ps-3">
                                  <div class="row">
                                     <div class="col-sm-6">
-                                       <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">${summedByLineYesterday1[0].line}</span></p>
+                                       <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">${realLine}</span></p>
                                     </div>
                                     <div class="col-sm-6">
                                        <span class="badge bg-danger hideNew" id="updated-${ln}">New</span>
@@ -350,6 +355,7 @@
                            </div>
                         </div>`
                   );
+                  
                   $(`#${ln}`).addClass('bouncing-animation');
                   setTimeout(() => {
                      $(`#${ln}`).removeClass('bouncing-animation');
