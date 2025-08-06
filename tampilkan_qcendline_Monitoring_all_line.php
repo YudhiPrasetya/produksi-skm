@@ -181,21 +181,21 @@
                         $('#cardContainer').append(
                            `<div class="col-xl-2 col-sm-6 mb-4" id="${idOutputLine}">
                                  <div class="card shadow">
-                                    <div class="card-header p-2 ps-3 bg-gradient-dark">
+                                    <div class="card-header p-2 ps-2 bg-gradient-dark">
                                        <div class="d-flex justify-content-between">
                                           <div>
-                                             <p class="text-sm mb-0 text-white">Target</p>
-                                             <h4 class="mb-0 text-white text-center" id="target-${idOutputLine}">0</h4>
+                                             <p class="text-sm mb-0 text-warning">Target</p>
+                                             <h4 class="mb-0 text-warning text-center" id="target-${idOutputLine}">0</h4>
                                           </div>
                                           <div>
-                                             <p class="text-sm mb-0 text-capitalize text-warning">Today</p>
-                                             <h4 class="mb-0 text-warning text-center" id="output-today-${idOutputLine}"><strong>${itoday.qty}</strong></h4>
+                                             <p class="text-sm mb-0 text-capitalize text-success">Today</p>
+                                             <h4 class="mb-0 text-success text-center" id="output-today-${idOutputLine}"><strong>${itoday.qty}</strong></h4>
                                           </div>
                                           <div>
                                              <p class="text-sm mb-0 text-white">Yesterday</p>
                                              <h4 class="mb-0 text-white text-center" id="output-yesterday-${idOutputLine}">${iyesterday.qty}</h4>
                                           </div>
-                                          <div class="icon icon-sm icon-shape bg-gradient-success shadow-dark shadow text-center border-radius-lg">
+                                          <div class="d-flex align-items-center justify-content-center icon icon-xs icon-shape bg-gradient-success shadow-dark shadow text-center border-radius-lg">
                                           <i class="material-symbols-rounded opacity-10">person</i>
                                           </div>
                                        </div>
@@ -266,6 +266,20 @@
                   // });
 
                });
+
+               $.each(lines, function(i, itm){
+                  let ln = itm.slice(0,4) + " " + itm.slice(4);
+                  let rst = fetchQCEndlineTarget(ln);
+                  rst.done(function(dt){
+                     if(dt.length > 0){
+                        let fakeLine = dt[0].line.replace(" ","");
+                        $(`#target-${fakeLine}`).text(dt[0].target);
+                     }else{
+                        $(`#target-${itm}`).text(0);
+                     }
+                  })
+
+               })
 
             }
    
@@ -350,21 +364,21 @@
                   $('#cardContainer').append(
                      `<div class="col-xl-2 col-sm-6 mb-4" id="${ln}">
                            <div class="card shadow">
-                              <div class="card-header p-2 ps-3 bg-gradient-dark">
+                              <div class="card-header p-2 ps-2 bg-gradient-dark">
                                  <div class="d-flex justify-content-between">
                                     <div>
-                                       <p class="text-sm mb-0 text-white">Target</p>
-                                       <h4 class="mb-0 text-white text-center" id="target-${ln}">${(rst2[0][0].target == undefined ? 0 : rst2[0][0].target)}</h4>
+                                       <p class="text-sm mb-0 text-warning">Target</p>
+                                       <h4 class="mb-0 text-warning text-center" id="target-${ln}">${(rst2[0][0].target == undefined ? 0 : rst2[0][0].target)}</h4>
                                     </div>
                                     <div>
-                                       <p class="text-sm mb-0 text-capitalize text-warning">Today</p>
-                                       <h4 class="mb-0 text-warning text-center" id="output-today-${ln}"><strong>${output}</strong></h4>
+                                       <p class="text-sm mb-0 text-capitalize text-success">Today</p>
+                                       <h4 class="mb-0 text-success text-center" id="output-today-${ln}"><strong>${output}</strong></h4>
                                     </div>
                                     <div>
                                        <p class="text-sm mb-0 text-white">Yesterday</p>
                                        <h4 class="mb-0 text-white text-center" id="output-yesterday-${ln}">${qtyYesterday}</h4>
                                     </div>
-                                    <div class="icon icon-sm icon-shape bg-gradient-success shadow-dark shadow text-center border-radius-lg">
+                                    <div class="d-flex align-items-center justify-content-center icon icon-xs icon-shape bg-gradient-success shadow-dark shadow text-center border-radius-lg">
                                     <i class="material-symbols-rounded opacity-10">person</i>
                                     </div>
                                  </div>
