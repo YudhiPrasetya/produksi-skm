@@ -50,6 +50,16 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                getQCEndlinePerLineYesterday($line);
                break;
             }
+         case 'ajax_getQCEndlineTarget':
+            if(isset($_GET['param'])){
+               $param = $_GET['param'];
+               $line = $param['line'];
+               getQCEndlineTarget($line);
+               break;
+            }            
+         case 'ajax_getQCEndlineTodayTarget':
+            getQCEndlineTodayTarget();
+            break;
        }
       //  }
    } else if(isset($_POST['action'])){
@@ -66,7 +76,21 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                $param = $_POST['param'];
                simpan_detail_packing_karton_full($param);
                break;
-            }            
+            }
+         case "ajax_postTargetOuputLine":
+            if(isset($_POST['param'])){
+               $param = $_POST['param'];
+               $dataTarget = $param['dataTarget'];
+               simpanTargetOutputLine($dataTarget);
+               break;
+            }
+         case "ajax_updateTargetOutputLine":
+            if(isset($_POST['param'])){
+               $param = $_POST['param'];
+               $dataTarget = $param['dataTarget'];
+               updateTargetOutputLine($dataTarget);
+               break;
+            }
       }
    }else{
        echo json_encode(array('error' => 'Aksi tidak valid')); // Mengembalikan error
@@ -376,6 +400,65 @@ function getQCEndlinePerLineYesterday($l){
    // var_dump($data);
    $jsonDataLineYesterday = json_encode($dataLineYesterday);
    echo $jsonDataLineYesterday;   
+}
+
+function getQCEndlineTodayTarget(){
+   global $koneksi;
+
+   $query = "SELECT id, tanggal, `line`, `target` FROM daily_target_line WHERE tanggal=CURDATE()";
+   $response = mysqli_query($koneksi, $query) or die('Gagal menampilkan data!');
+   $result = mysqli_fetch_assoc($response);
+   $jsonResult = json_encode($result);
+
+   echo $jsonResult;
+}
+
+function getQCEndlineTarget($ln){
+   global $koneksi;
+
+   $sql = "SELECT id, tanggal, `line`, `target` FROM daily_target_line WHERE `line` = '$ln' ORDER BY tanggal DESC";
+   $responseLineTarget = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dataLineTarget = [];
+   while($r = mysqli_fetch_assoc($responseLineTarget)){
+      $row = [
+         'id' => $r['id'],
+         'tanggal' => $r['tanggal'],
+         'line' => $r['line'],
+         'target' => $r['target'],
+      ];
+      array_push($dataLineTarget, $row);
+   }
+   $jsonResultLineTarget = json_encode($dataLineTarget);
+
+   echo $jsonResultLineTarget;
+}
+
+function simpanTargetOutputLine($dt){
+   global $koneksi;
+
+   $tgl = $dt['tanggal'];
+   $line = $dt['line'];
+   $target = $dt['target'];
+
+   $sql = "INSERT INTO daily_target_line(tanggal, `line`, `target`) VALUES('$tgl', '$line', '$target')";
+
+   mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+
+   $insertedID = mysqli_insert_id($koneksi);
+
+   echo $insertedID;   
+}
+
+function updateTargetOutputLine($dt){
+   global $koneksi;
+
+   $id = $dt['id'];
+   $target = $dt['target'];
+
+   $sql = "UPDATE daily_target_line SET `target`='$target' WHERE id='$id'";
+   $response = mysqli_query($koneksi, $sql) or die('Gagal...');
+
+   echo $response;
 }
 
 ?>
