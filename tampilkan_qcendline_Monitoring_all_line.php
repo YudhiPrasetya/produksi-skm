@@ -332,7 +332,7 @@
 
                   }
 
-                  // console.log('rst2: ', rst2[0][0]);
+                  // console.log('rst2: ', rst2);
                   // target = rst2[0].target;
 
                   $('#cardContainer').append(
@@ -342,7 +342,7 @@
                                  <div class="d-flex justify-content-between">
                                     <div>
                                        <p class="text-sm mb-0 text-warning">Target</p>
-                                       <h4 class="mb-0 text-warning text-center" id="target-${ln}">${(rst2[0][0].target == undefined ? 0 : rst2[0][0].target)}</h4>
+                                       <h4 class="mb-0 text-warning text-center" id="target-${ln}">${(rst2[0].length <= 0 ? 0 : rst2[0][0].target)}</h4>
                                     </div>
                                     <div>
                                        <p class="text-sm mb-0 text-capitalize text-success">Today</p>
