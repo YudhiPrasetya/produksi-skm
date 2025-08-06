@@ -223,7 +223,8 @@
 
       function sendTargetOuputLineMessage(data){
          console.log('data: ', data);
-         var qcEndlineTargetMsg = new WebSocket("ws://127.0.0.1:10000/?service=ouput_target");
+         // var qcEndlineTargetMsg = new WebSocket("ws://127.0.0.1:10000/?service=ouput_target");
+         var qcEndlineTargetMsg = new WebSocket("ws://192.168.90.100:10000/?service=ouput_target");
 
          qcEndlineTargetMsg.onopen = function(){
             qcEndlineTargetMsg.send(data);
