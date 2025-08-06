@@ -177,7 +177,7 @@
               <li><a href="temp_bemis.php">FUSE</a></li>
               <!-- <li><a href="temp_preparation.php">PREPARATION</a></li> -->
               <li><a href="temp_preparation.php">JUWITA</a></li>
-              <li><a href="temp_ht.php">HT</a></li>
+              <!-- <li><a href="temp_ht.php">HT</a></li> -->
               <li style="background: #254681"><a style="background: #254681" href="temp_trimstore.php">TRIMSTORE</a></li>
               <li style="background: #254681"><a style="background: #254681" href="temp_sewing.php">IN SEWING</a></li>
               <li style="background: #254681"><a style="background: #254681" href="temp_bbl.php">BBL</a></li>

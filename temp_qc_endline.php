@@ -1,5 +1,7 @@
 
 <?php
+ob_start();
+
 require_once 'core/init.php';
 require_once 'view/header.php';
 // date_default_timezone_set('Asia/Jakarta');
@@ -285,7 +287,7 @@ Username Aktif : <?= cek_status($_SESSION['username']) ?></font>
   } else {
     echo 'Anda tidak memiliki akses kehalaman ini';} 
   } else{
-    header('index.php');
+    header('Location: index.php');
   } 
   ?>
 </body>

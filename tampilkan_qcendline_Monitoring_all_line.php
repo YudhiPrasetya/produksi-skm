@@ -25,17 +25,46 @@
          }
 
          @keyframes bounce {
-         0%, 100% {
-            transform: translateY(0);
-         }
-         50% {
-            transform: translateY(-20px); /* Adjust for desired bounce height */
-         }
+            0%, 100% {
+               transform: translateY(0);
+            }
+            50% {
+               transform: translateY(-20px); 
+            }
          }
 
+         @keyframes shake {
+         10%, 90% {
+            transform: translate3d(-1px, 0, 0);
+         }
+         20%, 80% {
+            transform: translate3d(2px, 0, 0);
+         }
+         30%, 50%, 70% {
+            transform: translate3d(-4px, 0, 0);
+         }
+         40%, 60% {
+            transform: translate3d(4px, 0, 0);
+         }
+         }            
+
          .bouncing-animation {
-         animation: bounce 0.6s ease-in-out; /* Adjust duration and easing */
+            animation: bounce 4s ease-in-out; 
+         }
+
+         .shake-animation {
+            animation: shake 5s cubic-bezier(.36,.07,.19,.97) both;
+            transform: translate3d(0, 0, 0); /* Force hardware acceleration */
+            backface-visibility: hidden; /* Prevent flickering */
+            perspective: 1000px; /* Prevent flickering */
          }         
+         
+         .sticky-bottom{
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%
+         }
       </style>
    </head>
    <body class="g-sidenav-show" onload="showTime()">
@@ -67,26 +96,16 @@
             </div>
 
             <div class="row" id="cardContainer">
+            </div>
 
-               <!-- <div class="col-xl-2 col-sm-6 mb-xl-0 mb-4">
-                  <div class="card shadow">
-                     <div class="card-header p-2 ps-3 bg-gradient-dark">
-                     <div class="d-flex justify-content-between">
-                        <div>
-                           <p class="text-sm mb-0 text-capitalize text-white">Sewing Today</p>
-                           <h4 class="mb-0 text-white">234</h4>
-                        </div>
-                        <div class="icon icon-md icon-shape bg-gradient-success shadow-dark shadow text-center border-radius-lg">
-                           <i class="material-symbols-rounded opacity-10">person</i>
-                        </div>
-                     </div>
-                     </div>
-                     <hr class="dark horizontal my-0">
-                     <div class="card-footer p-2 ps-3">
-                     <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">Line </span>11B</p>
-                     </div>
+            <div class="sticky-bottom" id="grafik">
+               <div class="row">
+                  <div class="">
                   </div>
-               </div>                -->
+
+                  <div>
+                  </div>
+               </div>
             </div>
          </div>
 
@@ -95,6 +114,7 @@
       <script>
          var textTitle = $('#textTitle').text();
          var lines = [];
+         var target = 0
          $(document).ready(function(){
             initOutputLines();
 
@@ -255,7 +275,6 @@
            
             qc_endline.onmessage = function(msg){
                var objDataQCEndlineOnMessage = JSON.parse(msg.data);
-               console.log('objDataQCEndlineOnMessage', objDataQCEndlineOnMessage);
    
                // console.log('lines: ', lines);
                var line = objDataQCEndlineOnMessage.dataOutput[0].line.replace(" ", "");
@@ -284,27 +303,32 @@
    
                // $('#cardContainer').append(template)
             }
+
+            // var outputTarget = new WebSocket("ws://127.0.0.1:10000/?service=ouput_target");
+
+            var outputTarget = new WebSocket("ws://192.168.90.100:10000/?service=ouput_target");
+
+            outputTarget.onmessage = function (msg){
+               var objOuputTargetOnMessage = JSON.parse(msg.data);
+
+               let lineTarget = objOuputTargetOnMessage.line.replace(" ", "");
+               $(`#target-${lineTarget}`).text(objOuputTargetOnMessage.target);
+
+               $(`#target-${lineTarget}`).addClass('bouncing-animation');
+               setTimeout(() => {
+                  $(`#target-${lineTarget}`).removeClass('bouncing-animation');
+               }, 1000);               
+
+            }
             
             function AddOutputLine(ln,output){
                var realLine = ln.slice(0,4) + " " + ln.slice(4);
-               console.log('realLine: ', realLine);
 
-               $.ajax({
-                  type: 'GET',
-                  url: 'functions/ajax_functions_handler.php',
-                  data: {
-                     action: 'ajax_getQCEndlinePerLineYesterday',
-                     param: {
-                        'line': realLine
-                     }
-                  },
-                  dataType: 'JSON'
-               }).done(function(result){
-                  console.log('result: ', result);
+               $.when(fetchQCEndlinePerLineYesterday(realLine), fetchQCEndlineTarget(realLine)).done(function(rst1, rst2){
                   var qtyYesterday = 0;
                   
-                  if(result.length > 0){
-                     const summedByLineYesterday1 = result.reduce((a, c) => {
+                  if(rst1.length > 0){
+                     const summedByLineYesterday1 = rst1.reduce((a, c) => {
                         const f = a.find(v => v.line === c.line);
                         if(f){
                            f.qty += parseInt(c.qty);
@@ -316,9 +340,13 @@
 
                      qtyYesterday = summedByLineYesterday1[0].qty;
    
-                     console.log('summedByLineYesterday1: ', summedByLineYesterday1);
                      lines.push(ln);
+
                   }
+
+                  // console.log('rst2: ', rst2[0][0]);
+                  // target = rst2[0].target;
+
                   $('#cardContainer').append(
                      `<div class="col-xl-2 col-sm-6 mb-4" id="${ln}">
                            <div class="card shadow">
@@ -326,7 +354,7 @@
                                  <div class="d-flex justify-content-between">
                                     <div>
                                        <p class="text-sm mb-0 text-white">Target</p>
-                                       <h4 class="mb-0 text-white text-center" id="target-${ln}">0</h4>
+                                       <h4 class="mb-0 text-white text-center" id="target-${ln}">${rst2[0][0].target}</h4>
                                     </div>
                                     <div>
                                        <p class="text-sm mb-0 text-capitalize text-warning">Today</p>
@@ -368,10 +396,85 @@
                   $(`#updated-${ln}`).fadeOut(5*60*1000, function(){
                      $(`#updated-${ln}`).removeClass('showNew');
                      $(`#updated-${ln}`).addClass('hideUpdate');
-                  });
-                  // $(`#updated-${line}`).addClass('showUpdate');
+                  });                  
+
                });
 
+               // $.ajax({
+               //    type: 'GET',
+               //    url: 'functions/ajax_functions_handler.php',
+               //    data: {
+               //       action: 'ajax_getQCEndlinePerLineYesterday',
+               //       param: {
+               //          'line': realLine
+               //       }
+               //    },
+               //    dataType: 'JSON'
+               // }).done(function(result){
+               //    console.log('result: ', result);
+               //    var qtyYesterday = 0;
+                  
+               //    if(result.length > 0){
+               //       const summedByLineYesterday1 = result.reduce((a, c) => {
+               //          const f = a.find(v => v.line === c.line);
+               //          if(f){
+               //             f.qty += parseInt(c.qty);
+               //          }else{
+               //             a.push({...c, qty: parseInt(c.qty)});
+               //          }
+               //          return a;
+               //       }, []);
+
+               //       qtyYesterday = summedByLineYesterday1[0].qty;
+   
+               //       console.log('summedByLineYesterday1: ', summedByLineYesterday1);
+               //       lines.push(ln);
+               //    }
+
+
+               //    // $(`#updated-${line}`).addClass('showUpdate');
+               // });
+
+            }
+
+            function fetchQCEndlinePerLineYesterday(l){
+               // var realLine = l.slice(0,4) + " " + ln.slice(4);
+               try{
+                  const dataLineYesterday = $.ajax({
+                     type: 'GET',
+                     url: 'functions/ajax_functions_handler.php',
+                     data: {
+                        action: 'ajax_getQCEndlinePerLineYesterday',
+                        param: {
+                           'line': l
+                        }
+                     },
+                     dataType: 'JSON'
+                  });
+                  return dataLineYesterday;
+               }catch(err){
+                  throw err;
+               }                
+            }
+
+            function fetchQCEndlineTarget(l){
+               // var rLine = l.slice(0,4) + " " + ln.slice(4);
+               try{
+                  const dataOutputLineTarget = $.ajax({
+                     type: 'GET',
+                     url: 'functions/ajax_functions_handler.php',
+                     data: {
+                        action: 'ajax_getQCEndlineTarget',
+                        param: {
+                           'line': l
+                        }
+                     },
+                     dataType: 'JSON'
+                  });
+                  return dataOutputLineTarget;
+               }catch(err){
+                  throw err;
+               }               
             }
          });
 
