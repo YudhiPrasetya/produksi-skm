@@ -179,7 +179,7 @@
                         let idOutputLine = itoday.line.replace(" ","");
                         lines.push(idOutputLine);
                         $('#cardContainer').append(
-                           `<div class="col-xl-2 col-sm-6 mb-4" id="${idOutputLine}">
+                           `<div class="col-xl-2 col-sm-6 mb-4 fadeIn-Animate" style="display: none;" id="${idOutputLine}">
                                  <div class="card shadow">
                                     <div class="card-header p-2 ps-2 bg-gradient-dark">
                                        <div class="d-flex justify-content-between">
@@ -217,54 +217,6 @@
 
                      }
                   })
-
-                  // let ctxToday =document.getElementById(`chart-today-${idOutputLine}`).getContext("2d");
-                  // let dataToday={
-                  //    labels: [''],
-                  //    datasets: [{
-                  //       label: '',
-                  //       data: [item.qty],
-
-                  //       backgroundColor: ['rgba(255, 99, 132, 0.2)']
-                  //    }]
-                  // };
-                  // let barOutputToday = new Chart(ctxToday, {
-                  //    type: 'bar',
-                  //    data: dataToday,
-                  //    options: {
-                  //       animations: true,
-                  //       plugins: {
-                  //          legend: {
-                  //             display: false
-                  //          },
-                  //          tooltip: {
-                  //             enabled: false
-                  //          }
-                  //       },
-                  //       scales: {
-                  //          xAxes:[
-                  //             {
-                  //                gridLines: {
-                  //                   display: false
-                  //                }
-                  //             }
-                  //          ],
-                  //          yAxes: [
-                  //             {
-                  //                min: 0,
-                  //                max: 100,
-                  //                // gridLines: {
-                  //                //    display: false,
-                  //                // },
-                  //                ticks: {
-                  //                   beginAtZero: true,
-                  //                }
-                  //             }
-                  //          ]
-                  //       }
-                  //    }
-                  // });
-
                });
 
                $.each(lines, function(i, itm){
@@ -279,7 +231,27 @@
                      }
                   })
 
+               });
+
+               // Fade in and bouncing animation
+               $('.fadeIn-Animate').each(function(idx){
+                  let $this = $(this);
+                  let delayTime = idx * 300;
+
+                  $this.delay(delayTime).fadeIn(1000, function(){
+                     $this.removeClass("fadeIn-Animate");
+                  }).addClass("bouncing-animation");
+               });
+
+               // remove bouncing animation class
+               // let duration = 4 * 
+               $.each(lines, function(i, itm){
+                  let card = $(`#${itm}`);
+                  card.on('animationend webkitAnimationEnd MSAnimationEnd oAnimationEnd', function(){
+                     card.removeClass('bouncing-animation');
+                  })
                })
+
 
             }
    
@@ -300,10 +272,12 @@
                      newQTY += parseInt(item.today);
                   });
                   $(`#output-today-${line}`).text(newQTY);
-                  $(`#output-today-${line}`).addClass('bouncing-animation');
-                  setTimeout(() => {
-                     $(`#output-today-${line}`).removeClass('bouncing-animation');
-                  }, 1000);
+                  $(`#${line}`).toggleClass('bouncing-animation');
+                  // $(`#output-today-${line}`).addClass('bouncing-animation');
+                  // setTimeout(() => {
+                  //    $(`#output-today-${line}`).removeClass('bouncing-animation');
+                  //    $(`#${line}`).removeClass('bouncing-animation');
+                  // }, 1000);
                   $(`#updated-${line}`).removeClass('hideUpdate');
                   $(`#updated-${line}`).addClass('showUpdate');
                   $(`#updated-${line}`).fadeOut(5*60*1000, function(){
