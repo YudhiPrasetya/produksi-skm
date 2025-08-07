@@ -56,7 +56,11 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                $line = $param['line'];
                getQCEndlineTarget($line);
                break;
-            }            
+            }
+         case 'ajax_getAllQCEndlineTarget':
+            getAllQCEndlineTarget();
+            break;
+
          case 'ajax_getQCEndlineTodayTarget':
             getQCEndlineTodayTarget();
             break;
@@ -416,21 +420,45 @@ function getQCEndlineTodayTarget(){
 function getQCEndlineTarget($ln){
    global $koneksi;
 
-   $sql = "SELECT id, tanggal, `line`, `target` FROM daily_target_line WHERE `line` = '$ln' ORDER BY tanggal DESC";
+   $sql = "SELECT id, tanggal, `line`, `target` FROM daily_target_line WHERE `line` = '$ln' AND tanggal=CURDATE()";
    $responseLineTarget = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
-   $dataLineTarget = [];
-   while($r = mysqli_fetch_assoc($responseLineTarget)){
+   $resultLineTargetToday = mysqli_fetch_assoc($responseLineTarget);
+   $jsonResultLineTargetToday = json_encode($resultLineTargetToday);
+   
+   echo $jsonResultLineTargetToday;
+   // $dataLineTarget = [];
+   // while($r = mysqli_fetch_assoc($responseLineTarget)){
+   //    $row = [
+   //       'id' => $r['id'],
+   //       'tanggal' => $r['tanggal'],
+   //       'line' => $r['line'],
+   //       'target' => $r['target'],
+   //    ];
+   //    array_push($dataLineTarget, $row);
+   // }
+   // $jsonResultLineTarget = json_encode($dataLineTarget);
+
+   // echo $jsonResultLineTarget;
+}
+
+function getAllQCEndlineTarget(){
+   global $koneksi;
+
+   $sql = "SELECT id, tanggal, `line`, `target` FROM daily_target_line ORDER BY id DESC";
+   $responseAllLineTarget = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dataAllLineTarget = [];
+   while($r = mysqli_fetch_assoc($responseAllLineTarget)){
       $row = [
          'id' => $r['id'],
          'tanggal' => $r['tanggal'],
          'line' => $r['line'],
          'target' => $r['target'],
       ];
-      array_push($dataLineTarget, $row);
+      array_push($dataAllLineTarget, $row);
    }
-   $jsonResultLineTarget = json_encode($dataLineTarget);
+   $jsonResultAllLineTarget = json_encode($dataAllLineTarget);
 
-   echo $jsonResultLineTarget;
+   echo $jsonResultAllLineTarget;   
 }
 
 function simpanTargetOutputLine($dt){

@@ -180,34 +180,31 @@
                         lines.push(idOutputLine);
                         $('#cardContainer').append(
                            `<div class="col-xl-2 col-sm-6 mb-4 fadeIn-Animate" style="display: none;" id="${idOutputLine}">
-                                 <div class="card shadow">
-                                    <div class="card-header p-2 ps-2 bg-gradient-dark">
-                                       <div class="d-flex justify-content-between">
-                                          <div>
-                                             <p class="text-sm mb-0 text-warning">Target</p>
-                                             <h4 class="mb-0 text-warning text-center" id="target-${idOutputLine}">0</h4>
-                                          </div>
-                                          <div>
-                                             <p class="text-sm mb-0 text-capitalize text-success">Today</p>
-                                             <h4 class="mb-0 text-success text-center" id="output-today-${idOutputLine}"><strong>${itoday.qty}</strong></h4>
-                                          </div>
-                                          <div>
-                                             <p class="text-sm mb-0 text-white">Yesterday</p>
-                                             <h4 class="mb-0 text-white text-center" id="output-yesterday-${idOutputLine}">${iyesterday.qty}</h4>
-                                          </div>
-                                          <div class="d-flex align-items-center justify-content-center icon icon-xs icon-shape bg-gradient-success shadow-dark shadow text-center border-radius-lg">
-                                          <i class="material-symbols-rounded opacity-10">person</i>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <hr class="dark horizontal my-0">
-                                    <div class="card-footer p-2 ps-3">
+                                 <div class="card shadow-lg p-1">
+                                    <div class="card-header p-2 ps-2">
                                        <div class="row">
                                           <div class="col-sm-6">
                                              <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">${itoday.line}</span></p>
                                           </div>
                                           <div class="col-sm-6">
                                              <span class="badge bg-warning hideUpdate" id="updated-${idOutputLine}">Updated</span>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <hr class="dark horizontal my-0">
+                                    <div class="card-footer p-2 ps-2 bg-gradient-dark">
+                                       <div class="d-flex justify-content-between">
+                                          <div>
+                                             <p class="text-sm mb-0 text-warning text-center">Target</p>
+                                             <h4 class="mb-0 text-warning text-center" id="target-${idOutputLine}">0</h4>
+                                          </div>
+                                          <div>
+                                             <p class="text-sm mb-0 text-capitalize text-success text-center">Today</p>
+                                             <h4 class="mb-0 text-success text-center" id="output-today-${idOutputLine}"><strong>${itoday.qty}</strong></h4>
+                                          </div>
+                                          <div>
+                                             <p class="text-sm mb-0 text-white text-center">Yesterday</p>
+                                             <h4 class="mb-0 text-white text-center" id="output-yesterday-${idOutputLine}">${iyesterday.qty}</h4>
                                           </div>
                                        </div>
                                     </div>
@@ -223,9 +220,9 @@
                   let ln = itm.slice(0,4) + " " + itm.slice(4);
                   let rst = fetchQCEndlineTarget(ln);
                   rst.done(function(dt){
-                     if(dt.length > 0){
-                        let fakeLine = dt[0].line.replace(" ","");
-                        $(`#target-${fakeLine}`).text(dt[0].target);
+                     if(dt != null){
+                        let fakeLine = dt.line.replace(" ","");
+                        $(`#target-${fakeLine}`).text(dt.target);
                      }else{
                         $(`#target-${itm}`).text(0);
                      }
@@ -251,8 +248,6 @@
                      card.removeClass('bouncing-animation');
                   })
                })
-
-
             }
    
             var qc_endline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");         
@@ -337,34 +332,33 @@
 
                   $('#cardContainer').append(
                      `<div class="col-xl-2 col-sm-6 mb-4" id="${ln}">
-                           <div class="card shadow">
-                              <div class="card-header p-2 ps-2 bg-gradient-dark">
-                                 <div class="d-flex justify-content-between">
-                                    <div>
-                                       <p class="text-sm mb-0 text-warning">Target</p>
-                                       <h4 class="mb-0 text-warning text-center" id="target-${ln}">${(rst2[0].length <= 0 ? 0 : rst2[0][0].target)}</h4>
-                                    </div>
-                                    <div>
-                                       <p class="text-sm mb-0 text-capitalize text-success">Today</p>
-                                       <h4 class="mb-0 text-success text-center" id="output-today-${ln}"><strong>${output}</strong></h4>
-                                    </div>
-                                    <div>
-                                       <p class="text-sm mb-0 text-white">Yesterday</p>
-                                       <h4 class="mb-0 text-white text-center" id="output-yesterday-${ln}">${qtyYesterday}</h4>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-center icon icon-xs icon-shape bg-gradient-success shadow-dark shadow text-center border-radius-lg">
-                                    <i class="material-symbols-rounded opacity-10">person</i>
-                                    </div>
-                                 </div>
-                              </div>
-                              <hr class="dark horizontal my-0">
-                              <div class="card-footer p-2 ps-3">
+                           <div class="card shadow-lg p-1">
+                              <div class="card-header p-2 ps-2">
                                  <div class="row">
                                     <div class="col-sm-6">
                                        <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">${realLine}</span></p>
                                     </div>
                                     <div class="col-sm-6">
                                        <span class="badge bg-danger hideNew" id="updated-${ln}">New</span>
+                                    </div>
+                                 </div>
+
+
+                              </div>
+                              <hr class="dark horizontal my-0">
+                              <div class="card-footer p-2 ps-2 bg-gradient-dark">
+                                 <div class="d-flex justify-content-between">
+                                    <div>
+                                       <p class="text-sm mb-0 text-warning text-center">Target</p>
+                                       <h4 class="mb-0 text-warning text-center" id="target-${ln}">${(rst2[0].length <= 0 ? 0 : rst2[0][0].target)}</h4>
+                                    </div>
+                                    <div>
+                                       <p class="text-sm mb-0 text-capitalize text-success text-center">Today</p>
+                                       <h4 class="mb-0 text-success text-center" id="output-today-${ln}"><strong>${output}</strong></h4>
+                                    </div>
+                                    <div>
+                                       <p class="text-sm mb-0 text-white text-center">Yesterday</p>
+                                       <h4 class="mb-0 text-white text-center" id="output-yesterday-${ln}">${qtyYesterday}</h4>
                                     </div>
                                  </div>
                               </div>

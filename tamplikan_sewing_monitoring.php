@@ -206,8 +206,9 @@
                            <div class="card-header p-2 ps-3 bg-gradient-dark">
                               <div class="d-flex justify-content-between">
                                  <div>
-                                    <p class="text-sm mb-0 text-capitalize text-white">Machines Fixed</p>
-                                    <h4 class="mb-0 text-white">0</h4>
+                                    <!-- <p class="text-sm mb-0 text-capitalize text-white">Machines Fixed</p> -->
+                                    <p class="text-sm mb-0 text-capitalize text-white">Today Target</p>
+                                    <h4 class="mb-0 text-white" id="todayTarget">0</h4>
                                  </div>
                                  <div class="icon icon-md icon-shape bg-gradient-warning shadow-dark shadow text-center border-radius-lg">
                                     <i class="material-symbols-rounded opacity-10">build</i>
@@ -261,7 +262,7 @@
                   <div class="row pt-3">
 
                      <!-- Line Performanfe -->
-                     <div class="col-md-6 col-sm-6 mb-xl-0 mb-2">
+                     <div class="col-md-6 col-sm-6 mb-xl-0 mb-2" style="display: none;">
                         <div class="card shadow">
                            <div class="card-header p-2 ps-3 bg-gradient-dark">
                               <div class="d-flex justify-content-between">
@@ -281,7 +282,7 @@
                         </div>
                      </div>
 
-                     <div class="col-xl-6 col-sm-6 mb-xl-0 mb-2">
+                     <div class="col-xl-6 col-sm-6 mb-xl-0 mb-2" style="display: none;">
                         <div class="card shadow">
                            <div class="card-header p-2 ps-3 bg-gradient-dark">
                               <div class="d-flex justify-content-between">
@@ -692,9 +693,35 @@
          }
 
          $(document).ready(function(){
+            // var output_target = new WebSocket("ws://127.0.0.1:10000/?service=ouput_target");
+            var output_target = new WebSocket("ws://192.168.90.100:10000/?service=ouput_target");
+
+            fetchQCEndlineTarget(line);
+
             initTableQCOutput();
 
             initTableQCEff();
+
+            function fetchQCEndlineTarget(l){
+               // var rLine = l.slice(0,4) + " " + ln.slice(4);
+                  $.ajax({
+                     type: 'GET',
+                     url: 'functions/ajax_functions_handler.php',
+                     data: {
+                        action: 'ajax_getQCEndlineTarget',
+                        param: {
+                           'line': l
+                        }
+                     },
+                     dataType: 'JSON'
+                  }).done(function(dt){
+                     if(dt != null){
+                        $('#todayTarget').text(dt.target);
+                     }else{
+                        $('#todayTarget').text('0');
+                     }
+                  });
+            }            
 
             function initTableQCOutput(){
                qcEndlineOutputTable = $('#qcEndlineOutputTable').DataTable({
@@ -799,10 +826,20 @@
                   ]).draw();
                }               
             }
+
+            output_target.onmessage = function(msg){
+               var objDataTargetOnMessage = JSON.parse(msg.data);
+               if(line == objDataTargetOnMessage.line){
+                  $('#todayTarget').text(objDataTargetOnMessage.target);
+               }
+            }
+
          });
          
          var qc_endline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");
          var packing = new WebSocket("ws://192.168.90.100:10000/?service=packing");
+         // var output_target = new WebSocket("ws://192.168.90.100:10000/?service=output_target");
+         
          // var packing = new WebSocket("ws://127.0.0.1:10000/?service=packing");
 
          qc_endline.onmessage = function(msg){
@@ -893,6 +930,8 @@
                $('#packingLineToday').text(dtPackingLineToday);
             }
          }
+
+
 
          function showTime(){
             const date = new Date();

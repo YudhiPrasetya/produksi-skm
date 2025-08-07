@@ -155,6 +155,8 @@
               <li style="background: #254681"><a style="background: #254681" href="temp_plan_production.php">PLAN PRODUCTION</a></li>
               <li style="background: #254681"><a style="background: #254681" href="temp_preparation_production.php">PRE PRODUCTION</a></li>
               <li style="background: #254681"><a style="background: #254681" href="master_target_harian.php">INPUT TARGET</a></li>
+
+              <li style="background: #254681"><a style="background: #254681" href="output_line_target.php">OUTPUT LINE TARGET</a></li>
             </ul>
           </li>
 
