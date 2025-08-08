@@ -245,7 +245,7 @@
                                              <th class="text-uppercase text-secondary font-weight-bolder align-middle text-center">Balance</th>
                                              <th class="text-uppercase text-secondary font-weight-bolder align-middle text-center">Tanggal</th>
                                              <th class="text-uppercase text-secondary font-weight-bolder align-middle text-center">Jam</th>
-                                             <th class="text-uppercase text-secondary font-weight-bolder align-middle text-center">Eff(%)</th>
+                                             <!-- <th class="text-uppercase text-secondary font-weight-bolder align-middle text-center">Eff(%)</th> -->
                                           </tr>
                                        </thead>
                                     </table>
@@ -387,7 +387,7 @@
                </div>
             </div>
 
-            <div class="row mx-0 px-1">
+            <!-- <div class="row mx-0 px-1">
                <div class="mt-4">
                   <div class="card">
                      <div class="card-header p-0 position-relative mt-4 mx-3 z-index-2">
@@ -396,7 +396,6 @@
                         </div>
                      </div>
                      <div class="card-body px-0 pb-2">
-                        <!-- <div class="table-responsive p-0"> -->
                            <table class="table compact table-bordered align-items-center mb-0" id="qcEndlineEffTable" style="width:100%">
                               <thead>
                                  <tr>
@@ -427,11 +426,11 @@
                                  </tr>
                               </thead>
                            </table>
-                        <!-- </div> -->
                      </div> 
                   </div>
                </div>               
-            </div>
+            </div> -->
+
             <footer class="footer py-4  ">
                <div class="container-fluid">
                   <div class="row align-items-center justify-content-lg-between">
@@ -758,8 +757,8 @@
                            objDataQCEndline[x].total,
                            objDataQCEndline[x].bal,
                            objDataQCEndline[x].tanggal,
-                           objDataQCEndline[x].jam,
-                           efficiency.toFixed(2)
+                           objDataQCEndline[x].jam
+                           // efficiency.toFixed(2)
                         ]).draw();
                      }
                      ++x;
