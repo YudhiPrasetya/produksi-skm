@@ -184,7 +184,7 @@
                         lines.push(idOutputLine);
                         $('#cardContainer').append(
                            `<div class="col-xl-2 col-sm-6 mb-4 fadeIn-Animate" style="display: none;" id="${idOutputLine}">
-                                 <div class="card color shadow-lg p-1">
+                                 <div class="card color p-1">
                                     <div class="card-header p-2 ps-2">
                                        <div class="row">
                                           <div class="col-sm-6">
@@ -336,7 +336,7 @@
 
                   $('#cardContainer').append(
                      `<div class="col-xl-2 col-sm-6 mb-4" id="${ln}">
-                           <div class="card color shadow-lg p-1">
+                           <div class="card color p-1">
                               <div class="card-header p-2 ps-2">
                                  <div class="row">
                                     <div class="col-sm-6">
