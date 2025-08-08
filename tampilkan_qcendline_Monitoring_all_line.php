@@ -261,7 +261,6 @@
             qc_endline.onmessage = function(msg){
                var objDataQCEndlineOnMessage = JSON.parse(msg.data);
    
-               console.log('objDataQCEndlineOnMessage.dataOutput: ', objDataQCEndlineOnMessage.dataOutput);
                var line = objDataQCEndlineOnMessage.dataOutput[0].line.replace(" ", "");
                
                let found = lines.find(o => o === line);
@@ -291,9 +290,9 @@
                // $('#cardContainer').append(template)
             }
 
-            // var outputTarget = new WebSocket("ws://127.0.0.1:10000/?service=ouput_target");
+            var outputTarget = new WebSocket("ws://127.0.0.1:10000/?service=ouput_target");
 
-            var outputTarget = new WebSocket("ws://192.168.90.100:10000/?service=ouput_target");
+            // var outputTarget = new WebSocket("ws://192.168.90.100:10000/?service=ouput_target");
 
             outputTarget.onmessage = function (msg){
                var objOuputTargetOnMessage = JSON.parse(msg.data);
@@ -325,13 +324,13 @@
                         return a;
                      }, []);
 
+
                      qtyYesterday = summedByLineYesterday1[0].qty;
    
                      lines.push(ln);
 
                   }
 
-                  console.log('rst2: ', rst2);
                   // target = rst2[0].target;
 
                   $('#cardContainer').append(
@@ -354,7 +353,7 @@
                                  <div class="d-flex justify-content-between">
                                     <div>
                                        <p class="text-sm mb-0 text-warning text-center">Target</p>
-                                       <h4 class="mb-0 text-warning text-center" id="target-${ln}">${(rst2 == null ? 0 : rst2.target)}</h4>
+                                       <h4 class="mb-0 text-warning text-center" id="target-${ln}">${(rst2[0] == null ? 'blm diisi' : rst2[0].target)}</h4>
                                     </div>
                                     <div>
                                        <p class="text-sm mb-0 text-capitalize text-success text-center">Today</p>
@@ -362,7 +361,7 @@
                                     </div>
                                     <div>
                                        <p class="text-sm mb-0 text-white text-center">Yesterday</p>
-                                       <h4 class="mb-0 text-white text-center" id="output-yesterday-${ln}">${qtyYesterday}</h4>
+                                       <h4 class="mb-0 text-white text-center" id="output-yesterday-${ln}">${(isNaN(qtyYesterday) ? "tidak ada" : qtyYesterday)}</h4>
                                     </div>
                                  </div>
                               </div>
