@@ -261,7 +261,7 @@
             qc_endline.onmessage = function(msg){
                var objDataQCEndlineOnMessage = JSON.parse(msg.data);
    
-               // console.log('lines: ', lines);
+               console.log('objDataQCEndlineOnMessage.dataOutput: ', objDataQCEndlineOnMessage.dataOutput);
                var line = objDataQCEndlineOnMessage.dataOutput[0].line.replace(" ", "");
                
                let found = lines.find(o => o === line);
@@ -331,7 +331,7 @@
 
                   }
 
-                  // console.log('rst2: ', rst2);
+                  console.log('rst2: ', rst2);
                   // target = rst2[0].target;
 
                   $('#cardContainer').append(
@@ -354,7 +354,7 @@
                                  <div class="d-flex justify-content-between">
                                     <div>
                                        <p class="text-sm mb-0 text-warning text-center">Target</p>
-                                       <h4 class="mb-0 text-warning text-center" id="target-${ln}">${(rst2[0].length <= 0 ? 0 : rst2[0][0].target)}</h4>
+                                       <h4 class="mb-0 text-warning text-center" id="target-${ln}">${(rst2 == null 0 ? 0 : rst2.target)}</h4>
                                     </div>
                                     <div>
                                        <p class="text-sm mb-0 text-capitalize text-success text-center">Today</p>
