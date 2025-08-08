@@ -24,6 +24,10 @@
             display: block;
          }
 
+         .card.color{
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5)
+         }
+
          @keyframes bounce {
             0%, 100% {
                transform: translateY(0);
@@ -180,7 +184,7 @@
                         lines.push(idOutputLine);
                         $('#cardContainer').append(
                            `<div class="col-xl-2 col-sm-6 mb-4 fadeIn-Animate" style="display: none;" id="${idOutputLine}">
-                                 <div class="card shadow-lg p-1">
+                                 <div class="card color shadow-lg p-1">
                                     <div class="card-header p-2 ps-2">
                                        <div class="row">
                                           <div class="col-sm-6">
@@ -332,7 +336,7 @@
 
                   $('#cardContainer').append(
                      `<div class="col-xl-2 col-sm-6 mb-4" id="${ln}">
-                           <div class="card shadow-lg p-1">
+                           <div class="card color shadow-lg p-1">
                               <div class="card-header p-2 ps-2">
                                  <div class="row">
                                     <div class="col-sm-6">
