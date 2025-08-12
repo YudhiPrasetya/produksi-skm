@@ -119,7 +119,8 @@ require_once 'view/header.php';
                   }elseif($hasil['nama_transaksi'] == 'ht'){
                     echo "<option value='$hasil[nama_transaksi]'>HT</option>";
                   }elseif($hasil['nama_transaksi'] == 'bemis'){
-                    echo "<option value='$hasil[nama_transaksi]'>FUSE</option>";
+                    // echo "<option value='$hasil[nama_transaksi]'>FUSE</option>";
+                    echo "<option value='$hasil[nama_transaksi]'>BEMIS</option>";
                   }elseif($hasil['nama_transaksi'] == 'preparation'){
                     echo "<option value='$hasil[nama_transaksi]'>JUWITA</option>";
                   }else{
