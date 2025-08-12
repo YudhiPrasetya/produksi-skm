@@ -172,11 +172,11 @@
               <li style="background: #254681"><a style="background: #254681" href="temp_cutting.php">CUTTING</a></li>
               <!-- <li><a href="temp_qc_cutpart.php">QC CUTPART</a></li> -->
               <!-- <li><a href="temp_press.php">PRESS</a></li> -->
-              <!-- <li><a href="temp_press.php">PRESS</a></li> -->
+              <li><a href="temp_press.php">PRESS</a></li>
               <!-- <li><a href="temp_press.php">PAD PRINT</a></li> -->
               <li><a href="temp_moulding.php">MOULDING</a></li>
-              <!-- <li><a href="temp_bemis.php">BEMIS</a></li> -->
-              <li><a href="temp_bemis.php">FUSE</a></li>
+              <li><a href="temp_bemis.php">BEMIS</a></li>
+              <!-- <li><a href="temp_bemis.php">FUSE</a></li> -->
               <!-- <li><a href="temp_preparation.php">PREPARATION</a></li> -->
               <li><a href="temp_preparation.php">JUWITA</a></li>
               <li><a href="temp_ht.php">HT</a></li>

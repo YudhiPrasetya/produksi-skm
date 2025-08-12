@@ -202,7 +202,7 @@ if(isset($_POST['kirim'])){
             function sendQCEndlineMsg(){
                 var qcEndline = new WebSocket("ws://192.168.90.100:10000/?service=qc_endline");
 
-                // var qcEndline = new WebSocket("ws://localhost:10000/?service=qc_endline");
+                // var qcEndline = new WebSocket("ws://127.0.0.1:10000/?service=qc_endline");
 
                 qcEndline.onopen = function(){
                     let dataTransaksi = '<?= $dataTransaksi; ?>';

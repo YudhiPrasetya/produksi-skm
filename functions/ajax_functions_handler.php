@@ -354,11 +354,13 @@ function getAllProductionSummary($tgl, $kategori, $buyer, $line){
 function getAllQcEndlineOutputToday(){
    global $koneksi;
 
-   $query = "SELECT qty, `line` FROM transaksi_qc_endline WHERE tanggal=CURDATE()";
+   // $query = "SELECT qty, `line` FROM transaksi_qc_endline WHERE tanggal=CURDATE()";
+   $query = "SELECT qty, `line`, style FROM view_transaksi_qc_endline WHERE tanggal=CURDATE()";
    $response = mysqli_query($koneksi, $query) or die('Gagal menampilkan data!');
    $dataToday = [];
    while($r = mysqli_fetch_assoc($response)){
       $row = [
+         'style' => $r['style'],
          'line' => $r['line'],
          'qty' => $r['qty']
       ];

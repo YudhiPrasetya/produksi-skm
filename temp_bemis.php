@@ -42,7 +42,7 @@ cek_status($_SESSION['username'] ) == 'bemis' ) {
 
 <center>
 <font color="blue">
-<h2>TRANSAKSI FUSE</h2>
+<h2>TRANSAKSI BEMIS</h2>
 Username Aktif : <?= $_SESSION['username'] ?></font>
 
 <div style="height:55px;">

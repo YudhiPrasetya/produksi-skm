@@ -101,16 +101,6 @@
 
             <div class="row" id="cardContainer">
             </div>
-
-            <div class="sticky-bottom" id="grafik">
-               <div class="row">
-                  <div class="">
-                  </div>
-
-                  <div>
-                  </div>
-               </div>
-            </div>
          </div>
 
       </main>
@@ -176,48 +166,64 @@
                   }
                   return acc2;
                }, []);
-               
-               $.each(summedByLineToday, function(i, itoday){
-                  $.each(summedByLineYesterday, function(x, iyesterday){
-                     if(itoday.line == iyesterday.line){
-                        let idOutputLine = itoday.line.replace(" ","");
-                        lines.push(idOutputLine);
-                        $('#cardContainer').append(
-                           `<div class="col-xl-2 col-sm-6 mb-4 fadeIn-Animate" style="display: none;" id="${idOutputLine}">
-                                 <div class="card color p-1">
-                                    <div class="card-header p-2 ps-2">
-                                       <div class="row">
-                                          <div class="col-sm-6">
-                                             <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">${itoday.line}</span></p>
-                                          </div>
-                                          <div class="col-sm-6">
-                                             <span class="badge bg-warning hideUpdate" id="updated-${idOutputLine}">Updated</span>
-                                          </div>
-                                       </div>
+
+               var arrMixed = [];
+               summedByLineToday.forEach(objLineToday => {
+                  let foundToLineYesterday = summedByLineYesterday.find(objLineYesterday => objLineToday.line == objLineYesterday.line);
+                  let objMixed = {};
+                  if(foundToLineYesterday != undefined){
+                     objMixed.style = objLineToday.style;
+                     objMixed.line = objLineToday.line;
+                     objMixed.qtyToday = objLineToday.qty;
+                     objMixed.qtyYesterday = foundToLineYesterday.qty;
+                  }else{
+                     objMixed.style = objLineToday.style;
+                     objMixed.line = objLineToday.line;
+                     objMixed.qtyToday = objLineToday.qty;
+                     objMixed.qtyYesterday = 0;
+                  }
+                  arrMixed.push(objMixed);                     
+               });
+               $.each(arrMixed, function(i, item){
+                  let idOutputLine = item.line.replace(" ","");
+                  lines.push(idOutputLine);
+                  $('#cardContainer').append(
+                     `<div class="col-xl-2 col-sm-6 mb-4 fadeIn-Animate" style="display: none;" id="${idOutputLine}">
+                        <div class="card color p-1">
+                              <div class="card-header p-2 ps-2">
+                                 <div class="row">
+                                    <div class="col-sm-8">
+                                       <p class="mb-0 text-sm">
+                                          <span class="text-success font-weight-bolder">
+                                             ${item.line} <span class="text-dark">(${item.style})</span>
+                                          </span>
+                                       </p>
                                     </div>
-                                    <hr class="dark horizontal my-0">
-                                    <div class="card-footer p-2 ps-2 bg-gradient-dark">
-                                       <div class="d-flex justify-content-between">
-                                          <div>
-                                             <p class="text-sm mb-0 text-warning text-center">Target</p>
-                                             <h4 class="mb-0 text-warning text-center" id="target-${idOutputLine}">0</h4>
-                                          </div>
-                                          <div>
-                                             <p class="text-sm mb-0 text-capitalize text-success text-center">Today</p>
-                                             <h4 class="mb-0 text-success text-center" id="output-today-${idOutputLine}"><strong>${itoday.qty}</strong></h4>
-                                          </div>
-                                          <div>
-                                             <p class="text-sm mb-0 text-white text-center">Yesterday</p>
-                                             <h4 class="mb-0 text-white text-center" id="output-yesterday-${idOutputLine}">${iyesterday.qty}</h4>
-                                          </div>
-                                       </div>
+                                    <div class="col-sm-4">
+                                       <span class="badge rounded-pill bg-warning hideUpdate" id="updated-${idOutputLine}">Updated</span>
                                     </div>
                                  </div>
-                              </div>`
-                        );
-
-                     }
-                  })
+                              </div>
+                              <hr class="dark horizontal my-0">
+                              <div class="card-footer p-2 ps-2 bg-gradient-dark">
+                                 <div class="d-flex justify-content-between">
+                                    <div>
+                                       <p class="text-sm mb-0 text-warning text-center">Target</p>
+                                       <h4 class="mb-0 text-warning text-center" id="target-${idOutputLine}">0</h4>
+                                    </div>
+                                    <div>
+                                       <p class="text-sm mb-0 text-capitalize text-success text-center">Today</p>
+                                       <h4 class="mb-0 text-success text-center" id="output-today-${idOutputLine}"><strong>${item.qtyToday}</strong></h4>
+                                    </div>
+                                    <div>
+                                       <p class="text-sm mb-0 text-white text-center">Yesterday</p>
+                                       <h4 class="mb-0 text-white text-center" id="output-yesterday-${idOutputLine}">${(item.qtyYesterday == 0 ? "tidak ada" : item.qtyYesterday)}</h4>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>`                  
+                  );
                });
 
                $.each(lines, function(i, itm){
@@ -228,7 +234,7 @@
                         let fakeLine = dt.line.replace(" ","");
                         $(`#target-${fakeLine}`).text(dt.target);
                      }else{
-                        $(`#target-${itm}`).text(0);
+                        $(`#target-${itm}`).text('blm diisi');
                      }
                   })
 
@@ -262,6 +268,7 @@
                var objDataQCEndlineOnMessage = JSON.parse(msg.data);
    
                var line = objDataQCEndlineOnMessage.dataOutput[0].line.replace(" ", "");
+               var style = objDataQCEndlineOnMessage.dataEff[0].style;
                
                let found = lines.find(o => o === line);
                if(found != undefined){
@@ -284,15 +291,15 @@
                   });
 
                }else{
-                  AddOutputLine(line, objDataQCEndlineOnMessage.dataOutput[0].today);
+                  AddOutputLine(line, style, objDataQCEndlineOnMessage.dataOutput[0].today);
                }
    
                // $('#cardContainer').append(template)
             }
 
-            var outputTarget = new WebSocket("ws://127.0.0.1:10000/?service=ouput_target");
+            // var outputTarget = new WebSocket("ws://127.0.0.1:10000/?service=ouput_target");
 
-            // var outputTarget = new WebSocket("ws://192.168.90.100:10000/?service=ouput_target");
+            var outputTarget = new WebSocket("ws://192.168.90.100:10000/?service=ouput_target");
 
             outputTarget.onmessage = function (msg){
                var objOuputTargetOnMessage = JSON.parse(msg.data);
@@ -307,14 +314,15 @@
 
             }
             
-            function AddOutputLine(ln,output){
+            function AddOutputLine(ln, st, output){
                var realLine = ln.slice(0,4) + " " + ln.slice(4);
 
                $.when(fetchQCEndlinePerLineYesterday(realLine), fetchQCEndlineTarget(realLine)).done(function(rst1, rst2){
+                  console.log('rst1: ', rst1);
                   var qtyYesterday = 0;
                   
-                  if(rst1.length > 0){
-                     const summedByLineYesterday1 = rst1.reduce((a, c) => {
+                  if(rst1[0].length > 0){
+                     const summedByLineYesterday1 = rst1[0].reduce((a, c) => {
                         const f = a.find(v => v.line === c.line);
                         if(f){
                            f.qty += parseInt(c.qty);
@@ -324,13 +332,13 @@
                         return a;
                      }, []);
 
-
+                     console.log('summedByLineYesterday1: ', summedByLineYesterday1);
                      qtyYesterday = summedByLineYesterday1[0].qty;
    
                      lines.push(ln);
 
                   }
-
+                  console.log('qtyYesterday: ', qtyYesterday);
                   // target = rst2[0].target;
 
                   $('#cardContainer').append(
@@ -338,15 +346,17 @@
                            <div class="card color p-1">
                               <div class="card-header p-2 ps-2">
                                  <div class="row">
-                                    <div class="col-sm-6">
-                                       <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">${realLine}</span></p>
+                                    <div class="col-sm-8">
+                                       <p class="mb-0 text-sm">
+                                          <span class="text-success font-weight-bolder">
+                                             ${realLine} <span class="text-dark">(${st})</span>
+                                          </span>
+                                       </p>
                                     </div>
-                                    <div class="col-sm-6">
-                                       <span class="badge bg-danger hideNew" id="updated-${ln}">New</span>
+                                    <div class="col-sm-4">
+                                       <span class="badge rounded-pill bg-danger hideNew" id="updated-${ln}">New</span>
                                     </div>
                                  </div>
-
-
                               </div>
                               <hr class="dark horizontal my-0">
                               <div class="card-footer p-2 ps-2 bg-gradient-dark">
