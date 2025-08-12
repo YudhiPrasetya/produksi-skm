@@ -220,7 +220,7 @@ require_once 'view/header.php';
               }
               
               ?>>
-          <label class="form-check-label" style="font-weight: normal" for="inlineCheckbox<?= $i; ?>"><?= strtoupper($transaksi) ?></label>
+          <label class="form-check-label" style="font-weight: normal" for="inlineCheckbox<?= $i; ?>"><?= strtoupper($transaksi == "preparation" ? "juwita" : $transaksi) ?></label>
         </td>
         <?php }else{ ?>
       </tr>
