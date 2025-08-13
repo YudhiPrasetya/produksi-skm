@@ -128,6 +128,8 @@
       ?>
           <li class="nav-link" style="background: #254681"><a href="#">DATA MASTER</a>
             <ul>
+              <li style="background: #254681"><a style="background: #254681" href="
+              .php">MASTER DEPARTMENT</a></li>
               <li><a href="master-order.php" style="background: #254681">MASTER ORDER</a>
                 <ul>
                   <li style="background: #254681"><a href="tambah-order.php">TAMBAH ORDER</a></li>
@@ -391,22 +393,23 @@
           <li style="float:right; background:#254681;"><a href="logout.php">LOG OUT</a></li>
 
         <?php } else { ?>
-          <li class="nav-link" style="background: #254681"><a href="#">DATA MASTER</a>
+          <!-- <li class="nav-link" style="background: #254681"><a href="#">DATA MASTER</a>
             <ul>
               <li style="background: #254681"><a style="background: #254681" href="master_karton_full.php">MASTER KARTON FULL</a></li>
             </ul>
-          </li>
-          <li style="background: #254681" class="nav-link"><a style="background: #254681" href="#">TRANSAKSI</a>
+          </li> -->
+          <!-- <li style="background: #254681" class="nav-link"><a style="background: #254681" href="#">TRANSAKSI</a>
             <ul style="background: #254681">
               <li><a href="temp_qc_kensa.php">QC KENSA</a></li>
-              <!-- <li><a href="temp_tatami_in.php">TATAMI</a></li> -->
+              <li><a href="temp_tatami_in.php">TATAMI</a></li>
               <li style="background: #254681"><a style="background: #254681" href="#">SCAN KARTON FULL</a>
                 <ul>
-                  <!-- <li><a href="temp_reject_tatami.php">TATAMI REJECT</a></li> -->
+                  <li><a href="temp_reject_tatami.php">TATAMI REJECT</a></li>
                 </ul>
               </li>
             </ul>
-          </li>                    
+          </li>-->
+          
           <li style="background: #254681"><a style="background: #254681" target="_blank" href="cetak_laporan_hasil_scan_global.php">REPORT SCAN BUNDLE</a>
             <ul style="background: #254681">
 
