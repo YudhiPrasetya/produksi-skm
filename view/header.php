@@ -128,8 +128,7 @@
       ?>
           <li class="nav-link" style="background: #254681"><a href="#">DATA MASTER</a>
             <ul>
-              <li style="background: #254681"><a style="background: #254681" href="
-              .php">MASTER DEPARTMENT</a></li>
+              <li style="background: #254681"><a style="background: #254681" href="master_department.php">MASTER DEPARTMENT</a></li>
               <li><a href="master-order.php" style="background: #254681">MASTER ORDER</a>
                 <ul>
                   <li style="background: #254681"><a href="tambah-order.php">TAMBAH ORDER</a></li>
@@ -154,6 +153,7 @@
 
           <li style="background: #254681" class="nav-link"><a href="#">PRE PRODUCTION</a>
             <ul style="background: #254681">
+              <li style="background: #254681"><a style="background: #254681" href="pre_production_meeting.php">PRE PRODUCTION MEETING</a></li>
               <li style="background: #254681"><a style="background: #254681" href="temp_plan_production.php">PLAN PRODUCTION</a></li>
               <li style="background: #254681"><a style="background: #254681" href="temp_preparation_production.php">PRE PRODUCTION</a></li>
               <li style="background: #254681"><a style="background: #254681" href="master_target_harian.php">INPUT TARGET</a></li>
@@ -409,7 +409,7 @@
               </li>
             </ul>
           </li>-->
-          
+
           <li style="background: #254681"><a style="background: #254681" target="_blank" href="cetak_laporan_hasil_scan_global.php">REPORT SCAN BUNDLE</a>
             <ul style="background: #254681">
 
