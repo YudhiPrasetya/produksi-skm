@@ -73,7 +73,17 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                $idDepartment = $param['id'];
                getMemberByIdDepartment($idDepartment);
                break;
-            }            
+            }
+         case 'ajax_getStylePreProduction':
+            getStylePreProduction();
+            break;
+         case 'ajax_getQtyPreProdByStyle':
+            if(isset($_GET['param'])){
+               $param = $_GET['param'];
+               $idStyle = $param['idStyle'];
+               getQtyPreProdByStyle($idStyle);
+               break;
+            }                        
        }
       //  }
    } else if(isset($_POST['action'])){
@@ -131,6 +141,12 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                $param = $_POST['param'];
                $dMember = $param['dataMember'];
                updateMemberDepartment($dMember);
+            }
+         case 'ajax_postPreProductionMeetingSchedule':
+            if(isset($_POST['param'])){
+               $param = $_POST['param'];
+               $dataPreProdSchedule = $param['dataPreProdSchedule'];
+               postPreProdSchedule($dataPreProdSchedule);               
             }
       }
    }else{
@@ -621,6 +637,65 @@ function updateMemberDepartment($member){
 
    $response = mysqli_query($koneksi, $sql) or die('Gagal...');
    echo $response;   
+}
+
+function getStylePreProduction(){
+   global $koneksi;
+
+   $sql = "SELECT DISTINCT(id_style), style FROM view_order_preproduction";
+
+   $responseStyle = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dataStyle = [];
+   while($r = mysqli_fetch_assoc($responseStyle)){
+      $row = [
+         'id_style' => $r['id_style'],
+         'style' => $r['style']
+      ];
+      array_push($dataStyle, $row);
+   }
+   $jsonStyle = json_encode($dataStyle);
+
+   // var_dump($jsonMember);
+
+   echo $jsonStyle;   
+}
+
+function postPreProdSchedule($dtPreProdSchedule){
+   global $koneksi;
+
+   $meeting_date = $dtPreProdSchedule["meeting_date"];
+   $place = $dtPreProdSchedule["place"];
+   $meeting_style = $dtPreProdSchedule["meeting_style"];
+   $dept_attendees = json_encode($dtPreProdSchedule["dept_attendees"]);
+   $description = $dtPreProdSchedule["description"];
+   $totalQTYOrder = $dtPreProdSchedule["total_qty_order"];
+
+   $sql = "INSERT INTO pre_production_meeting_schedule(meeting_date, place, meeting_style, dept_attendees, `description`, total_qty_order) VALUES('$meeting_date', '$place', '$meeting_style', '$dept_attendees', '$description', '$totalQTYOrder')";
+
+   mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   
+   $id = mysqli_insert_id($koneksi);
+
+   echo $id;   
+}
+
+function getQtyPreProdByStyle($idS){
+   global $koneksi;
+   $sql = "SELECT id_style, `orc`, qty_order FROM view_order_preproduction WHERE id_style='$idS'";
+
+   $responsePP = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dataPP = [];
+   while($r = mysqli_fetch_assoc($responsePP)){
+      $row = [
+         'id_style' => $r['id_style'],
+         'orc' => $r['orc'],
+         'qty_order' => $r['qty_order']
+      ];
+      array_push($dataPP, $row);
+   }
+   $jsonPP = json_encode($dataPP);
+
+   echo $jsonPP;   
 }
 
 ?>

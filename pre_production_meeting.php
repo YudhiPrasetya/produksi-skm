@@ -23,7 +23,7 @@
    <!-- <div class="row"> -->
       <div class="panel panel-default redShadowColor" style="margin: 10px 10px 10px 10px">
          <div class="panel-heading">
-            <h3 class="text-center" style="margin-top: 10px;"><strong>PRE PRODUCTION MEETING</strong></h3>
+            <h3 class="text-center" style="margin-top: 10px;"><strong>PRE PRODUCTION SCHEDULE MEETING</strong></h3>
          </div>
          <div class="panel-body">
             <div class="form-group">
@@ -52,53 +52,73 @@
                   <div class="panel-heading bg-info">
                      
                      <h3 class="text-center" style="margin-top: 10px;">
-                        <strong>Pre Production Meeting</strong>
+                        <strong>Pre Production Schedule Meeting</strong>
                         <span class="badge label label-success">
                            Add New
                         </span>
                      </h3>
                   </div>
                   <div class="panel-body">
-                     <div class="col-md-6">
-                        <div class="form-group">
-                           <label for="meetingDate" style="margin-bottom: 0px;">Tanggal Meeting</label>
-                           <input type="date" class="form-control" id="meetingDate" name="meetingDate" />
+                     <form id="frmAddNew">
+                        <div class="col-md-6">
+                           <div class="form-group">
+                              <label for="meetingDate" style="margin-bottom: 0px;">Tanggal Meeting</label>
+                              <input type="date" class="form-control" id="meetingDate" name="meetingDate" />
+                           </div>
+                           <div class="form-group">
+                              <label for="place" style="margin-bottom: 0px;">Tempat</label>
+                              <select name="place" id="place" class="form-control">
+                                 <option value="">--Silahkan pilih tempat meeting--</option>
+                                 <option value="Globalindo 1">Globalindo 1 (Jombor)</option>
+                                 <option value="Globalindo 2">Globalindo 2 (Mlese)</option>
+                              </select>
+                           </div>
+                           <div class="form-group" style="margin-bottom: 0px;">
+                              <label for="style" style="margin-bottom: 0px;">Style</label>
+                              <select name="style" id="style" class="form-control select2" width="100%">
+                                 <option value=''>--Silahkan pilih style--</option>
+                              </select>
+                           </div>
+                           <div class="panel panel-info" id="detail">
+                              <div class="panel-body" id="bodyDetail">
+                                 <table id="tableDetail" class="table table-striped">
+                                    <thead>
+                                       <tr>
+                                          <th>ORC</th>
+                                          <th>QTY</th>
+                                       </tr>
+                                    </thead>
+                                    <tfoot>
+                                       <tr>
+                                          <th>Total</th>
+                                          <th></th>                                          
+                                       </tr>
+                                    </tfoot>
+                                 </table>
+                              </div>
+                           </div>                           
                         </div>
-                        <div class="form-group">
-                           <label for="place" style="margin-bottom: 0px;">Tempat</label>
-                           <select name="place" id="place" class="form-control">
-                              <option value="">--Silahkan pilih tempat meeting--</option>
-                              <option value="Globalindo 1">Globalindo 1 (Jombor)</option>
-                              <option value="Globalindo 2">Globalindo 2 (Mlese)</option>
-                           </select>
-                        </div>
-                        <div class="form-group">
-                           <label for="style" style="margin-bottom: 0px;">Style</label>
-                           <select name="style" id="style" class="form-control select2" width="100%">
-                              <option>--Silahkan pilih style--</option>
-                           </select>
-                        </div>
-                     </div>
 
-                     <div class="col-md-6">
-                        <div class="form-group">
-                           <label for="deptAttendees" style="margin-bottom: 0px;">Departemen yg diundang</label>
-                           <select name="deptAttendees" id="deptAttendees" class="form-control select2" width="100%">
-                              <option>--Silahkan pilih departemen yang diundang--</option>                              
-                           </select>
+                        <div class="col-md-6">
+                           <div class="form-group">
+                              <label for="deptAttendees" style="margin-bottom: 0px;">Departemen yg diundang</label>
+                              <select name="deptAttendees" id="deptAttendees" class="form-control select2" placeholder="--Pilih departemen yang diundang--">
+                              </select>
+                           </div>
+                           <div class="form-group">
+                              <label for="description" style="margin-bottom: 0px;">Deskripsi</label>
+                              <textarea name="description" id="description" class="form-control" rows="4" cols="5"></textarea>
+                           </div>
+
                         </div>
-                        <div class="form-group">
-                           <label for="description" style="margin-bottom: 0px;">Deskripsi</label>
-                           <textarea name="description" id="description" class="form-control" rows="5" cols="5"></textarea>
-                        </div>
-                     </div>
+                     </form>
                   </div>
                   <div class="panel-footer">
-                     <button type="button" style="margin-top: 0px; margin-right: 10px;" class="btn btn-success btn-lg" disabled>
+                     <button type="button" style="margin-top: 0px; margin-right: 10px;" id="btnSave" class="btn btn-success btn-lg" disabled>
                         <span class="glyphicon glyphicon-plus-sign"></span> Save
                      </button>
 
-                     <button type="button" style="margin-top: 0px;" class="btn btn-default btn-lg" disabled>
+                     <button type="button" style="margin-top: 0px;" id="btnCancel" class="btn btn-default btn-lg" disabled>
                         <span class="glyphicon glyphicon-ban-circle"></span> Cancel
                      </button>
 
@@ -117,47 +137,211 @@
 
 <script>
    $(document).ready(function(){
-      $('.select2').select2({
-         width: "100%"
+      var arrDeptAttendees = [];
+      var totalQTYOrder = 0;
+      var tableDetail = $('#tableDetail').DataTable({
+         destroy: true,
+         paging: false,
+         searching: false,
+         "footerCallback": function(row, data, start, end, display) {
+            var api = this.api();
+
+            var totalAmount = api
+               .column(1, { page: 'current' }) 
+               .data()
+               .reduce(function(a, b) {
+                  return parseInt(a) + parseInt(b);
+               }, 0);
+
+            $(api.column(1).footer()).html(totalAmount); // Format as needed
+         }         
       });
 
-      // loadStyleAndDepartment();
+      loadStyleAndDepartment();
 
-      // function loadStyleAndDepartment(){
-      //    $.when(loadStyles(), loadDepartments()).done(function(rstStyles, rstDepartments){
+      function loadStyleAndDepartment(){
+         $.when(loadStyles(), loadDepartments()).done(function(rstStyles, rstDepartments){
+            $('#style').select2({
+               width: "100%"
+            });
 
-      //    });
-      // }
+            $.each(rstStyles[0], function(i, st){
+               let newOption = new Option(st.style, st.id_style, false, false);
+               $('#style').append(newOption).trigger('change');
+            });
 
-      // function loadStyles(){
-      //    try{
-      //       var rspStyles = $.ajax({
+            $('#deptAttendees').select2({
+               width: "100%",
+               placeholder: $(this).attr('placeholder'),
+               multiple: true,
+               allowClear: true
+            })
+            $.each(rstDepartments[0], function(z, dept){
+               let newOption = new Option(dept.namaDepartemen, dept.namaDepartemen, false, false);
+               $('#deptAttendees').append(newOption).trigger('change');               
+            })
+         });
+      }
 
-      //       });
-      //       return rspStyles;
-      //    }cacth(err){
-      //       throw err
-      //    }
-      // }
+      function loadStyles(){
+         try{
+            var rspStyles = $.ajax({
+               type: 'GET',
+               url: 'functions/ajax_functions_handler.php',
+               dataType: 'JSON',
+               data: {
+                  'action': 'ajax_getStylePreProduction'
+               }
+            });
+            return rspStyles;
+         }catch(err){
+            throw err;
+         }
+      }
 
-      // function loadDepartments(){
-      //    try{
-      //       var rspDepartments = $.ajax({
-
-      //       });
-      //       return rspDepartments;
-      //    }cacth(err){
-      //       throw err
-      //    }
-      // }
-
+      function loadDepartments(){
+         try{
+            var rspDepartments = $.ajax({
+               type: 'GET',
+               url: 'functions/ajax_functions_handler.php',
+               dataType: 'JSON',
+               data : {
+                  'action': 'ajax_getAllDepartment'
+               }
+            });
+            return rspDepartments;
+         }catch(err){
+            throw err;
+         }
+      }
 
       $('#btnAdd').click(function(){
          $('#addForm').fadeIn(1000);
       });
 
       $('#btnExit').click(function(){
+         clearControls();
+         setValidation();
          $('#addForm').fadeOut(1000);
+      });
+
+      $('#meetingDate').change(function(){
+         setValidationButton();
+      });
+
+      $('#place').change(function(){
+         setValidationButton();
+      });
+
+      $('#style').change(function(){
+         setValidationButton();
+      });
+
+      $('#deptAttendees').change(function(){
+         setValidationButton();
+      });
+
+      function setValidationButton(){
+         let meetingDate = $('#meetingDate').val();
+         let place = $('#place').val();
+         let style = $('#style').val();
+         let deptAttendees = $('#deptAttendees').val();
+
+         let valid = meetingDate != '' && place != '' && style != '' && deptAttendees != null;
+         $('#btnSave').prop('disabled', !valid);
+         $('#btnCancel').prop('disabled', !valid);
+      }
+
+      $('#deptAttendees').change(function(){
+         arrDeptAttendees = $('#deptAttendees').select2('data');
+      });
+
+      $('#btnSave').click(function(){
+         console.log('arrDeptAttendees: ', arrDeptAttendees);
+
+         var arrSelectedOptions = [];
+         $.each(arrDeptAttendees, function(n, itm){
+            arrSelectedOptions.push(itm.text);
+         });
+
+         let dataPreProdSchedule = {
+            'meeting_date': $('#meetingDate').val(),
+            'place': $('#place').val(),
+            'meeting_style': $('#style').val(),
+            'dept_attendees': arrSelectedOptions,
+            'description': $('#description').val(),
+            'total_qty_order': totalQTYOrder
+         };
+         console.log('dataPreProdSchedule:', dataPreProdSchedule);
+         $.ajax({
+            type: 'POST',
+            url: 'functions/ajax_functions_handler.php',
+            dataType: 'JSON',
+            data: {
+               'action': 'ajax_postPreProductionMeetingSchedule',
+               'param': {
+                  'dataPreProdSchedule': dataPreProdSchedule
+               }
+            }
+         }).done(function(id){
+            if(id){
+               Swal.fire({
+                  title: 'success',
+                  text: 'Data jadwal meeting pre production berhasil di tambahkan',
+                  type: 'success',
+                  onAfterClose: () => {
+                     clearControls();
+                     setValidationButton();
+                  }                  
+               })               
+            }
+         });
+      });
+
+      $('#btnCancel').click(function(){
+         clearControls();
+         setValidationButton();
+      })
+
+      function clearControls(){
+         $('#frmAddNew').trigger('reset');
+         $('#style').select2().val('');
+         $('#deptAttendees').select2().val(null);
+         totalQTYOrder = 0;
+         tableDetail.clear().draw();
+         $('#bodyDetail').css('display', 'none');
+      }
+
+      $('#style').change(function(){
+         $('#bodyDetail').css('display', 'none');
+         let idStyle = $(this).val();
+         $.ajax({
+            type: 'GET',
+            url: 'functions/ajax_functions_handler.php',
+            dataType: 'JSON',
+            data: {
+               'action': 'ajax_getQtyPreProdByStyle',
+               'param': {
+                  'idStyle': idStyle
+               }
+            }
+         }).done(function(dataPP){
+            if(dataPP.length > 0){
+               var html ='';
+               totalQTYOrder = 0;
+               tableDetail.clear().draw();
+               $.each(dataPP, function(i, item){
+                  totalQTYOrder += parseInt(item.qty_order);
+                  tableDetail.row.add([
+                     item.orc,
+                     item.qty_order
+                  ]).draw();
+               });
+
+               $('#bodyDetail').slideDown(1000);
+            }
+
+         })
       });
    });
 </script>
