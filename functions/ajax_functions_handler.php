@@ -124,6 +124,7 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                $param = $_POST['param'];
                $dataMember = $param['dataMember'];
                simpanMemberDepartment($dataMember);
+               break;
             }
          case 'ajax_UpdateMemberDepartment':
             if(isset($_POST['param'])){

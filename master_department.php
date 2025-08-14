@@ -369,7 +369,7 @@
                   type: 'success',
                   onAfterClose: () => {
                      // clearDepartmentControls();
-                     // loadAllDepartment();
+                     loadAllDepartment();
                      // toggleDepartmentControls();
                      $('#btnCancelDepartment').trigger('click');
                      $('#tableDepartment').removeClass('disabled-table');
