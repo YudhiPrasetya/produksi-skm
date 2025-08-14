@@ -64,6 +64,16 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
          case 'ajax_getQCEndlineTodayTarget':
             getQCEndlineTodayTarget();
             break;
+         case 'ajax_getAllDepartment':
+            getAllDepartment();
+            break;
+         case 'ajax_getMemberByIdDepartment':
+            if(isset($_GET['param'])){
+               $param = $_GET['param'];
+               $idDepartment = $param['id'];
+               getMemberByIdDepartment($idDepartment);
+               break;
+            }            
        }
       //  }
    } else if(isset($_POST['action'])){
@@ -94,6 +104,32 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                $dataTarget = $param['dataTarget'];
                updateTargetOutputLine($dataTarget);
                break;
+            }
+         case "ajax_PostDepartment":
+            if(isset($_POST['param'])){
+               $param = $_POST['param'];
+               $dataDepartment = $param['dataDepartment'];
+               simpanDepartemen($dataDepartment);
+               break;
+            }
+         case 'ajax_UpdateDepartment':
+            if(isset($_POST['param'])){
+               $param = $_POST['param'];
+               $dataDepartemen = $param['dataDepartemen'];
+               updateDepartment($dataDepartemen);
+               break;
+            }
+         case 'ajax_PostMemberDepartment':
+            if(isset($_POST['param'])){
+               $param = $_POST['param'];
+               $dataMember = $param['dataMember'];
+               simpanMemberDepartment($dataMember);
+            }
+         case 'ajax_UpdateMemberDepartment':
+            if(isset($_POST['param'])){
+               $param = $_POST['param'];
+               $dMember = $param['dataMember'];
+               updateMemberDepartment($dMember);
             }
       }
    }else{
@@ -489,6 +525,101 @@ function updateTargetOutputLine($dt){
    $response = mysqli_query($koneksi, $sql) or die('Gagal...');
 
    echo $response;
+}
+
+function getAllDepartment(){
+   global $koneksi;
+
+   $sql = "SELECT id, namaDepartemen, descDepartemen FROM master_departemen";
+   $responseAllDepartment = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dataAllDepartment = [];
+   while($r = mysqli_fetch_assoc($responseAllDepartment)){
+      $row = [
+         'id' => $r['id'],
+         'namaDepartemen' => $r['namaDepartemen'],
+         'descDepartemen' => $r['descDepartemen']
+      ];
+      array_push($dataAllDepartment, $row);
+   }
+   $jsonResultAllDepartment = json_encode($dataAllDepartment);
+
+   echo $jsonResultAllDepartment;   
+}
+
+function getMemberByIdDepartment($id){
+   global $koneksi;
+
+   $sql = "SELECT id, idDepartemen, Nama FROM departemen_member WHERE idDepartemen='$id'";
+   $responseMember = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dataMember = [];
+   while($r = mysqli_fetch_assoc($responseMember)){
+      $row = [
+         'id' => $r['id'],
+         'idDepartemen' => $r['idDepartemen'],
+         'Nama' => $r['Nama']
+      ];
+      array_push($dataMember, $row);
+   }
+   $jsonMember = json_encode($dataMember);
+
+   // var_dump($jsonMember);
+
+   echo $jsonMember;   
+}
+
+function simpanDepartemen($dtDepartment){
+   global $koneksi;
+
+   $namaDepartemen = $dtDepartment['namaDepartemen'];
+   $descDepartemen = $dtDepartment['descDepartemen'];
+
+   $sql = "INSERT INTO master_departemen(namaDepartemen, descDepartemen) VALUES('$namaDepartemen', '$descDepartemen')";
+   
+   mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   
+   $id = mysqli_insert_id($koneksi);
+
+   echo $id;   
+}
+
+function updateDepartment($dtDepartemen){
+   global $koneksi;
+
+   $id = $dtDepartemen['id'];
+   $namaDepartemen = $dtDepartemen['namaDepartemen'];
+   $descDepartemen = $dtDepartemen['descDepartemen'];
+
+   $sql = "UPDATE master_departemen SET namaDepartemen='$namaDepartemen', descDepartemen='$descDepartemen' WHERE id='$id'";
+
+   $response = mysqli_query($koneksi, $sql) or die('Gagal...');
+
+   echo $response;
+}
+
+function simpanMemberDepartment($dtMember){
+   global $koneksi;
+
+   $idDepartemen = $dtMember['idDepartemen'];
+   $nama = $dtMember['namaMember'];
+
+   $sql = "INSERT INTO departemen_member(idDepartemen, Nama) VALUES('$idDepartemen', '$nama')";
+
+   mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   
+   $id = mysqli_insert_id($koneksi);
+
+   echo $id;    
+}
+
+function updateMemberDepartment($member){
+   global $koneksi;
+
+   $id = $member['id'];
+   $nama = $member['Nama'];
+   $sql = "UPDATE departemen_member SET Nama='$nama' WHERE id='$id'";
+
+   $response = mysqli_query($koneksi, $sql) or die('Gagal...');
+   echo $response;   
 }
 
 ?>
