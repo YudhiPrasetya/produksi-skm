@@ -669,8 +669,9 @@ function postPreProdSchedule($dtPreProdSchedule){
    $dept_attendees = json_encode($dtPreProdSchedule["dept_attendees"]);
    $description = $dtPreProdSchedule["description"];
    $totalQTYOrder = $dtPreProdSchedule["total_qty_order"];
+   $status = $dtPreProdSchedule['status']
 
-   $sql = "INSERT INTO pre_production_meeting_schedule(meeting_date, place, meeting_style, dept_attendees, `description`, total_qty_order) VALUES('$meeting_date', '$place', '$meeting_style', '$dept_attendees', '$description', '$totalQTYOrder')";
+   $sql = "INSERT INTO pre_production_meeting_schedule(meeting_date, place, meeting_style, dept_attendees, `description`, total_qty_order, `status`) VALUES('$meeting_date', '$place', '$meeting_style', '$dept_attendees', '$description', '$totalQTYOrder', '$status')";
 
    mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
    

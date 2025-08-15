@@ -221,7 +221,7 @@
 
       $('#btnExit').click(function(){
          clearControls();
-         setValidation();
+         setValidationButton();
          $('#addForm').fadeOut(1000);
       });
 
@@ -257,8 +257,6 @@
       });
 
       $('#btnSave').click(function(){
-         console.log('arrDeptAttendees: ', arrDeptAttendees);
-
          var arrSelectedOptions = [];
          $.each(arrDeptAttendees, function(n, itm){
             arrSelectedOptions.push(itm.text);
@@ -270,7 +268,8 @@
             'meeting_style': $('#style').val(),
             'dept_attendees': arrSelectedOptions,
             'description': $('#description').val(),
-            'total_qty_order': totalQTYOrder
+            'total_qty_order': totalQTYOrder,
+            'status': 'on hold'
          };
          console.log('dataPreProdSchedule:', dataPreProdSchedule);
          $.ajax({
