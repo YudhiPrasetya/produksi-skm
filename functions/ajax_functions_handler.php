@@ -64,8 +64,8 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
          case 'ajax_getQCEndlineTodayTarget':
             getQCEndlineTodayTarget();
             break;
-         case 'ajax_getAllDepartment':
-            getAllDepartment();
+         case 'ajax_getAllLevel':
+            getAllLevel();
             break;
          case 'ajax_getMemberByIdDepartment':
             if(isset($_GET['param'])){
@@ -83,7 +83,21 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                $idStyle = $param['idStyle'];
                getQtyPreProdByStyle($idStyle);
                break;
-            }                        
+            }
+         case 'ajax_getScheduleMeeting':
+            getScheduleMeeting();
+            break;
+         case 'ajax_getMeetingSchedule7Days':
+            getMeetingSchedule7Days();
+            break;
+         case 'ajax_cekDiundangMeeting':
+            if(isset($_GET['param'])){
+               $p = $_GET['param'];
+               $idSchedule = $p['idSchedule'];
+               $level = $p['level'];
+               cekDiundangMeeting($idSchedule, $level);
+               break;
+            }
        }
       //  }
    } else if(isset($_POST['action'])){
@@ -141,12 +155,21 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                $param = $_POST['param'];
                $dMember = $param['dataMember'];
                updateMemberDepartment($dMember);
+               break;
             }
          case 'ajax_postPreProductionMeetingSchedule':
             if(isset($_POST['param'])){
                $param = $_POST['param'];
                $dataPreProdSchedule = $param['dataPreProdSchedule'];
                postPreProdSchedule($dataPreProdSchedule);               
+               break;
+            }
+         case 'ajax_postPPMResult':
+            if(isset($_POST['param'])){
+               $p = $_POST['param'];
+               $content = $p['content'];
+               postPPMResult($content);
+               break;
             }
       }
    }else{
@@ -544,23 +567,22 @@ function updateTargetOutputLine($dt){
    echo $response;
 }
 
-function getAllDepartment(){
+function getAllLevel(){
    global $koneksi;
 
-   $sql = "SELECT id, namaDepartemen, descDepartemen FROM master_departemen";
-   $responseAllDepartment = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
-   $dataAllDepartment = [];
-   while($r = mysqli_fetch_assoc($responseAllDepartment)){
+   $sql = "SELECT id_level, `level` FROM level_user";
+   $responseAllLevel = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dataAllLevel = [];
+   while($r = mysqli_fetch_assoc($responseAllLevel)){
       $row = [
-         'id' => $r['id'],
-         'namaDepartemen' => $r['namaDepartemen'],
-         'descDepartemen' => $r['descDepartemen']
+         'id_level' => $r['id_level'],
+         'level' => $r['level'],
       ];
-      array_push($dataAllDepartment, $row);
+      array_push($dataAllLevel, $row);
    }
-   $jsonResultAllDepartment = json_encode($dataAllDepartment);
+   $jsonResultAllLevel = json_encode($dataAllLevel);
 
-   echo $jsonResultAllDepartment;   
+   echo $jsonResultAllLevel;   
 }
 
 function getMemberByIdDepartment($id){
@@ -669,9 +691,8 @@ function postPreProdSchedule($dtPreProdSchedule){
    $dept_attendees = json_encode($dtPreProdSchedule["dept_attendees"]);
    $description = $dtPreProdSchedule["description"];
    $totalQTYOrder = $dtPreProdSchedule["total_qty_order"];
-   $status = $dtPreProdSchedule['status'];
 
-   $sql = "INSERT INTO pre_production_meeting_schedule(meeting_date, place, meeting_style, dept_attendees, `description`, total_qty_order, `status`) VALUES('$meeting_date', '$place', '$meeting_style', '$dept_attendees', '$description', '$totalQTYOrder', '$status')";
+   $sql = "INSERT INTO pre_production_meeting_schedule(meeting_date, place, meeting_style, dept_attendees, `description`, total_qty_order) VALUES('$meeting_date', '$place', '$meeting_style', '$dept_attendees', '$description', '$totalQTYOrder')";
 
    mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
    
@@ -699,4 +720,103 @@ function getQtyPreProdByStyle($idS){
    echo $jsonPP;   
 }
 
+function getScheduleMeeting(){
+   global $koneksi;
+
+   $sql = "SELECT id, meeting_date, place, meeting_style, dept_attendees, `description`, total_qty_order FROM pre_production_meeting_schedule WHERE DATE(meeting_date)=CURDATE()";
+
+   $responseSchedule = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dataSchedule = [];
+   while($r = mysqli_fetch_assoc($responseSchedule)){
+      $row = [
+         'id' => $r['id'],
+         'meeting_date' => $r['meeting_date'],
+         'place' => $r['place'],
+         'meeting_style' => $r['meeting_style'],
+         'dept_attendees' => $r['dept_attendees'],
+         'description' => $r['description'],
+         'total_qty_order' => $r['total_qty_order'],
+      ];
+      array_push($dataSchedule, $row);
+   }
+   $jsonSchedule = json_encode($dataSchedule);
+
+   // var_dump($jsonMember);
+
+   echo $jsonSchedule;   
+
+}
+
+function getMeetingSchedule7Days(){
+   global $koneksi;
+
+   $sql = "SELECT id, meeting_date, place, meeting_style, dept_attendees, `description`, total_qty_order, `status` FROM pre_production_meeting_schedule WHERE DATE(meeting_date) >= CURDATE() AND DATE(meeting_date) <= DATE_ADD(CURDATE(), INTERVAl 7 DAY)";
+
+   $respSchedule = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dtSchedule = [];
+   while($r = mysqli_fetch_assoc($respSchedule)){
+      $row = [
+         'id' => $r['id'],
+         'meeting_date' => $r['meeting_date'],
+         'place' => $r['place'],
+         'meeting_style' => $r['meeting_style'],
+         'dept_attendees' => $r['dept_attendees'],
+         'description' => $r['description'],
+         'total_qty_order' => $r['total_qty_order'],
+         'status' => $r['status']
+      ];
+      array_push($dtSchedule, $row);
+   }
+   $jsonSchedule = json_encode($dtSchedule);
+   
+   echo $jsonSchedule;
+}
+
+function cekDiundangMeeting($id, $lvl){
+   global $koneksi;
+
+   $sql = "SELECT id, meeting_date, place, meeting_style, dept_attendees, `description`, total_qty_order FROM pre_production_meeting_schedule WHERE id='$id'";
+
+   $respDiundang = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+
+   $rstDiundang = mysqli_fetch_assoc($respDiundang);
+   $deptAttendees = json_decode($rstDiundang['dept_attendees']);
+   $found = in_array($lvl, $deptAttendees);
+   if($found == false){
+      $jsonDiundang = json_encode(false);
+   }else{
+      $jsonDiundang = json_encode($rstDiundang);
+   }
+   echo $jsonDiundang;   
+   
+
+   // if(count($rstDiundang) > 0){
+   //    $jsonDiundang = json_encode($rstDiundang);
+
+   // }
+   // $jsonSchedule = json_encode($dtSchedule);
+   
+   // echo $jsonSchedule;   
+}
+
+function postPPMResult($ctn){
+   global $koneksi;
+
+   $idSchedule = $ctn['id_meeting_schedule'];
+   $username = $ctn['user_name'];
+   $level = $ctn['level'];
+   $effective_date = $ctn['effective_date'];
+   $notes = json_encode($ctn['notes']);
+
+
+   $sql = "INSERT INTO pre_production_meeting(id_meeting_schedule, user_name, `level`, effective_date, notes) VALUES('$idSchedule', '$username', '$level', '$effective_date', '$notes')";
+
+   // var_dump($sql);
+
+   mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   
+   $id = mysqli_insert_id($koneksi);
+
+   echo $id;   
+}
 ?>
