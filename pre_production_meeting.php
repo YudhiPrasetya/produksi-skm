@@ -145,11 +145,11 @@
                   <span class="glyphicon glyphicon-list-alt"></span>
                </button>
 
-               <button type="button" class="btn btn-warning btn-lg" id="btnCardView">
+               <button type="button" class="btn btn-warning btn-lg" id="btnCardView" disabled>
                   <span class="glyphicon glyphicon-file"></span>
                </button>
 
-               <button type="button" class="btn btn-warning btn-lg" id="btnRefresh">
+               <button type="button" class="btn btn-warning btn-lg" id="btnRefresh" disabled>
                   <span class="glyphicon glyphicon-refresh"></span>
                </button>                  
             </div>
@@ -779,7 +779,7 @@
                      break;
                   case "finish":
                      $(`#btnEdit-${item.id}`).remove();
-                     buttonExec = `&nbsp;&nbsp;&nbsp;<button id="btnDelete-${item.id}" class="btn btn-default btn-sm btnDelete" data-row-id="${item.id}" style="margin-top: 0px;"><span class="glyphicon glyphicon-trash"></span>&nbsp;Delete</button>`;
+                     buttonExec = `&nbsp;&nbsp;&nbsp;<button id="btnPreview-${item.id}" class="btn btn-default btn-sm btnPreview" data-row-id="${item.id}" style="margin-top: 0px;"><span class="glyphicon glyphicon-print"></span>&nbsp;Preview</button>`;
                      break;
 
                }
@@ -897,8 +897,6 @@
                   end: formatedDate
                };
                $.when(updatePPMStatusClient(dataMeeting), finishMeeting(idMeeting)).done(function(rst1, rst2){
-                  console.log('rst1: ', rst1);
-                  console.log('rst2: ', rst2);
                   if(rst1[0] && rst2[0]){
                      Swal.fire({
                         title: 'Info',
