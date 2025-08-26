@@ -164,6 +164,13 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                postPreProdSchedule($dataPreProdSchedule);               
                break;
             }
+         case 'ajax_updatePPMSchedule':
+            if(isset($_POST['param'])){
+               $param = $_POST['param'];
+               $dataPPMSchedule = $param['dataPPMSchedule'];
+               updatePPMSchedule($dataPPMSchedule);               
+               break;
+            }            
          case 'ajax_postPPMResult':
             if(isset($_POST['param'])){
                $p = $_POST['param'];
@@ -171,6 +178,42 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                postPPMResult($content);
                break;
             }
+         case 'ajax_postStartPPM':
+            if(isset($_POST['param'])){
+               $p = $_POST['param'];
+               $idMeeting = $p['idMeeting'];
+               postStartPPM($idMeeting);
+               break;
+            }
+         case 'ajax_postJoiningPPM':
+            if(isset($_POST['param'])){
+               $p = $_POST['param'];
+               $dataMeeting = $p['dataMeeting'];
+               postJoiningPPM($dataMeeting);
+               break;
+            }
+            case 'ajax_postFinishPPM':
+               if(isset($_POST['param'])){
+                  $p = $_POST['param'];
+                  $id = $p['id'];
+                  postFinishPPM($id);
+                  break;
+               }
+            case 'ajax_postUpdatePPMStatusClient':
+               if(isset($_POST['param'])){
+                  $p = $_POST['param'];
+                  $dm = $p['dataMeeting'];
+                  postUpdatePPMStatusClient($dm);
+                  break;
+               }
+            case 'ajax_postPPMUpdateNotes':
+               if(isset($_POST['param'])){
+                  $p = $_POST['param'];
+                  $ctn = $p['content'];
+                  postPPMUpdateNotes($ctn);
+                  break;
+               }
+
       }
    }else{
        echo json_encode(array('error' => 'Aksi tidak valid')); // Mengembalikan error
@@ -692,13 +735,40 @@ function postPreProdSchedule($dtPreProdSchedule){
    $description = $dtPreProdSchedule["description"];
    $totalQTYOrder = $dtPreProdSchedule["total_qty_order"];
 
-   $sql = "INSERT INTO pre_production_meeting_schedule(meeting_date, place, meeting_style, dept_attendees, `description`, total_qty_order) VALUES('$meeting_date', '$place', '$meeting_style', '$dept_attendees', '$description', '$totalQTYOrder')";
+   $sql = "INSERT INTO pre_production_meeting_schedule(meeting_date, place, meeting_style, dept_attendees, `description`, total_qty_order, `status`) VALUES('$meeting_date', '$place', '$meeting_style', '$dept_attendees', '$description', '$totalQTYOrder', 'on hold')";
 
    mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
    
    $id = mysqli_insert_id($koneksi);
 
    echo $id;   
+}
+
+function updatePPMSchedule($dtPPMSchedule){
+   global $koneksi;
+
+   $id = $dtPPMSchedule["id"];
+   $meeting_date = $dtPPMSchedule["meeting_date"];
+   $place = $dtPPMSchedule["place"];
+   $meeting_style = $dtPPMSchedule["meeting_style"];
+   $dept_attendees = json_encode($dtPPMSchedule["dept_attendees"]);
+   $description = $dtPPMSchedule["description"];
+   $totalQTYOrder = $dtPPMSchedule["total_qty_order"];
+   
+   $sql = "UPDATE pre_production_meeting_schedule SET meeting_date='$meeting_date', place='$place', meeting_style='$meeting_style', dept_attendees='$dept_attendees', `description`='$description', total_qty_order='$totalQTYOrder' WHERE id='$id'";
+
+   $response = mysqli_query($koneksi, $sql) or die('Gagal...');
+
+   if($response){
+      $sql2 = "SELECT * FROM view_ppm_schedule WHERE id='$id'";
+      $resp2 = mysqli_query($koneksi, $sql2) or die('Gagal...') ;
+      $rst2 = mysqli_fetch_assoc($resp2);
+      $jsonRest2 = json_encode($rst2);
+
+      echo $jsonRest2;
+
+   }
+
 }
 
 function getQtyPreProdByStyle($idS){
@@ -723,7 +793,8 @@ function getQtyPreProdByStyle($idS){
 function getScheduleMeeting(){
    global $koneksi;
 
-   $sql = "SELECT id, meeting_date, place, meeting_style, dept_attendees, `description`, total_qty_order FROM pre_production_meeting_schedule WHERE DATE(meeting_date)=CURDATE()";
+   // $sql = "SELECT * FROM view_ppm_schedule WHERE DATE(meeting_date)=CURDATE() AND `status`='on progress'";
+   $sql = "SELECT * FROM view_ppm_schedule WHERE `status`='on progress'";
 
    $responseSchedule = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
    $dataSchedule = [];
@@ -736,6 +807,7 @@ function getScheduleMeeting(){
          'dept_attendees' => $r['dept_attendees'],
          'description' => $r['description'],
          'total_qty_order' => $r['total_qty_order'],
+         'status' => $r['status']
       ];
       array_push($dataSchedule, $row);
    }
@@ -750,7 +822,7 @@ function getScheduleMeeting(){
 function getMeetingSchedule7Days(){
    global $koneksi;
 
-   $sql = "SELECT id, meeting_date, place, meeting_style, dept_attendees, `description`, total_qty_order, `status` FROM pre_production_meeting_schedule WHERE DATE(meeting_date) >= CURDATE() AND DATE(meeting_date) <= DATE_ADD(CURDATE(), INTERVAl 7 DAY)";
+   $sql = "SELECT id, meeting_date, place, meeting_style, style, dept_attendees, `description`, total_qty_order, `status`, dept_attendees FROM view_ppm_schedule WHERE DATE(meeting_date) >= CURDATE() AND DATE(meeting_date) <= DATE_ADD(CURDATE(), INTERVAl 7 DAY)";
 
    $respSchedule = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
    $dtSchedule = [];
@@ -760,10 +832,12 @@ function getMeetingSchedule7Days(){
          'meeting_date' => $r['meeting_date'],
          'place' => $r['place'],
          'meeting_style' => $r['meeting_style'],
+         'style' => $r['style'],
          'dept_attendees' => $r['dept_attendees'],
          'description' => $r['description'],
          'total_qty_order' => $r['total_qty_order'],
-         'status' => $r['status']
+         'status' => $r['status'],
+         'dept_attendees' => $r['dept_attendees']
       ];
       array_push($dtSchedule, $row);
    }
@@ -818,5 +892,81 @@ function postPPMResult($ctn){
    $id = mysqli_insert_id($koneksi);
 
    echo $id;   
+}
+
+function postStartPPM($id){
+   global $koneksi;
+
+   $sql = "UPDATE pre_production_meeting_schedule SET `status` = 'on progress' WHERE id='$id'";
+
+   $responseUpdate = mysqli_query($koneksi, $sql) or die('Gagal...');
+   if($responseUpdate > 0){
+      $sql2 = "SELECT * FROM view_ppm_schedule WHERE id='$id'";
+      $resp2 = mysqli_query($koneksi, $sql2) or die('Gagal...') ;
+      $rst2 = mysqli_fetch_assoc($resp2);
+      $jsonRest2 = json_encode($rst2);
+
+      echo $jsonRest2;   
+   }
+}
+
+function postJoiningPPM($dm){
+   global $koneksi;
+
+   $idSchedule = $dm['idSchedule'];
+   $userName = $dm['user_name'];
+   $level = $dm['level'];
+   $start = date('Y-m-d H:i:s',strtotime($dm['start']));
+   $status = $dm['status'];
+
+   $sql = "INSERT INTO pre_production_meeting(id_meeting_schedule, user_name, `level`, `start`, `status`) VALUES('$idSchedule', '$userName', '$level', '$start', '$status')";
+
+   mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   
+   $id = mysqli_insert_id($koneksi);
+
+   echo $id;   
+}
+
+function postFinishPPM($id){
+   global $koneksi;
+
+   $sql = "UPDATE pre_production_meeting_schedule SET `status`='finish' WHERE id='$id'";
+
+   $response = mysqli_query($koneksi, $sql) or die('Gagal...');
+
+   echo $response;
+}
+
+function postUpdatePPMStatusClient($d){
+   global $koneksi;
+
+   $status = $d['status'];
+   $end = date('Y-m-d H:i:s', strtotime($d['end']));
+   $id = $d['id'];
+
+   $sql = "UPDATE pre_production_meeting SET `status`='$status', `end`='$end' WHERE id_meeting_schedule='$id'";
+
+   $response = mysqli_query($koneksi, $sql) or die('Gagal...');
+
+   echo $id;
+
+}
+
+function postPPMUpdateNotes($ctn){
+   global $koneksi;
+
+   $id = $ctn['id'];
+   $effective_date = $ctn['effective_date'];
+   $notes = json_encode($ctn['notes']);
+
+
+   $sql = "UPDATE pre_production_meeting SET effective_date='$effective_date', notes='$notes' WHERE id='$id'";
+   // var_dump($sql);
+
+   $resp = mysqli_query($koneksi, $sql);
+   
+
+   echo $resp;   
 }
 ?>
