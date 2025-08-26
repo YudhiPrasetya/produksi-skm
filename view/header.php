@@ -153,8 +153,8 @@
 
           <li style="background: #254681" class="nav-link"><a href="#">PRE PRODUCTION</a>
             <ul style="background: #254681">
-              <li style="background: #254681"><a style="background: #254681" href="pre_production_meeting.php">PRE PRODUCTION SCHEDULE MEETING</a></li>
-              <li style="background: #254681"><a style="background: #254681" href="pre_production_meeting_running.php">PRE PRODUCTION MEETING</a></li>
+              <li style="background: #254681"><a target="_blank" style="background: #254681" href="pre_production_meeting.php">PRE PRODUCTION SCHEDULE MEETING</a></li>
+              <li style="background: #254681"><a target="_blank" style="background: #254681" href="pre_production_meeting_running.php">PRE PRODUCTION MEETING</a></li>
               <li style="background: #254681"><a style="background: #254681" href="temp_plan_production.php">PLAN PRODUCTION</a></li>
               <li style="background: #254681"><a style="background: #254681" href="temp_preparation_production.php">PRE PRODUCTION</a></li>
               <li style="background: #254681"><a style="background: #254681" href="master_target_harian.php">INPUT TARGET</a></li>
@@ -423,6 +423,9 @@
 
             </ul>
           </li>
+
+          <li style="background: #254681"><a target="_blank" style="background: #254681" href="pre_production_meeting_running.php">PRE PRODUCTION MEETING</a></li>
+
           <li style="float:right; background:#254681 ;"><a href="logout.php">LOG OUT</a></li>
         <?php }} ?>
       <!-- <//?php } else { ?>
