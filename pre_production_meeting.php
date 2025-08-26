@@ -376,6 +376,7 @@
       // var ppmToClient_ws = new WebSocket("ws://192.168.90.100:10000/?service=ppm_running");
 
       var tablePPMSchedule = $('#tablePPMSchedule').DataTable({
+         responsive: true,
          destroy: true,
          columnDefs: [
             {
@@ -386,12 +387,14 @@
       });
 
       var tableDaftarHadir = $('#tableDaftarHadir').DataTable({
+         responsive: true,
          destroy: true,
          paging: false,
          searching: false
       });
 
       var tableDetail = $('#tableDetail').DataTable({
+         responsive: true,
          destroy: true,
          paging: false,
          searching: false,

@@ -222,6 +222,7 @@
       var noIdx = 0;
 
       var tableSchedule = $('#tableSchedule').DataTable({
+         responsive: true,
          destroy: true,
          columnDefs: [
             {
