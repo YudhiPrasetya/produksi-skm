@@ -1268,6 +1268,10 @@
             download: ("ppm.xls")
          }).appendTo("body").get(0).click();
       });
+
+      $('#btnExitPrintPreview').click(function(){
+         $('#printPreviewArea').fadeOut(1000);
+      });
    });
 </script>
 
