@@ -98,6 +98,13 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                cekDiundangMeeting($idSchedule, $level);
                break;
             }
+         case 'ajax_getPPMResult':
+            if(isset($_GET['param'])){
+               $p = $_GET['param'];
+               $id = $p['id'];
+               getPPMResult($id);
+               break;
+            }            
        }
       //  }
    } else if(isset($_POST['action'])){
@@ -968,5 +975,31 @@ function postPPMUpdateNotes($ctn){
    
 
    echo $resp;   
+}
+
+function getPPMResult($id){
+   global $koneksi;
+
+   $sql = "SELECT * FROM view_ppm_result WHERE id='$id'";
+
+   $respPPM = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dtPPM = [];
+   while($r = mysqli_fetch_assoc($respPPM)){
+      $row = [
+         'id' => $r['id'],
+         'vendor' => $r['vendor'],
+         'style' => $r['style'],
+         'meeting_date' => $r['meeting_date'],
+         'place' => $r['place'],
+         'effective_date' => $r['effective_date'],
+         'level' => $r['level'],
+         'description' => $r['description'],
+         'notes' => $r['notes']
+      ];
+      array_push($dtPPM, $row);
+   }
+   $jsonPPMResult = json_encode($dtPPM);
+   
+   echo $jsonPPMResult;   
 }
 ?>

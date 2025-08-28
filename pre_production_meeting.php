@@ -120,7 +120,13 @@
       top: 15px;
       margin-left: -5px;
 
-    }            
+    }
+    td ul {
+        padding-left: 20px;
+    }                
+    td ol {
+        padding-left: 20px;
+    }                
 </style>
 
 <link rel="stylesheet" href="assets/css/summernote.min.css" />
@@ -160,27 +166,55 @@
 
 
          </div>
+
          <!-- <div class="row"> -->
-            <div id="viewContainer">
-               <table class="table table-hover nowrap compact" id="tablePPMSchedule" width="100%">
+         <div id="viewContainer">
+            <table class="table table-hover nowrap compact" id="tablePPMSchedule" width="100%">
+               <thead>
+                  <tr>
+                     <th>Id</th>
+                     <th>No</th>
+                     <th>Description</th>
+                     <th>Meeting Date</th>
+                     <th>Place</th>
+                     <th>Item Meeting(style)</th>
+                     <th>Total QTY Order</th>
+                     <th>Status</th>
+                     <th>Attendees</th>
+                     <th>meetingStyle</th>
+                  </tr>
+               </thead>
+            </table>
+         </div>
+         <hr />
+         <!-- </div> -->
+
+         <div id="printPreviewArea" style="display: none;">
+
+            <div class="btn-group" style="margin-bottom: 25px;">
+               <button class="btn btn-default" id="btnExportToExcel" style="margin-bottom: 20px;">
+                  <span class="glyphicon glyphicon-print"></span>&nbsp;Export To Excel
+               </button>
+
+               <button type="button" class="btn btn-default" id="btnExitPrintPreview">
+                  <span class="glyphicon glyphicon-log-out"></span>&nbsp;Exit Print Preview
+               </button>
+            </div>
+
+
+            <div id="printPreviewContainer" style="margin-bottom: 20px;">
+               <center>
+                  <h1>PT. Globalindo Intimates</h1>
+                  <h3>Laporan Hasil Pre Production Meeting</h3>
+               </center>
+               <table id="tablePPMResultHeader" style="margin-bottom: 20px;" width="100%" cellpadding="3" cellspacing="0">
+               </table>
+               <table id="tablePPMResultContent" border="1" width="100%" cellpadding="3" cellspacing="0">
                   <thead>
-                     <tr>
-                        <th>Id</th>
-                        <th>No</th>
-                        <th>Description</th>
-                        <th>Meeting Date</th>
-                        <th>Place</th>
-                        <th>Item Meeting(style)</th>
-                        <th>Total QTY Order</th>
-                        <th>Status</th>
-                        <th>Attendees</th>
-                        <th>meetingStyle</th>
-                     </tr>
                   </thead>
                </table>
             </div>
-            <hr />
-         <!-- </div> -->
+         </div>
 
          <div class="center-block" style="width: 800px;">
             <div class="panel panel-default grayShadowColor" id="addForm" style="display: none;">
@@ -266,6 +300,7 @@
          <div class="startMeeting center-block" style="width: 200px; display: none">
             <h4 class="text-center" id="jam"></h4>
          </div>
+
          <form id="frmJoinMeeting">
             <div class="col-md-8 startMeeting" style="display: none;">
                <div class="panel-group" id="accStartMeeting" role="tablist">
@@ -424,6 +459,18 @@
             ['view', ['fullscreen']],
          ],
          height: 200,
+         tableClassName: function(){
+            $(this).addClass('table table-bordered')
+               .attr('cellpadding', 12)
+               .attr('cellspacing', 0)
+               .attr('border', 1)
+               .css('borderCollapse', 'collapse');
+
+               $(this).find('td')
+                  .css('borderColor', '#ccc')
+                  .css('padding', '15px');
+
+         },
          callbacks: {
             onImageUpload: function(files){
                var formData = new FormData();
@@ -766,7 +813,6 @@
             tablePPMSchedule.clear().draw();
             $.each(data, function(i, item){
                let buttonEdit = "";
-
                let buttonExec = "";
 
                switch(item.status){
@@ -782,7 +828,7 @@
                      break;
                   case "finish":
                      $(`#btnEdit-${item.id}`).remove();
-                     buttonExec = `&nbsp;&nbsp;&nbsp;<button id="btnPreview-${item.id}" class="btn btn-default btn-sm btnPreview" data-row-id="${item.id}" style="margin-top: 0px;"><span class="glyphicon glyphicon-print"></span>&nbsp;Preview</button>`;
+                     buttonExec = `&nbsp;&nbsp;&nbsp;<button id="btnPreview-${item.id}" class="btn btn-info btn-sm btnPreview" data-row-id="${item.id}" style="margin-top: 0px;"><span class="glyphicon glyphicon-print"></span>&nbsp;Preview</button>`;
                      break;
 
                }
@@ -843,7 +889,6 @@
             type: 'question',
             showCancelButton: true
          }).then((result) => {
-
             if(result.value == true){
                idMeeting = $(this).data('row-id');
                let dateNow = new Date();
@@ -863,6 +908,77 @@
          });
       });
 
+      $('#tablePPMSchedule tbody').on('click', '.btnPreview', function(){
+         idMeeting = $(this).data('row-id');
+         printPreview(idMeeting);
+      });
+      function printPreview(id){
+         $.ajax({
+            type: 'GET',
+            url: 'functions/ajax_functions_handler.php',
+            dataType: 'JSON',
+            data: {
+               'action': 'ajax_getPPMResult',
+               'param': {
+                  'id': id
+               }
+            }
+         }).done(function(data){
+            var tableHeader = '';
+            var tableContent = '';
+            $('#tablePPMResultHeader').empty();
+            $('#tablePPMResultContent').empty();
+
+            // $.each(data, function(i, itm){
+               let arrDateHeader = data[0].effective_date.split('-');
+               let dayHeader = arrDateHeader[2];
+               let monthHeader = arrDateHeader[1];
+               let yearHeader = arrDateHeader[0];
+               let strDateHeader = `${dayHeader}-${monthHeader}-${yearHeader}`
+               tableHeader += `
+                                 <tr>
+                                    <td style="padding-bottom: 5px;"><strong>Factory</strong></td>
+                                    <td style="padding-bottom: 5px;">:&nbsp;</td>
+                                    <td style="padding-bottom: 5px;">${data[0].place}</td>
+                                 </tr>
+                                 <tr>
+                                    <td style="padding-bottom: 5px;"><strong>Vendor</strong></td>
+                                    <td style="padding-bottom: 5px;">:&nbsp;</td>
+                                    <td style="padding-bottom: 5px;">${data[0].vendor}</td>
+                                 </tr>
+                                 <tr>
+                                    <td style="padding-bottom: 5px;"><strong>Style</strong></td>
+                                    <td style="padding-bottom: 5px;">:&nbsp;</td>
+                                    <td style="padding-bottom: 5px;">${data[0].style}</td>
+                                 </tr>
+                                 <tr>
+                                    <td style="padding-bottom: 5px;"><strong>Effective Date</strong></td>
+                                    <td style="padding-bottom: 5px;">:&nbsp;</td>
+                                    <td style="padding-bottom: 5px;">${strDateHeader}</td>
+                                 </tr>
+                                 <tr>
+                                    <td style="padding-bottom: 5px;"><strong>Attendees</strong></td>
+                                    <td style="padding-bottom: 5px;">:&nbsp;</td>
+                                 </tr>
+                              `;
+            // });
+            $('#tablePPMResultHeader').append(tableHeader);
+
+            $.each(data, function(i, item){
+               tableContent += `
+                                 <tr>
+                                    <td class="text-center" style="padding-top: 5px; padding-bottom: 5px; background:rgb(37,70,129); color: white"><h4 style="margin-top: 5px; margin-bottom: 5px;">${item.level.toUpperCase()}</h4></td>
+                                 </tr>
+                                 <tr>
+                                    <td style="padding: 8px; padding-right: 8px;">${item.notes.split('"').join('')}</td>
+                                 </tr>
+                               `
+            });
+            $('#tablePPMResultContent').append(tableContent);
+            $('#printPreviewArea').slideDown(1000);
+         })
+      }
+
       function insertJoiningMeeting(dm){
          $.ajax({
             type: 'POST',
@@ -878,7 +994,7 @@
             if(id > 0){
                idMeetingNote = id;
             }
-         })
+         });
       }      
 
       $('#tablePPMSchedule tbody').on('click', '.btnFinish', function(){
@@ -1139,7 +1255,19 @@
                })               
             }
          });         
-      })
+      });
+
+      $('#btnExportToExcel').click(function(e){
+         e.preventDefault();
+         let file = new Blob([$('#printPreviewContainer').html()], {
+            type: 'application/vnd.ms-excel'
+         });
+         let url = URL.createObjectURL(file);
+         let a = $('<a ></a>', {
+            href: url,
+            download: ("ppm.xls")
+         }).appendTo("body").get(0).click();
+      });
    });
 </script>
 

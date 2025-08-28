@@ -114,7 +114,13 @@
       top: 15px;
       margin-left: -5px;
 
-    }      
+    }
+    td ul {
+        padding-left: 20px;
+    }                
+    td ol {
+        padding-left: 20px;
+    }          
 </style>
 
 <link rel="stylesheet" href="assets/css/summernote.min.css" /> 
