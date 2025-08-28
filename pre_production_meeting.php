@@ -189,32 +189,7 @@
          <hr />
          <!-- </div> -->
 
-         <div id="printPreviewArea" style="display: none;">
 
-            <div class="btn-group" style="margin-bottom: 25px;">
-               <button class="btn btn-default" id="btnExportToExcel" style="margin-bottom: 20px;">
-                  <span class="glyphicon glyphicon-print"></span>&nbsp;Export To Excel
-               </button>
-
-               <button type="button" class="btn btn-default" id="btnExitPrintPreview">
-                  <span class="glyphicon glyphicon-log-out"></span>&nbsp;Exit Print Preview
-               </button>
-            </div>
-
-
-            <div id="printPreviewContainer" style="margin-bottom: 20px;">
-               <center>
-                  <h1>PT. Globalindo Intimates</h1>
-                  <h3>Laporan Hasil Pre Production Meeting</h3>
-               </center>
-               <table id="tablePPMResultHeader" style="margin-bottom: 20px;" width="100%" cellpadding="3" cellspacing="0">
-               </table>
-               <table id="tablePPMResultContent" border="1" width="100%" cellpadding="3" cellspacing="0">
-                  <thead>
-                  </thead>
-               </table>
-            </div>
-         </div>
 
          <div class="center-block" style="width: 800px;">
             <div class="panel panel-default grayShadowColor" id="addForm" style="display: none;">
@@ -392,7 +367,36 @@
          </form>
       </div>
    </dv>
+
+   
+</div>
+
+<div id="printPreviewArea" style="display: none;">
+
+   <div class="btn-group" style="margin-bottom: 25px;">
+      <button class="btn btn-default" id="btnExportToExcel" style="margin-bottom: 20px;">
+         <span class="glyphicon glyphicon-print"></span>&nbsp;Export To Excel
+      </button>
+
+      <button type="button" class="btn btn-default" id="btnExitPrintPreview">
+         <span class="glyphicon glyphicon-log-out"></span>&nbsp;Exit Print Preview
+      </button>
    </div>
+
+
+   <div id="printPreviewContainer" style="margin-bottom: 20px;">
+      <center>
+         <h1>PT. Globalindo Intimates</h1>
+         <h3>Laporan Hasil Pre Production Meeting</h3>
+      </center>
+      <table id="tablePPMResultHeader" style="margin-bottom: 20px;" width="100%" cellpadding="3" cellspacing="0">
+      </table>
+      <table id="tablePPMResultContent" border="1" width="100%" cellpadding="3" cellspacing="0">
+         <thead>
+         </thead>
+      </table>
+   </div>
+</div>
 
 <script src="assets/js/select2.min.js"></script>
 <script src="assets/js/summernote/summernote.min.js"></script>
