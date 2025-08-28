@@ -1262,15 +1262,16 @@
       });
 
       $('#btnExportToExcel').click(function(e){
+         window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#printPreviewContainer').html()));
          e.preventDefault();
-         let file = new Blob([$('#printPreviewContainer').html()], {
-            type: 'application/vnd.ms-excel'
-         });
-         let url = URL.createObjectURL(file);
-         let a = $('<a ></a>', {
-            href: url,
-            download: ("ppm.xls")
-         }).appendTo("body").get(0).click();
+         // let file = new Blob([$('#printPreviewContainer').html()], {
+         //    type: 'application/vnd.ms-excel'
+         // });
+         // let url = URL.createObjectURL(file);
+         // let a = $('<a ></a>', {
+         //    href: url,
+         //    download: ("ppm.xls")
+         // }).appendTo("body").get(0).click();
       });
 
       $('#btnExitPrintPreview').click(function(){
