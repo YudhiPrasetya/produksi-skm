@@ -386,8 +386,8 @@
 
    <div id="printPreviewContainer" style="margin-bottom: 20px;">
       <center>
-         <h1>PT. Globalindo Intimates</h1>
-         <h3>Laporan Hasil Pre Production Meeting</h3>
+         <h1 style="margin-bottom: 5px;">PT. Globalindo Intimates</h1>
+         <h3 style="margin-top: 5px;">Laporan Hasil Pre Production Meeting</h3>
       </center>
       <table id="tablePPMResultHeader" style="margin-bottom: 20px;" width="100%" cellpadding="3" cellspacing="0">
       </table>
@@ -941,8 +941,8 @@
                let strDateHeader = `${dayHeader}-${monthHeader}-${yearHeader}`
                tableHeader += `
                                  <tr>
-                                    <td style="padding-bottom: 5px;"><strong>Factory</strong></td>
-                                    <td style="padding-bottom: 5px;">:&nbsp;</td>
+                                    <td style="padding-bottom: 5px;" width="8%"><strong>Factory</strong></td>
+                                    <td style="padding-bottom: 5px;" width="1%">:</td>
                                     <td style="padding-bottom: 5px;">${data[0].place}</td>
                                  </tr>
                                  <tr>
@@ -959,10 +959,6 @@
                                     <td style="padding-bottom: 5px;"><strong>Effective Date</strong></td>
                                     <td style="padding-bottom: 5px;">:&nbsp;</td>
                                     <td style="padding-bottom: 5px;">${strDateHeader}</td>
-                                 </tr>
-                                 <tr>
-                                    <td style="padding-bottom: 5px;"><strong>Attendees</strong></td>
-                                    <td style="padding-bottom: 5px;">:&nbsp;</td>
                                  </tr>
                               `;
             // });
