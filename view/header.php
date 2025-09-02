@@ -305,6 +305,9 @@
             </ul>
 
           </li>
+          
+          <li style="background: #254681"><a target="_blank" style="background: #254681" href="pre_production_meeting_running.php">JOIN PPM</a></li>
+
           <li style="float:right; background:#254681;"><a href="logout.php">LOG OUT</a></li>
         <?php } else if (cek_status($_SESSION['username']) == 'packing_outerware' or cek_status($_SESSION['username']) == 'kenzin') {  ?>
           <li style="background: #254681"><a style="background: #254681" href="#">DATA MASTER</a>
@@ -315,6 +318,9 @@
               <li style="background: #254681"><a style="background: #254681" href="master_karton.php">MASTER QTY CTN</a></li>
             </ul>
           </li>
+
+          <li style="background: #254681"><a target="_blank" style="background: #254681" href="pre_production_meeting_running.php">JOIN PPM</a></li>
+
           <li style="background: #254681"><a style="background: #254681" href="#">TRANSAKSI</a>
             <ul style="background: #254681">
 
@@ -363,6 +369,8 @@
             </a>
           </li>
 
+          <li style="background: #254681"><a target="_blank" style="background: #254681" href="pre_production_meeting_running.php">JOIN PPM</a></li>
+
           <li style="background: #254681"><a style="background: #254681" target="_blank" href="tamplikan_sewing_monitoring.php">TAMPILKAN MONITOR OUTPUT SEWING  </a></li>
           <li style="float:right; background:#254681;"><a href="logout.php">LOG OUT</a></li>
         <?php } else if(cek_status($_SESSION['username']) == 'tatami') { ?>
@@ -371,6 +379,9 @@
               <li style="background: #254681"><a style="background: #254681" href="master_karton_full.php">MASTER KARTON FULL</a></li>
             </ul>
           </li>
+
+          <li style="background: #254681"><a target="_blank" style="background: #254681" href="pre_production_meeting_running.php">JOIN PPM</a></li>
+
           <li style="background: #254681" class="nav-link"><a style="background: #254681" href="#">TRANSAKSI</a>
             <ul style="background: #254681">
               <li><a href="temp_qc_kensa.php">QC KENSA</a></li>
