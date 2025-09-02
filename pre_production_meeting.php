@@ -367,40 +367,82 @@
          </form>
       </div>
    </dv>
-
-   
 </div>
 
-<div id="printPreviewArea" style="display: none;">
+<div id="printPreviewArea1" style="display: none;">
 
    <div class="btn-group" style="margin-bottom: 25px;">
-      <button class="btn btn-default" id="btnExportToExcel" style="margin-bottom: 20px;">
+      <button class="btn btn-default" id="btnExportToExcel1" style="margin-bottom: 20px;">
          <span class="glyphicon glyphicon-print"></span>&nbsp;Export To Excel
       </button>
 
-      <button type="button" class="btn btn-default" id="btnExitPrintPreview">
+      <button type="button" class="btn btn-default" id="btnExitPrintPreview1">
          <span class="glyphicon glyphicon-log-out"></span>&nbsp;Exit Print Preview
       </button>
+
    </div>
-
-
-   <div id="printPreviewContainer" style="margin-bottom: 20px;">
+   <div id="printPreviewContainer1" style="margin-bottom: 20px;">
       <center>
          <h1 style="margin-bottom: 5px;">PT. Globalindo Intimates</h1>
          <h3 style="margin-top: 5px;">Laporan Hasil Pre Production Meeting</h3>
       </center>
       <table id="tablePPMResultHeader" style="margin-bottom: 20px;" width="100%" cellpadding="3" cellspacing="0">
+
       </table>
       <table id="tablePPMResultContent" border="1" width="100%" cellpadding="3" cellspacing="0">
          <thead>
          </thead>
       </table>
+   
    </div>
 </div>
 
+<div id="printPreviewArea2" style="display: none;">
+   <div class="btn-group" style="margin-bottom: 25px;">
+      <button class="btn btn-default" id="btnExportToExcel2" style="margin-bottom: 20px;">
+         <span class="glyphicon glyphicon-print"></span>&nbsp;Export To Excel
+      </button>
+
+      <button type="button" class="btn btn-default" id="btnExitPrintPreview2">
+         <span class="glyphicon glyphicon-log-out"></span>&nbsp;Exit Print Preview
+      </button>
+
+   </div>  
+   
+   <div id="printPreviewContainer2" style="margin-bottom: 20px;">
+      <center>
+         <h1 style="margin-bottom: 5px;">PT. Globalindo Intimates</h1>
+         <h3 style="margin-top: 5px;">Laporan Daftar Hadir PPM</h3>
+      </center>
+      <div class="row">
+      <div class="col-xs-12">
+         <div class="center-block" style="width: 500px;">
+            <table class="table" id="tableYangHadir" width="100%" border="1">
+            </table>
+         </div>
+      </div>
+   </div>
+   </div>
+</div>
+
+
+
 <script src="assets/js/select2.min.js"></script>
 <script src="assets/js/summernote/summernote.min.js"></script>
-<script src="assets/js/tableToExcel.js"> </script>
+
+<!-- <script src="assets/js/tableToExcel.js"> </script> -->
+
+<!-- <script src="assets/js/tableExport/Blob.min.js"></script> -->
+<!-- <script src="assets/js/tableExport/xlsx.core.min.js"></script>
+<script src="assets/js/tableExport/FileSaver.min.js"></script>
+<script src="assets/js/tableExport/tableexport.min.js"></script> -->
+
+<script src="assets/js/tableExport/tableExport.js"></script>
+<script src="assets/js/tableExport/jquery.base64.js"></script>
+
+<!-- <script src="assets/js/xlsx.full.min.js"></script> -->
+ <script src="assets/js/tableExport/jquery.table2excel.js"></script>
+
 <script>
    $(document).ready(function(){
       var userName = '<?= $username; ?>'
@@ -829,10 +871,13 @@
                      buttonEdit = `&nbsp;&nbsp;&nbsp;<button id="btnEdit-${item.id}" class="btn btn-warning btn-sm btnEdit" data-row-id="${item.id}" style="margin-top: 0px;"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Edit</button>`;
 
                      buttonExec = `&nbsp;&nbsp;&nbsp;<button id="btnFinish-${item.id}" class="btn btn-info btn-sm btnFinish" data-row-id="${item.id}" style="margin-top: 0px;"><span class="glyphicon glyphicon-ok"></span>&nbsp;Finish</button>`;
+                     
                      break;
                   case "finish":
                      $(`#btnEdit-${item.id}`).remove();
-                     buttonExec = `&nbsp;&nbsp;&nbsp;<button id="btnPreview-${item.id}" class="btn btn-info btn-sm btnPreview" data-row-id="${item.id}" style="margin-top: 0px;"><span class="glyphicon glyphicon-print"></span>&nbsp;Preview</button>`;
+                     buttonExec = `&nbsp;&nbsp;&nbsp;<button id="btnPreview-${item.id}" class="btn btn-info btn-sm btnPreview" data-row-id="${item.id}" style="margin-top: 0px; margin-left: 5px;"><span class="glyphicon glyphicon-print"></span>&nbsp;Preview</button>
+
+                     <button id="btnDaftarHadir-${item.id}" class="btn btn-default btn-sm btnDaftarHadir" data-row-id="${item.id}" style="margin-top: 0px;"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;Daftar Hadir</button>`;
                      break;
 
                }
@@ -934,12 +979,13 @@
             $('#tablePPMResultContent').empty();
 
             // $.each(data, function(i, itm){
-               let arrDateHeader = data[0].effective_date.split('-');
-               let dayHeader = arrDateHeader[2];
-               let monthHeader = arrDateHeader[1];
-               let yearHeader = arrDateHeader[0];
-               let strDateHeader = `${dayHeader}-${monthHeader}-${yearHeader}`
-               tableHeader += `
+            let arrDateHeader = data[0].effective_date.split('-');
+            let dayHeader = arrDateHeader[2];
+            let monthHeader = arrDateHeader[1];
+            let yearHeader = arrDateHeader[0];
+            let strDateHeader = `${dayHeader}-${monthHeader}-${yearHeader}`;
+
+            tableHeader += `
                                  <tr>
                                     <td style="padding-bottom: 5px;" width="8%"><strong>Factory</strong></td>
                                     <td style="padding-bottom: 5px;" width="1%">:</td>
@@ -975,7 +1021,9 @@
                                `
             });
             $('#tablePPMResultContent').append(tableContent);
-            $('#printPreviewArea').slideDown(1000);
+            $('#printPreviewArea2').slideUp(500, function(){
+               $('#printPreviewArea1').slideDown(1000);
+            });
          })
       }
 
@@ -1039,6 +1087,52 @@
             }
          });
       });
+
+      $('#tablePPMSchedule tbody').on('click', '.btnDaftarHadir', function(){
+         idMeeting = $(this).data('row-id');
+         daftarHadir(idMeeting);
+      });
+      function daftarHadir(id){
+         $.ajax({
+            type: 'GET',
+            url: 'functions/ajax_functions_handler.php',
+            dataType: 'JSON',
+            data: {
+               'action': 'ajax_getPPMDaftarHadir',
+               'param': {
+                  'id': id
+               }
+            }
+         }).done(function(data){
+            if(data.length > 0){
+               console.log('data: ', data);
+               var tableHadirHTML = `<thead>
+                                       <tr>
+                                          <th class="text-center">No</th>
+                                          <th class="text-center">Level</th>
+                                          <th class="text-center">Nama</th>
+                                          <th class="text-center">Start Join</th>
+                                          <th class="text-center">End Join</th>
+                                       </tr>
+                                    </thead>`;
+               $.each(data, function(x, dt){
+                  tableHadirHTML += `
+                                       <tr>
+                                          <td>${x+1}</td>
+                                          <td>${dt.level.toUpperCase()}</td>
+                                          <td>${dt.user_name.toUpperCase()}</td>
+                                          <td>${dt.start_join}</td>
+                                          <td>${dt.end_join}</td>
+                                       </tr>`;
+               });
+               $('#tableYangHadir').empty();
+               $('#tableYangHadir').append(tableHadirHTML);
+               $('#printPreviewArea1').slideUp(500, function(){
+                  $('#printPreviewArea2').slideDown(1000);
+               });
+            }
+         });
+      }
 
       function updatePPMStatusClient(dm){
          try{
@@ -1257,42 +1351,83 @@
          });         
       });
 
-      $('#btnExportToExcel').click(function(e){
-         // window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#printPreviewContainer').html()));
-         // e.preventDefault();
 
-         let file = new Blob([$('#printPreviewContainer').html()], {
+      $('#btnExportToExcel1').click(function(e){
+            // const linkToDownloadFile = document.createElement("a");
+            // const fileType = 'application/vnd.ms-excel';
+            // const selectedTable = document.getElementById('tablePPMResultContent');
+            // const selectedTableHTML = selectedTable.outerHTML.replace(/ /g, '%20');
+
+            // // filename = filename ? filename + '.xls' : 'excel_data.xls';
+            // filename = 'excel_data.xls';
+            // document.body.appendChild(linkToDownloadFile);
+
+            // if (navigator.msSaveOrOpenBlob) {
+            //    const myBlob = new Blob(['\ufeff',selectedTableHTML], {
+            //       type: fileType
+            //    });
+            //    navigator.msSaveOrOpenBlob(myBlob, filename);
+            // } else {
+            //    // Create a link to download
+            //    // the excel the file
+            //    linkToDownloadFile.href = 'data:' + fileType + ', ' + selectedTableHTML;
+
+            //    // Setting the name of
+            //    // the downloaded file
+            //    linkToDownloadFile.download = filename;
+
+            //    // Clicking the download link 
+            //    // on click to the button
+            //    linkToDownloadFile.click();
+            // }
+         
+
+         // $('#tablePPMResultContent').table2excel({
+         //    exclude:".noExl",
+         //    name:"Worksheet Name",
+         //    filename:"SomeFile",
+         //    fileext:".xls",
+         //    exclude_img:false,
+         //    exclude_links:true,
+         //    exclude_inputs:true
+
+         // });
+         // var tbl = $('#tablePPMResultContent')[0];
+
+         // var ws = XLSX.utils.table_to_sheet(tbl);
+         // var wb = XLSX.utils.book_new();
+
+         // XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+         // XLSX.writeFile(wb, "ppm.xls");
+
+         window.open('data:application/vnd.ms-excel,' + encodeURIComponent( $('div[id$=printPreviewContainer1]').html()));
+
+         // e.preventDefault();
+         // $('#tablePPMResultContent').tableExport({
+         //    type: 'excel',
+         //    escape: false
+         // });
+      });
+
+      $('#btnExportToExcel2').click(function(e){
+         e.preventDefault();
+         let file = new Blob([$('#printPreviewContainer2').html()], {
             type: 'application/vnd.ms-excel'
          });
          let url = URL.createObjectURL(file);
          let a = $('<a ></a>', {
             href: url,
-            download: ("ppm.xls")
+            download: ("ppmHadir.xls")
          }).appendTo("body").get(0).click();
-
-         // const uri = 'data:application/vnd.ms-excel;base64,';
-         // const template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>';
-
-         // const base64 = (s) => window.btoa(unescape(encodeURIComponent(s)));
-
-         // const format = function (template, context) {
-         //    return template.replace(/{(\w+)}/g, (m, p) => context[p])
-         // };
-
-         // const html = document.getElementById('printPreviewContainer').innerHTML;
-         // const ctx = {
-         //    worksheet: 'Worksheet',
-         //    table: html,
-         // };
-
-         // const link = document.createElement("a");
-         // link.download = "ppm.xls";
-         // link.href = uri + base64(format(template, ctx));
-         // link.click();         
       });
 
-      $('#btnExitPrintPreview').click(function(){
-         $('#printPreviewArea').fadeOut(1000);
+
+      $('#btnExitPrintPreview1').click(function(){
+         $('#printPreviewArea1').fadeOut(1000);
+      });
+
+      $('#btnExitPrintPreview2').click(function(){
+         $('#printPreviewArea2').fadeOut(1000);
       });
    });
 </script>

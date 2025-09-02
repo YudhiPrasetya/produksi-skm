@@ -104,7 +104,14 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                $id = $p['id'];
                getPPMResult($id);
                break;
-            }            
+            }
+         case 'ajax_getPPMDaftarHadir':
+            if(isset($_GET['param'])){
+               $p = $_GET['param'];
+               $id = $p['id'];
+               getPPMDaftarHadir($id);
+               break;               
+            }
        }
       //  }
    } else if(isset($_POST['action'])){
@@ -1003,5 +1010,31 @@ function getPPMResult($id){
    $jsonPPMResult = json_encode($dtPPM);
    
    echo $jsonPPMResult;   
+}
+
+function getPPMDaftarHadir($id){
+   global $koneksi;
+
+   $sql = "SELECT * FROM view_ppm_result WHERE id='$id'";
+
+   $respPPM = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dtDaftarHadir = [];
+   while($r = mysqli_fetch_assoc($respPPM)){
+      $dateStart = new DateTime($r['start']);
+      $dateEnd = new DateTime($r['end']);
+      $strStart = $dateStart->format('Y-m-d H:i:s');
+      $strEnd = $dateEnd->format('Y-m-d H:i:s');
+      $row = [
+         'id' => $r['id'],
+         'level' => $r['level'],
+         'user_name' => $r['user_name'],
+         'start_join' => date('d-m-Y H:i:s', strtotime($strStart)),
+         'end_join' => date('d-m-Y H:i:s', strtotime($strEnd))
+      ];
+      array_push($dtDaftarHadir, $row);
+   }
+   $jsonPPMDaftarHadir = json_encode($dtDaftarHadir);
+   
+   echo $jsonPPMDaftarHadir;   
 }
 ?>
