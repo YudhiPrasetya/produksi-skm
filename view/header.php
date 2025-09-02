@@ -115,15 +115,16 @@
       if (isset($_SESSION['username'])) {
         if (
           cek_status($_SESSION['username']) == 'admin' or
-          cek_status($_SESSION['username']) == 'warehouse' or
-          cek_status($_SESSION['username']) == 'team_sample' or
-          cek_status($_SESSION['username']) == 'ppm' or
-          cek_status($_SESSION['username']) == 'pattern_check' or
-          cek_status($_SESSION['username']) == 'moulding_bounding' or
-          cek_status($_SESSION['username']) == 'team_marker' or
-          cek_status($_SESSION['username']) == 'machines_setting' or
-          cek_status($_SESSION['username']) == 'layout' or
-          cek_status($_SESSION['username']) == 'ready_produksi'
+          cek_status($_SESSION['username']) == 'ppic' 
+          // cek_status($_SESSION['username']) == 'warehouse' or
+          // cek_status($_SESSION['username']) == 'team_sample' or
+          // cek_status($_SESSION['username']) == 'ppm' or
+          // cek_status($_SESSION['username']) == 'pattern_check' or
+          // cek_status($_SESSION['username']) == 'moulding_bounding' or
+          // cek_status($_SESSION['username']) == 'team_marker' or
+          // cek_status($_SESSION['username']) == 'machines_setting' or
+          // cek_status($_SESSION['username']) == 'layout' or
+          // cek_status($_SESSION['username']) == 'ready_produksi'
         ) {
       ?>
           <li class="nav-link" style="background: #254681"><a href="#">DATA MASTER</a>
@@ -153,8 +154,11 @@
 
           <li style="background: #254681" class="nav-link"><a href="#">PRE PRODUCTION</a>
             <ul style="background: #254681">
-              <li style="background: #254681"><a target="_blank" style="background: #254681" href="pre_production_meeting.php">PRE PRODUCTION SCHEDULE MEETING</a></li>
-              <li style="background: #254681"><a target="_blank" style="background: #254681" href="pre_production_meeting_running.php">PRE PRODUCTION MEETING</a></li>
+
+              <li style="background: #254681"><a target="_blank" style="background: #254681" href="pre_production_meeting.php">PPM SCHEDULE</a></li>
+
+              <!-- <li style="background: #254681"><a target="_blank" style="background: #254681" href="pre_production_meeting_running.php">PRE PRODUCTION MEETING</a></li> -->
+
               <li style="background: #254681"><a style="background: #254681" href="temp_plan_production.php">PLAN PRODUCTION</a></li>
               <li style="background: #254681"><a style="background: #254681" href="temp_preparation_production.php">PRE PRODUCTION</a></li>
               <li style="background: #254681"><a style="background: #254681" href="master_target_harian.php">INPUT TARGET</a></li>
@@ -392,7 +396,6 @@
           </li>          
           <li style="background: #254681"><a style="background: #254681" target="_blank" href="tampilkan_tatami_monitoring.php">TAMPILKAN MONITOR PACKING  </a></li>
           <li style="float:right; background:#254681;"><a href="logout.php">LOG OUT</a></li>
-
         <?php } else { ?>
           <!-- <li class="nav-link" style="background: #254681"><a href="#">DATA MASTER</a>
             <ul>
@@ -424,7 +427,7 @@
             </ul>
           </li>
 
-          <li style="background: #254681"><a target="_blank" style="background: #254681" href="pre_production_meeting_running.php">PRE PRODUCTION MEETING</a></li>
+          <li style="background: #254681"><a target="_blank" style="background: #254681" href="pre_production_meeting_running.php">JOIN PPM</a></li>
 
           <li style="float:right; background:#254681 ;"><a href="logout.php">LOG OUT</a></li>
         <?php }} ?>

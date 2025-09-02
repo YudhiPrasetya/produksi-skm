@@ -400,7 +400,7 @@
 
 <script src="assets/js/select2.min.js"></script>
 <script src="assets/js/summernote/summernote.min.js"></script>
-
+<script src="assets/js/tableToExcel.js"> </script>
 <script>
    $(document).ready(function(){
       var userName = '<?= $username; ?>'
@@ -537,7 +537,7 @@
                url: 'functions/ajax_functions_handler.php',
                dataType: 'JSON',
                data: {
-                  'action': 'ajax_getMeetingSchedule7Days'
+                  'action': 'ajax_getMeetingSchedules'
                }
             });
             return rData;
@@ -967,7 +967,7 @@
             $.each(data, function(i, item){
                tableContent += `
                                  <tr>
-                                    <td class="text-center" style="padding-top: 5px; padding-bottom: 5px; background:rgb(37,70,129); color: white"><h4 style="margin-top: 5px; margin-bottom: 5px;">${item.level.toUpperCase()}</h4></td>
+                                    <td style="padding-top: 5px; padding-bottom: 5px; background:rgb(37,70,129); color: white"><center><h4 style="margin-top: 5px; margin-bottom: 5px;">${item.level.toUpperCase()}</h4></center></td>
                                  </tr>
                                  <tr>
                                     <td style="padding: 8px; padding-right: 8px;">${item.notes.split('"').join('')}</td>
@@ -1258,16 +1258,37 @@
       });
 
       $('#btnExportToExcel').click(function(e){
-         window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#printPreviewContainer').html()));
-         e.preventDefault();
-         // let file = new Blob([$('#printPreviewContainer').html()], {
-         //    type: 'application/vnd.ms-excel'
-         // });
-         // let url = URL.createObjectURL(file);
-         // let a = $('<a ></a>', {
-         //    href: url,
-         //    download: ("ppm.xls")
-         // }).appendTo("body").get(0).click();
+         // window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#printPreviewContainer').html()));
+         // e.preventDefault();
+
+         let file = new Blob([$('#printPreviewContainer').html()], {
+            type: 'application/vnd.ms-excel'
+         });
+         let url = URL.createObjectURL(file);
+         let a = $('<a ></a>', {
+            href: url,
+            download: ("ppm.xls")
+         }).appendTo("body").get(0).click();
+
+         // const uri = 'data:application/vnd.ms-excel;base64,';
+         // const template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>';
+
+         // const base64 = (s) => window.btoa(unescape(encodeURIComponent(s)));
+
+         // const format = function (template, context) {
+         //    return template.replace(/{(\w+)}/g, (m, p) => context[p])
+         // };
+
+         // const html = document.getElementById('printPreviewContainer').innerHTML;
+         // const ctx = {
+         //    worksheet: 'Worksheet',
+         //    table: html,
+         // };
+
+         // const link = document.createElement("a");
+         // link.download = "ppm.xls";
+         // link.href = uri + base64(format(template, ctx));
+         // link.click();         
       });
 
       $('#btnExitPrintPreview').click(function(){

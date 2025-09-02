@@ -87,8 +87,8 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
          case 'ajax_getScheduleMeeting':
             getScheduleMeeting();
             break;
-         case 'ajax_getMeetingSchedule7Days':
-            getMeetingSchedule7Days();
+         case 'ajax_getMeetingSchedules':
+            getMeetingSchedules();
             break;
          case 'ajax_cekDiundangMeeting':
             if(isset($_GET['param'])){
@@ -826,10 +826,12 @@ function getScheduleMeeting(){
 
 }
 
-function getMeetingSchedule7Days(){
+function getMeetingSchedules(){
    global $koneksi;
 
-   $sql = "SELECT id, meeting_date, place, meeting_style, style, dept_attendees, `description`, total_qty_order, `status`, dept_attendees FROM view_ppm_schedule WHERE DATE(meeting_date) >= CURDATE() AND DATE(meeting_date) <= DATE_ADD(CURDATE(), INTERVAl 7 DAY)";
+   // $sql = "SELECT id, meeting_date, place, meeting_style, style, dept_attendees, `description`, total_qty_order, `status`, dept_attendees FROM view_ppm_schedule WHERE DATE(meeting_date) >= CURDATE() AND DATE(meeting_date) <= DATE_ADD(CURDATE(), INTERVAl 7 DAY)";
+
+   $sql = "SELECT id, meeting_date, place, meeting_style, style, dept_attendees, `description`, total_qty_order, `status`, dept_attendees FROM view_ppm_schedule";
 
    $respSchedule = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
    $dtSchedule = [];
