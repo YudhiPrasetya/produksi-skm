@@ -7,7 +7,7 @@
    if(isset($_SESSION['username'])){
       $username = $_SESSION['username'];
       $level = cek_status($_SESSION['username']);
-      if($level == 'admin' || $level == 'ppic'){
+      if($level == 'admin' || $level == 'ppic' || $level == 'MERCHANDISER'){
 ?>
 
   <script src="/produksi-skm/assets/js/jquery.js"></script>
