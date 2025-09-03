@@ -384,7 +384,7 @@
    <div id="printPreviewContainer1" style="margin-bottom: 20px;">
       <center>
          <h1 style="margin-bottom: 5px;">PT. Globalindo Intimates</h1>
-         <h3 style="margin-top: 5px;">Laporan Hasil Pre Production Meeting</h3>
+         <h3 style="margin-top: 5px;">REPORT PRE PRODUCTION MEETING</h3>
       </center>
       <table id="tablePPMResultHeader" style="margin-bottom: 20px;" width="100%" cellpadding="3" cellspacing="0">
       </table>
