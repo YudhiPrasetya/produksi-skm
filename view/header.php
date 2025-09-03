@@ -115,7 +115,8 @@
       if (isset($_SESSION['username'])) {
         if (
           cek_status($_SESSION['username']) == 'admin' or
-          cek_status($_SESSION['username']) == 'ppic' 
+          cek_status($_SESSION['username']) == 'ppic' or
+          cek_status($_SESSION['username']) == 'MERCHANDISER'
           // cek_status($_SESSION['username']) == 'warehouse' or
           // cek_status($_SESSION['username']) == 'team_sample' or
           // cek_status($_SESSION['username']) == 'ppm' or
