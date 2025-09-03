@@ -112,6 +112,13 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                getPPMDaftarHadir($id);
                break;               
             }
+         case 'ajax_getPreProductionSizeByORC':
+            if(isset($_GET['param'])){
+               $p = $_GET['param'];
+               $orc = $p['orc'];
+               getPreProductionSizeByORC($orc);
+               break;               
+            }            
        }
       //  }
    } else if(isset($_POST['action'])){
@@ -787,7 +794,7 @@ function updatePPMSchedule($dtPPMSchedule){
 
 function getQtyPreProdByStyle($idS){
    global $koneksi;
-   $sql = "SELECT id_style, `orc`, qty_order FROM view_order_preproduction WHERE id_style='$idS'";
+   $sql = "SELECT id_style, `orc`, color, qty_order, `size` FROM view_order_preproduction WHERE id_style='$idS' GROUP BY `orc`";
 
    $responsePP = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
    $dataPP = [];
@@ -795,13 +802,36 @@ function getQtyPreProdByStyle($idS){
       $row = [
          'id_style' => $r['id_style'],
          'orc' => $r['orc'],
-         'qty_order' => $r['qty_order']
+         'color' => $r['color'],
+         'qty_order' => $r['qty_order'],
+         'size' => $r['size']
       ];
       array_push($dataPP, $row);
    }
-   $jsonPP = json_encode($dataPP);
+   $data=[
+      'data' => $dataPP
+   ];
+   $jsonPP = json_encode($data);
 
    echo $jsonPP;   
+}
+
+function getPreProductionSizeByORC($orc){
+   global $koneksi;
+   $sql = "SELECT `size`, qty_order_size FROM view_order_preproduction WHERE `orc`='$orc'";
+
+   $responseSize = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dataSizes = [];
+   while($r = mysqli_fetch_assoc($responseSize)){
+      $row = [
+         'size' => $r['size'],
+         'qty_order_size' => $r['qty_order_size']
+      ];
+      array_push($dataSizes, $row);
+   }
+   $jsonSizes = json_encode($dataSizes);
+
+   echo $jsonSizes;   
 }
 
 function getScheduleMeeting(){

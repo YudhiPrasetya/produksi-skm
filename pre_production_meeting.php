@@ -126,7 +126,7 @@
     }                
     td ol {
         padding-left: 20px;
-    }                
+    }
 </style>
 
 <link rel="stylesheet" href="assets/css/summernote.min.css" />
@@ -216,30 +216,7 @@
                               <option value="Globalindo 2">Globalindo 2 (Mlese)</option>
                            </select>
                         </div>
-                        <div class="form-group" style="margin-bottom: 0px;">
-                           <label for="style" style="margin-bottom: 0px;">Style</label>
-                           <select name="style" id="style" class="form-control select2" width="100%">
-                              <option value=''>--Silahkan pilih style--</option>
-                           </select>
-                        </div>
-                        <div class="panel panel-info" id="detail">
-                           <div class="panel-body" id="bodyDetail">
-                              <table id="tableDetail" class="table table-striped">
-                                 <thead>
-                                    <tr>
-                                       <th>ORC</th>
-                                       <th>QTY</th>
-                                    </tr>
-                                 </thead>
-                                 <tfoot>
-                                    <tr>
-                                       <th>Total</th>
-                                       <th></th>                                          
-                                    </tr>
-                                 </tfoot>
-                              </table>
-                           </div>
-                        </div>                           
+                           
                      </div>
 
                      <div class="col-md-6">
@@ -254,6 +231,36 @@
                         </div>
 
                      </div>
+
+                     <div class="form-group" style="margin-bottom: 0px;">
+                        <label for="style" style="margin-bottom: 0px;">Style</label>
+                        <select name="style" id="style" class="form-control select2" width="100%">
+                           <option value=''>--Silahkan pilih style--</option>
+                        </select>
+                     </div>
+                     <div class="panel panel-info" id="detail">
+                        <div class="panel-body" id="bodyDetail">
+                           <table id="tableDetail" class="table table-striped table-hover nowrap compact">
+                              <thead>
+                                 <tr>
+                                    <th></th>
+                                    <th>ORC</th>
+                                    <th>COLOR</th>
+                                    <th>QTY</th>
+                                    <!-- <th>SIZES</th> -->
+                                 </tr>
+                              </thead>
+                              <tfoot>
+                                 <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th>Total</th>
+                                    <th></th>                                          
+                                 </tr>
+                              </tfoot>
+                           </table>
+                        </div>
+                     </div>                     
                   </form>
                </div>
                <div class="panel-footer">
@@ -451,7 +458,8 @@
       var idMeeting = '';
       var idMeetingNote = '';
       var mode = '';
-
+      var tableDetail;
+      
       // var ppmToClient_ws = new WebSocket("ws://192.168.90.100:10000/?service=ppm_running");
 
       var tablePPMSchedule = $('#tablePPMSchedule').DataTable({
@@ -470,25 +478,6 @@
          destroy: true,
          paging: false,
          searching: false
-      });
-
-      var tableDetail = $('#tableDetail').DataTable({
-         responsive: true,
-         destroy: true,
-         paging: false,
-         searching: false,
-         "footerCallback": function(row, data, start, end, display) {
-            var api = this.api();
-
-            var totalAmount = api
-               .column(1, { page: 'current' }) 
-               .data()
-               .reduce(function(a, b) {
-                  return parseInt(a) + parseInt(b);
-               }, 0);
-
-            $(api.column(1).footer()).html(totalAmount); // Format as needed
-         }         
       });
 
       var catatan = $('#catatan').summernote({
@@ -540,6 +529,8 @@
       // var ppmToClient_ws = new WebSocket("ws://192.168.90.100:10000/?service=ppm");
       var ppm_running_ws = new WebSocket("ws://192.168.90.100:10000/?service=ppm");
 
+      $('#bodyDetail').css('display', 'none');
+
       initializeData();
       function initializeData(){
          $.when(loadStyles(), loadLevels()).done(function(rstStyles, rstLevels){
@@ -551,7 +542,8 @@
             });
             $.each(rstStyles[0], function(i, st){
                let newOption = new Option(st.style, st.id_style, false, false);
-               $('#style').append(newOption).trigger('change');
+               // $('#style').append(newOption).trigger('change');
+               $('#style').append(newOption);
             });
 
             $('#deptAttendees').select2({
@@ -784,35 +776,108 @@
       $('#style').change(function(){
          $('#bodyDetail').css('display', 'none');
          let idStyle = $(this).val();
-         $.ajax({
+
+         loadDetail(idStyle);
+
+      });
+      function loadDetail(id){
+         if(id == ''){
+            $('#bodyDetail').slideUp(500);
+         }else{
+            tableDetail = $('#tableDetail').DataTable({
+               responsive: true,
+               destroy: true,
+               paging: false,
+               searching: false,
+               ajax: {
+                  type: 'GET',
+                  url: 'functions/ajax_functions_handler.php',
+                  dataType: 'JSON',
+                  data: {
+                     'action': 'ajax_getQtyPreProdByStyle',
+                     'param': {
+                        'idStyle': id
+                     }
+                  },
+                  dataSrc: function(json){
+                     $('#bodyDetail').slideDown(1000);
+                     setValidationButtonSaveSchedule();
+                     return json.data;
+                  }
+               },
+               columns: [
+                  {
+                     className: 'dt-control',
+                     orderable: false,
+                     data: null,
+                     defaultContent: " qty sizes "
+                  },
+                  {data: "orc"},
+                  {data: "color"},
+                  {data: "qty_order"}
+               ],
+               "footerCallback": function(row, data, start, end, display) {
+                  var api = this.api();
+      
+                  var totalAmount = api
+                     .column(3, { page: 'current' }) 
+                     .data()
+                     .reduce(function(a, b) {
+                        return parseInt(a) + parseInt(b);
+                     }, 0);
+      
+                  $(api.column(3).footer()).html(totalAmount); // Format as needed
+               }         
+            });
+         }
+
+      }
+
+      $('#tableDetail').on('click', 'tbody td.dt-control', function () {
+         var tr = $(this).closest('tr');
+         var row = tableDetail.row(tr);
+      
+         if (row.child.isShown()) {
+            // This row is already open - close it
+            row.child.hide();
+         }
+         else {
+            // Open this row
+            $.when(getDetailSize(row.data().orc)).then(function(response){
+               // row.child(format(row.data())).show();
+               row.child(renderChild(response)).show();
+            });
+         }
+      });
+      function renderChild(r){
+         // console.log('r: ', r);
+         var wrapper = $('<div style="padding:5px 0; margin-left: 100px;"></div>'),
+         result = [];
+
+         $.each(r, function (i, v) {
+               result.push(`<tr><td class="text-center">${v.size}</td><td class="text-center">${v.qty_order_size}</td></tr>`);
+         });
+
+         cTable = '<table style="width: 50%;">' +
+                  '<thead><tr><th><h4 class="text-center"><strong>Size</strong></h4></th><th><h4 class="text-center"><strong>Qty Size</strong></h4></th></tr></thead>' +
+                  '<tbody>' + result.join('') + '</tbody></table>';
+            wrapper.append(cTable);
+
+         return wrapper;         
+      }
+      function getDetailSize(orc){
+         return $.ajax({
             type: 'GET',
             url: 'functions/ajax_functions_handler.php',
-            dataType: 'JSON',
+            dataType: 'json',
             data: {
-               'action': 'ajax_getQtyPreProdByStyle',
+               'action': 'ajax_getPreProductionSizeByORC',
                'param': {
-                  'idStyle': idStyle
+                  'orc': orc
                }
             }
-         }).done(function(dataPP){
-            if(dataPP.length > 0){
-               var html ='';
-               totalQTYOrder = 0;
-               tableDetail.clear().draw();
-               $.each(dataPP, function(i, item){
-                  totalQTYOrder += parseInt(item.qty_order);
-                  tableDetail.row.add([
-                     item.orc,
-                     item.qty_order
-                  ]).draw();
-               });
-
-               $('#bodyDetail').slideDown(1000);
-               setValidationButtonSaveSchedule();
-            }
-
-         })
-      });
+         });
+      }
 
       // Data view section
 
