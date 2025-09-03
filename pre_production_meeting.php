@@ -387,11 +387,9 @@
          <h3 style="margin-top: 5px;">Laporan Hasil Pre Production Meeting</h3>
       </center>
       <table id="tablePPMResultHeader" style="margin-bottom: 20px;" width="100%" cellpadding="3" cellspacing="0">
-
       </table>
+      
       <table id="tablePPMResultContent" border="1" width="100%" cellpadding="3" cellspacing="0">
-         <thead>
-         </thead>
       </table>
    
    </div>
@@ -1011,12 +1009,15 @@
             $('#tablePPMResultHeader').append(tableHeader);
 
             $.each(data, function(i, item){
+               let note = item.notes.split('"').join('');
+               // let newNote = note.replace("images_ppm", "http://localhost/produksi-skm/images_ppm");
+               let newNote = note.replace("images_ppm", "http://192.168.90.100/produksi-skm/images_ppm");
                tableContent += `
                                  <tr>
                                     <td style="padding-top: 5px; padding-bottom: 5px; background:rgb(37,70,129); color: white"><center><h4 style="margin-top: 5px; margin-bottom: 5px;">${item.level.toUpperCase()}</h4></center></td>
                                  </tr>
                                  <tr>
-                                    <td style="padding: 8px; padding-right: 8px;">${item.notes.split('"').join('')}</td>
+                                    <td style="padding: 8px; padding-right: 8px;">${newNote}</td>
                                  </tr>
                                `
             });
@@ -1105,7 +1106,6 @@
             }
          }).done(function(data){
             if(data.length > 0){
-               console.log('data: ', data);
                var tableHadirHTML = `<thead>
                                        <tr>
                                           <th class="text-center">No</th>
@@ -1353,60 +1353,19 @@
 
 
       $('#btnExportToExcel1').click(function(e){
-            // const linkToDownloadFile = document.createElement("a");
-            // const fileType = 'application/vnd.ms-excel';
-            // const selectedTable = document.getElementById('tablePPMResultContent');
-            // const selectedTableHTML = selectedTable.outerHTML.replace(/ /g, '%20');
+         // window.open('data:application/vnd.ms-excel,' + encodeURIComponent( $('$printPreviewContainer1').html()));
+            
+         let file = new Blob([$('#printPreviewContainer1').html()], {
+            type: 'application/vnd.ms-excel'
+         });
+         let url = URL.createObjectURL(file);
+         let a = $('<a ></a>', {
+            href: url,
+            download: ("ppmResult.xls")
+         }).appendTo("body").get(0).click();            
 
-            // // filename = filename ? filename + '.xls' : 'excel_data.xls';
-            // filename = 'excel_data.xls';
-            // document.body.appendChild(linkToDownloadFile);
+         e.preventDefault();
 
-            // if (navigator.msSaveOrOpenBlob) {
-            //    const myBlob = new Blob(['\ufeff',selectedTableHTML], {
-            //       type: fileType
-            //    });
-            //    navigator.msSaveOrOpenBlob(myBlob, filename);
-            // } else {
-            //    // Create a link to download
-            //    // the excel the file
-            //    linkToDownloadFile.href = 'data:' + fileType + ', ' + selectedTableHTML;
-
-            //    // Setting the name of
-            //    // the downloaded file
-            //    linkToDownloadFile.download = filename;
-
-            //    // Clicking the download link 
-            //    // on click to the button
-            //    linkToDownloadFile.click();
-            // }
-         
-
-         // $('#tablePPMResultContent').table2excel({
-         //    exclude:".noExl",
-         //    name:"Worksheet Name",
-         //    filename:"SomeFile",
-         //    fileext:".xls",
-         //    exclude_img:false,
-         //    exclude_links:true,
-         //    exclude_inputs:true
-
-         // });
-         // var tbl = $('#tablePPMResultContent')[0];
-
-         // var ws = XLSX.utils.table_to_sheet(tbl);
-         // var wb = XLSX.utils.book_new();
-
-         // XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-         // XLSX.writeFile(wb, "ppm.xls");
-
-         window.open('data:application/vnd.ms-excel,' + encodeURIComponent( $('div[id$=printPreviewContainer1]').html()));
-
-         // e.preventDefault();
-         // $('#tablePPMResultContent').tableExport({
-         //    type: 'excel',
-         //    escape: false
-         // });
       });
 
       $('#btnExportToExcel2').click(function(e){
@@ -1430,6 +1389,7 @@
          $('#printPreviewArea2').fadeOut(1000);
       });
    });
+   
 </script>
 
 <?php

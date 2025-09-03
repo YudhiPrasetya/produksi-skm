@@ -454,32 +454,6 @@
          });         
       })
 
-      $('#btnSaveNotes').click(function(){
-         // let catatanText = $('#catatan').summernote('code');
-         // let content = {
-         //    'id': idMeeting,
-         //    'effective_date': $('#eff_date').val(),
-         //    'notes': catatanText
-         // };
-         
-         // $.ajax({
-         //    type: 'POST',
-         //    url: 'functions/ajax_functions_handler.php',
-         //    dataType: 'JSON',
-         //    data: {
-         //       'action': 'ajax_postPPMUpdateNotes',
-         //       'param': {
-         //          'content': content
-         //       }
-         //    }
-         // }).done(function(dt){
-         //    if(dt){
-
-         //    }
-         // });
-
-      });
-
       function sendPPMMessage(lvl){
          var ppmRunning_ws = new WebSocket("ws://192.168.90.100:10000/?service=ppm");
          ppmRunning_ws.onopen = function(){
