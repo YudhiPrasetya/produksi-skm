@@ -14,6 +14,7 @@ $ds = new \Fr\DiffSocket(array(
          "ouput_target" => __DIR__ . "/monitor-services/output_target_monitor_service.php",
          "ppm" => __DIR__ . "/monitor-services/ppm_monitor_service.php",
          "ppm_running" => __DIR__ . "/monitor-services/ppm_running_monitor_service.php",
+         "trimstore" => __DIR__ . "/monitor-services/trimstore_service.php"
          // "send_message" => __DIR__ . "/monitor-services/send_message_monitor_service.php"
       )
    ));

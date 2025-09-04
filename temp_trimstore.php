@@ -5,8 +5,7 @@ require_once 'view/header.php';
 // date_default_timezone_set('Asia/Jakarta');
 ?>
 <?php
-if(cek_status($_SESSION['username'] ) == 'admin' OR 
-cek_status($_SESSION['username'] ) == 'trimstore' ) {
+if(cek_status($_SESSION['username'] ) == 'admin' OR cek_status($_SESSION['username'] ) == 'trimstore' ) {
   $user = $_SESSION['username'];
   $proses = 'trimstore';
   

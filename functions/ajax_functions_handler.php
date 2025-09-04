@@ -118,7 +118,10 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                $orc = $p['orc'];
                getPreProductionSizeByORC($orc);
                break;               
-            }            
+            }
+         case 'ajax_getTrimstoreOutputToday':
+              getTrimstoreOutputToday();
+              break;
        }
       //  }
    } else if(isset($_POST['action'])){
@@ -1066,5 +1069,25 @@ function getPPMDaftarHadir($id){
    $jsonPPMDaftarHadir = json_encode($dtDaftarHadir);
    
    echo $jsonPPMDaftarHadir;   
+}
+
+function getTrimstoreOutputToday(){
+   global $koneksi;
+
+   $sql = "SELECT `orc`, qty_order, plan_line, qty FROM view_transaksi_trimstore WHERE tanggal=CURDATE()";
+   $respTrimstore = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dtTrimstore = [];
+   while($r = mysqli_fetch_assoc($respTrimstore)){
+      $row = [
+         'orc' => $r['orc'],
+         'qty_order' => $r['qty_order'],
+         'plan_line' => $r['plan_line'],
+         'qty' => $r['qty']
+      ];
+      array_push($dtTrimstore, $row);
+   }
+   $jsonTrimstore = json_encode($dtTrimstore);
+   
+   echo $jsonTrimstore;      
 }
 ?>

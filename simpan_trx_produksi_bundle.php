@@ -12,6 +12,7 @@ $line='';
 $dataTransaksi='';
 $dataTransaksiTatami='';
 $dataPackingLineToday = '';
+$dataTrimstoreScannedToday = '';
 $tgl = date('Y-m-d');
 
 if(isset($_POST['kirim'])){
@@ -173,6 +174,21 @@ if(isset($_POST['kirim'])){
                     $dataPackingLineToday = json_encode(['line' => $ln, 'qty_today' => $qty]);
                     $_SESSION['pesan'] = "Data Transaksi $proses Berhasil disimpan";
                     // header("Location:$temp_table.php");
+                }elseif($proses == 'Trimstore'){
+                    $tempTrimstore = get_temp_trimstore_barcode_by_user($user);
+                    $qty = 0;
+                    $orc = "";
+                    $plan_line = "";
+                    while($row = mysqli_fetch_assoc($tempTrimstore)){
+                        $kodeBarcode = $row['kode_barcode'];
+                        $responseTrimstore = get_data_trimstore_by_barcode($kodeBarcode);
+                        $rstTrimstore = mysqli_fetch_assoc($responseTrimstore);
+                        $orc = $rstTrimstore['orc'];
+                        $plan_line = $rstTrimstore['plan_line'];
+                        $qty += (int)$rstTrimstore['qty'];
+                    }
+                    $dataTrimstoreScannedToday = json_encode(['orc' => $orc, 'plan_line' => $plan_line, 'tot_qty' => $qty]);
+                    $_SESSION['pesan'] = "Data Transaksi $proses Berhasil disimpan";
                 }else{
                     header("Location:$temp_table.php");
                 }                
@@ -193,10 +209,16 @@ if(isset($_POST['kirim'])){
         <script src="assets/js/jquery.min.js"></script>
         <script>
             var proses = '<?= $proses; ?>';
-            if(proses === 'Tatami'){
-                sendPackingMsg();
-            }else{
-                sendQCEndlineMsg();
+            switch(proses){
+                case 'Tatami':
+                    sendPackingMsg();
+                    break;
+                case 'Qc_endline':
+                    sendQCEndlineMsg();
+                    break;
+                case 'Trimstore':
+                    sendTrimstoreMsg();
+                    break;
             }
 
             function sendQCEndlineMsg(){
@@ -206,7 +228,6 @@ if(isset($_POST['kirim'])){
 
                 qcEndline.onopen = function(){
                     let dataTransaksi = '<?= $dataTransaksi; ?>';
-                    console.log('dataTransaksi', dataTransaksi);
                     let line = '<?= $line ?>';
                     // console.log('line', line);
                     let tempTable = '<?= $temp_table; ?>';
@@ -244,6 +265,21 @@ if(isset($_POST['kirim'])){
                         window.open("http://192.168.90.100/produksi-skm/" + tempTable + ".php", "_self");                
                     }
                 }
+            }
+
+            function sendTrimstoreMsg(){
+                // var trimstore = new WebSocket("ws://localhost:10000/?service=trimstore");
+                var trimstore = new WebSocket("ws://192.168.90.100:10000/?service=trimstore");
+
+                trimstore.onopen = function(){
+                    let dataTrimstoreScannedToday = '<?= $dataTrimstoreScannedToday; ?>' ?? "";
+                    let tempTable = '<?= $temp_table; ?>';
+
+                    trimstore.send(dataTrimstoreScannedToday);
+                    // window.open("http://localhost/produksi-skm/" + tempTable + ".php", "_self");                
+
+                    window.open("http://192.168.90.100/produksi-skm/" + tempTable + ".php", "_self");                
+                }                
             }
         </script>
     </body>
