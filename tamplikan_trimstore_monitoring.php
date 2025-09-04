@@ -117,7 +117,7 @@
 
             function initOutputTrimstore(){
                $.when(fetch_trimstoreOutputToday()).done(function(rst1){
-                  loadInitOutputTrimstore(rst1[0]);
+                  loadInitOutputTrimstore(rst1);
                });
             }
             
