@@ -8385,10 +8385,31 @@ function get_temp_tatami_barcode_by_user($user){
   return $rst;  
 }
 
+function get_temp_trimstore_barcode_by_user($user){
+  global $koneksi;
+
+  $query = "SELECT kode_barcode, qty, username FROM temp_trimstore WHERE
+            username='$user' AND tanggal=CURDATE()";
+  // var_dump($query);
+
+  $rst = mysqli_query($koneksi, $query);
+
+  return $rst;
+}
+
 function get_data_qc_endline_by_barcode($barcode){
   global $koneksi;
 
   $query = "SELECT `line`, qty FROM transaksi_qc_endline WHERE kode_barcode='$barcode'";
+  $rst = mysqli_query($koneksi, $query);
+
+  return $rst;  
+}
+
+function get_data_trimstore_by_barcode($barcode){
+  global $koneksi;
+
+  $query = "SELECT `orc`, qty_order, plan_line, tanggal, qty FROM view_transaksi_trimstore WHERE kode_barcode='$barcode'";
   $rst = mysqli_query($koneksi, $query);
 
   return $rst;  
