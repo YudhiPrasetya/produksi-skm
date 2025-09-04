@@ -1,4 +1,4 @@
-p<?php
+<?php
    require_once 'core/init.php';
    require_once 'view/header_dashboard.php';
 ?>
