@@ -250,7 +250,7 @@
                 <ul style="background: #254681">
                   <li style="background: #254681"><a style="background: #254681" href="tampilkan_qcendline_Monitoring_all_line.php" target="_blank">QC Endline All Line</a></li>
 
-                  <li style="background: #254681"><a style="background: #254681" href="tampilkan_trimstore_monitoring.php" target="_blank">Trimstore Output Monitoring</a></li>
+                  <li style="background: #254681"><a style="background: #254681" href="tamplikan_trimstore_monitoring.php" target="_blank">Trimstore Output Monitoring</a></li>
 
 
                   <li style="background: #254681"><a style="background: #254681" href="tv_laporan_hasil_scan_global.php">GLOBAL SIZE</a></li>
