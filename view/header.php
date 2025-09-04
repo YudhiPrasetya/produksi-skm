@@ -249,6 +249,10 @@
               <li style="background: #254681"><a style="background: #254681" href="#">REPORT TV</a>
                 <ul style="background: #254681">
                   <li style="background: #254681"><a style="background: #254681" href="tampilkan_qcendline_Monitoring_all_line.php" target="_blank">QC Endline All Line</a></li>
+
+                  <li style="background: #254681"><a style="background: #254681" href="tampilkan_trimstore_monitoring.php" target="_blank">Trimstore Output Monitoring</a></li>
+
+
                   <li style="background: #254681"><a style="background: #254681" href="tv_laporan_hasil_scan_global.php">GLOBAL SIZE</a></li>
                   <li style="background: #254681"><a style="background: #254681" href="tv_laporan_hasil_scan_global_sewing2.php">SEWING PROD</a></li>
                   <li style="background: #254681"><a style="background: #254681" href="tv_laporan_preparation_production.php">REPORT TV</a></li>
