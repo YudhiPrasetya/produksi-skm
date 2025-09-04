@@ -105,6 +105,28 @@ Username Aktif : <?= cek_status($_SESSION['username']) ?></font>
 
     
 <script type="text/javascript">
+  var lastInput;
+  $("#kode_barcode")[0].onpaste = e => e.preventDefault();
+  let timeout = false
+  $("#kode_barcode").keypress(function (e) {
+    if (performance.now() - lastInput > 1000) {
+      $("#kode_barcode").val('')
+    }
+      lastInput = performance.now();
+      if (!timeout) {
+      timeout = setTimeout(checkValidity, 200)
+    }
+  });
+
+  let checkValidity = () => {
+      if ($("#kode_barcode").val().length < 10) {
+        $("#kode_barcode").val('')
+    } else {
+      $("body").append($('<div style="background:green;padding: 5px 12px;margin-bottom:10px;" id="msg">ok</div>'))
+    }
+    timeout = false
+  }    
+
   $('#kode_barcode').on('change',function(){
     var barcode = $('#kode_barcode').val();
     var temp_table = $('#temp_table').val();

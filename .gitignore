@@ -1,2 +1,3 @@
 # Ignore qrcode png files
 qrcodes/*
+images_ppm/*

@@ -1075,11 +1075,12 @@ function getTrimstoreOutputToday(){
    global $koneksi;
 
    $sql = "SELECT `orc`, qty_order, plan_line, qty FROM view_transaksi_trimstore WHERE tanggal=CURDATE()";
+   // $sql = "SELECT `orc`, qty_order, plan_line, qty FROM view_transaksi_trimstore WHERE tanggal='2025-08-21'";
    $respTrimstore = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
    $dtTrimstore = [];
    while($r = mysqli_fetch_assoc($respTrimstore)){
       $row = [
-         'orc' => $r['orc'],
+         'orc' => trim($r['orc']),
          'qty_order' => $r['qty_order'],
          'plan_line' => $r['plan_line'],
          'qty' => $r['qty']

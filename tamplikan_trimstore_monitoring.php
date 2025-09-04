@@ -1,4 +1,4 @@
-<?php
+p<?php
    require_once 'core/init.php';
    require_once 'view/header_dashboard.php';
 ?>
@@ -25,7 +25,8 @@
          }
 
          .card.color{
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5)
+            /* box-shadow: 0 0 10px rgba(255, 0, 0, 0.5) */
+            box-shadow: 0 0 10px #7B4CFF
          }
 
          @keyframes bounce {
@@ -86,7 +87,7 @@
                   </filter>
                   <linearGradient id="paint0_linear_31_15" x1="804.405" y1="-136.203" x2="160.281" y2="643.776" gradientUnits="userSpaceOnUse">
                      <stop stop-color="#7B4CFF" />
-                     <stop offset="0.469471" stop-color="#EC407A" />
+                     <stop offset="0.469471" stop-color="#25ec4dff" />
                      <stop offset="1" stop-color="white" />
                   </linearGradient>
                </defs>
@@ -155,11 +156,10 @@
                               <div class="card-header p-2 ps-2">
                                  <div class="row">
                                     <div class="col-sm-8">
-                                       <p class="mb-0 text-sm">
-                                          <span class="text-success font-weight-bolder">
-                                             ${item.orc} <span class="text-dark">(${item.plan_line})</span>
-                                          </span>
-                                       </p>
+                                       <div class="row">
+                                          <p class="mb-0 text-sm text-success"><strong>${item.orc}</strong></p>
+                                          <p class="mb-0 text-sm text-dark"><strong>${item.plan_line}</strong></p>
+                                       </div>
                                     </div>
                                     <div class="col-sm-4">
                                        <span class="badge rounded-pill bg-warning hideUpdate" id="updated-${orc}">Updated</span>
@@ -187,6 +187,7 @@
                         </div>`                  
                   );
                });
+               console.log('orcs: ', orcs);
 
                // Fade in and bouncing animation
                $('.fadeIn-Animate').each(function(idx){
@@ -201,6 +202,7 @@
                // remove bouncing animation class
                // let duration = 4 * 
                $.each(orcs, function(i, itm){
+                  console.log('itm: ', itm);
                   let card = $(`#${itm}`);
                   card.on('animationend webkitAnimationEnd MSAnimationEnd oAnimationEnd', function(){
                      card.removeClass('bouncing-animation');
