@@ -1086,7 +1086,7 @@ function getTrimstoreOutputToday(){
          'orc' => trim($r['orc']),
          'qty_order' => $r['qty_order'],
          'plan_line' => $r['plan_line'],
-         'qty' => $r['qty']
+         'total_qty' => $r['total_qty']
       ];
       array_push($dtTrimstore, $row);
    }
@@ -1107,7 +1107,7 @@ function getTrimstoreOutputTotal(){
          'orc' => trim($r['orc']),
          'qty_order' => $r['qty_order'],
          'plan_line' => $r['plan_line'],
-         'qty' => $r['qty']
+         'total_qty' => $r['total_qty']
       ];
       array_push($dtTrimstore, $row);
    }
