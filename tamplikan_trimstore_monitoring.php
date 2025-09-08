@@ -173,8 +173,8 @@
                                        <div class="row">
                                           <div class="col-sm-8">
                                              <div class="row">
-                                                <p class="mb-0 text-sm text-success"><strong>${item.orc}</strong></p>
-                                                <p class="mb-0 text-sm text-dark"><strong>${item.plan_line}</strong></p>
+                                                <p class="mb-0 text-sm text-success"><strong>${item1.orc}</strong></p>
+                                                <p class="mb-0 text-sm text-dark"><strong>${item1.plan_line}</strong></p>
                                              </div>
                                           </div>
                                           <div class="col-sm-4">
@@ -187,12 +187,12 @@
                                        <div class="d-flex justify-content-around">
                                           <div>
                                              <p class="text-sm mb-0 text-warning text-center"><strong>Qty Order</strong></p>
-                                             <h4 class="mb-0 text-warning text-center" id="qtyOrder-${orc}"><strong>${item.qty_order}</strong></h4>
+                                             <h4 class="mb-0 text-warning text-center" id="qtyOrder-${orc}"><strong>${item1.qty_order}</strong></h4>
                                           </div>
 
                                           <div>
                                              <p class="text-sm mb-0 text-capitalize text-success text-center"><strong>Today</strong></p>
-                                             <h4 class="mb-0 text-success text-center" id="output-today-${orc}"><strong>${item.total_qty}</strong></h4>
+                                             <h4 class="mb-0 text-success text-center" id="output-today-${orc}"><strong>${item1.total_qty}</strong></h4>
                                           </div>
 
                                           <div>
@@ -202,7 +202,7 @@
 
                                           <div>
                                              <p class="text-sm mb-0 text-white text-center"><strong>W I P</strong></p>
-                                             <h4 class="mb-0 text-white text-center" id="wip-${orc}"><strong>${parseInt(item.qty_order)-parseInt(item2.total_qty)}</strong></h4>
+                                             <h4 class="mb-0 text-white text-center" id="wip-${orc}"><strong>${parseInt(item1.qty_order)-parseInt(item2.total_qty)}</strong></h4>
                                           </div>
                                        </div>
                                     </div>
