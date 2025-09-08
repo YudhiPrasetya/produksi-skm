@@ -122,6 +122,9 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
          case 'ajax_getTrimstoreOutputToday':
               getTrimstoreOutputToday();
               break;
+         case 'ajax_getTrimstoreOutputTotal':
+              getTrimstoreOutputTotal();
+              break;
        }
       //  }
    } else if(isset($_POST['action'])){
@@ -1074,8 +1077,8 @@ function getPPMDaftarHadir($id){
 function getTrimstoreOutputToday(){
    global $koneksi;
 
-   $sql = "SELECT `orc`, qty_order, plan_line, qty FROM view_transaksi_trimstore WHERE tanggal=CURDATE()";
-   // $sql = "SELECT `orc`, qty_order, plan_line, qty FROM view_transaksi_trimstore WHERE tanggal='2025-08-21'";
+   $sql = "SELECT `orc`, qty_order, plan_line, tanggal, SUM(qty) AS total_qty FROM view_transaksi_trimstore WHERE tanggal=CURDATE() GROUP BY orc";
+
    $respTrimstore = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
    $dtTrimstore = [];
    while($r = mysqli_fetch_assoc($respTrimstore)){
@@ -1090,5 +1093,26 @@ function getTrimstoreOutputToday(){
    $jsonTrimstore = json_encode($dtTrimstore);
    
    echo $jsonTrimstore;      
+}
+
+function getTrimstoreOutputTotal(){
+   global $koneksi;
+
+   $sql = "SELECT orc, qty_order, plan_line, tanggal, SUM(qty) AS total_qty FROM `view_transaksi_trimstore` GROUP BY orc ORDER BY tanggal DESC";
+
+   $respTrimstore = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dtTrimstore = [];
+   while($r = mysqli_fetch_assoc($respTrimstore)){
+      $row = [
+         'orc' => trim($r['orc']),
+         'qty_order' => $r['qty_order'],
+         'plan_line' => $r['plan_line'],
+         'qty' => $r['qty']
+      ];
+      array_push($dtTrimstore, $row);
+   }
+   $jsonTrimstore = json_encode($dtTrimstore);
+   
+   echo $jsonTrimstore;
 }
 ?>

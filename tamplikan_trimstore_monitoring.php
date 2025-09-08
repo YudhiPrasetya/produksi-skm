@@ -117,8 +117,8 @@
             initOutputTrimstore();
 
             function initOutputTrimstore(){
-               $.when(fetch_trimstoreOutputToday()).done(function(rst1){
-                  loadInitOutputTrimstore(rst1);
+               $.when(fetch_trimstoreOutputToday(), fetch_trimstoreOutputTotal()).done(function(rst1, rst2){
+                  loadInitOutputTrimstore(rst1, rst2);
                });
             }
             
@@ -135,57 +135,83 @@
                   throw err;
                }
             }
-  
-            function loadInitOutputTrimstore(resp1){
-               const summedByORCToday = resp1.reduce((acc1, curr1) => {
-                  const found1 = acc1.find(val1 => val1.orc === curr1.orc);
-                  if(found1){
-                     found1.qty += parseInt(curr1.qty);
-                  }else{
-                     acc1.push({...curr1, qty: parseInt(curr1.qty)});
-                  }
-                  return acc1;
-               }, []);
 
-               $.each(summedByORCToday, function(i, item){
-                  let orc = item.orc;
-                  orcs.push(orc);
-                  $('#cardContainer').append(
-                     `<div class="col-xl-2 col-sm-6 mb-4 fadeIn-Animate" style="display: none;" id="${orc}">
-                        <div class="card color p-1">
-                              <div class="card-header p-2 ps-2">
-                                 <div class="row">
-                                    <div class="col-sm-8">
+            function fetch_trimstoreOutputTotal(){
+               try{
+                  var response2 = $.ajax({
+                     type: 'GET',
+                     url: 'functions/ajax_functions_handler.php',
+                     data: {action: 'ajax_getTrimstoreOutputTotal'},
+                     dataType: 'JSON'
+                  });
+                  return response2;
+               }catch(err){
+                  throw err;
+               }               
+            }
+  
+            function loadInitOutputTrimstore(resp1, resp2){
+               // const summedByORCToday = resp1.reduce((acc1, curr1) => {
+               //    const found1 = acc1.find(val1 => val1.orc === curr1.orc);
+               //    if(found1){
+               //       found1.qty += parseInt(curr1.qty);
+               //    }else{
+               //       acc1.push({...curr1, qty: parseInt(curr1.qty)});
+               //    }
+               //    return acc1;
+               // }, []);
+
+               $.each(resp1, function(i, item1){
+                  $.each(resp2, function(j, item2){
+                     if(item1.orc == item2.orc){
+                        let orc = item.orc;
+                        orcs.push(orc);
+                        $('#cardContainer').append(
+                           `<div class="col-xl-3 col-sm-6 mb-4 fadeIn-Animate" style="display: none;" id="${orc}">
+                              <div class="card color p-1">
+                                    <div class="card-header p-2 ps-2">
                                        <div class="row">
-                                          <p class="mb-0 text-sm text-success"><strong>${item.orc}</strong></p>
-                                          <p class="mb-0 text-sm text-dark"><strong>${item.plan_line}</strong></p>
+                                          <div class="col-sm-8">
+                                             <div class="row">
+                                                <p class="mb-0 text-sm text-success"><strong>${item.orc}</strong></p>
+                                                <p class="mb-0 text-sm text-dark"><strong>${item.plan_line}</strong></p>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-4">
+                                             <span class="badge rounded-pill bg-warning hideUpdate" id="updated-${orc}">Updated</span>
+                                          </div>
                                        </div>
                                     </div>
-                                    <div class="col-sm-4">
-                                       <span class="badge rounded-pill bg-warning hideUpdate" id="updated-${orc}">Updated</span>
+                                    <hr class="dark horizontal my-0">
+                                    <div class="card-footer p-2 ps-2 bg-gradient-dark">
+                                       <div class="d-flex justify-content-around">
+                                          <div>
+                                             <p class="text-sm mb-0 text-warning text-center"><strong>Qty Order</strong></p>
+                                             <h4 class="mb-0 text-warning text-center" id="qtyOrder-${orc}"><strong>${item.qty_order}</strong></h4>
+                                          </div>
+
+                                          <div>
+                                             <p class="text-sm mb-0 text-capitalize text-success text-center"><strong>Today</strong></p>
+                                             <h4 class="mb-0 text-success text-center" id="output-today-${orc}"><strong>${item.total_qty}</strong></h4>
+                                          </div>
+
+                                          <div>
+                                             <p class="text-sm mb-0 text-capitalize text-success text-center"><strong>Total</strong></p>
+                                             <h4 class="mb-0 text-success text-center" id="output-total-${orc}"><strong>${item2.total_qty}</strong></h4>
+                                          </div>
+
+                                          <div>
+                                             <p class="text-sm mb-0 text-white text-center"><strong>W I P</strong></p>
+                                             <h4 class="mb-0 text-white text-center" id="wip-${orc}"><strong>${parseInt(item.qty_order)-parseInt(item2.total_qty)}</strong></h4>
+                                          </div>
+                                       </div>
                                     </div>
                                  </div>
-                              </div>
-                              <hr class="dark horizontal my-0">
-                              <div class="card-footer p-2 ps-2 bg-gradient-dark">
-                                 <div class="d-flex justify-content-between">
-                                    <div>
-                                       <p class="text-sm mb-0 text-warning text-center">Qty Order</p>
-                                       <h4 class="mb-0 text-warning text-center" id="qtyOrder-${orc}">${item.qty_order}</h4>
-                                    </div>
-                                    <div>
-                                       <p class="text-sm mb-0 text-capitalize text-success text-center">Today</p>
-                                       <h4 class="mb-0 text-success text-center" id="output-today-${orc}"><strong>${item.qty}</strong></h4>
-                                    </div>
-                                    <div>
-                                       <p class="text-sm mb-0 text-white text-center">W I P</p>
-                                       <h4 class="mb-0 text-white text-center" id="wip-${orc}">${parseInt(item.qty_order)-parseInt(item.qty)}</h4>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>`                  
-                  );
+                              </div>`                  
+                        );
+                     }
+                  });
+
                });
                console.log('orcs: ', orcs);
 
@@ -237,11 +263,11 @@
                   });
 
                }else{
-                  // AddOutputLine(line, style, objDataQCEndlineOnMessage.dataOutput[0].today);
+                  // AddOutputTrimstore(orc, style, objDataQCEndlineOnMessage.dataOutput[0].today);
                }
             }
 
-            function AddOutputLine(ln, st, output){
+            function AddOutputTrimstore(ln, st, output){
                var realLine = ln.slice(0,4) + " " + ln.slice(4);
 
                $.when(fetchQCEndlinePerLineYesterday(realLine), fetchQCEndlineTarget(realLine)).done(function(rst1, rst2){
