@@ -164,7 +164,7 @@
                $.each(resp1, function(i, item1){
                   $.each(resp2, function(j, item2){
                      if(item1.orc == item2.orc){
-                        let orc = item.orc;
+                        let orc = item1.orc;
                         orcs.push(orc);
                         $('#cardContainer').append(
                            `<div class="col-xl-3 col-sm-6 mb-4 fadeIn-Animate" style="display: none;" id="${orc}">
