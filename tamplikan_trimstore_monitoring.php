@@ -163,8 +163,8 @@
                //    return acc1;
                // }, []);
 
-               $.each(resp1, function(i, item1){
-                  $.each(resp2, function(j, item2){
+               $.each(resp1[0], function(i, item1){
+                  $.each(resp2[0], function(j, item2){
                      if(item1.orc == item2.orc){
                         let orc = item1.orc;
                         orcs.push(orc);
