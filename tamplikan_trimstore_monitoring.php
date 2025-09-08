@@ -151,6 +151,8 @@
             }
   
             function loadInitOutputTrimstore(resp1, resp2){
+               console.log('resp1: ', resp1);
+               console.log('resp2: ', resp2);
                // const summedByORCToday = resp1.reduce((acc1, curr1) => {
                //    const found1 = acc1.find(val1 => val1.orc === curr1.orc);
                //    if(found1){
