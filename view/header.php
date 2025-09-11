@@ -281,6 +281,9 @@
                   <li style="background: #254681"><a style="background: #254681" href="cetak_grafik_batang_line.php">LINE</a></li>
                 </ul>
               </li>
+              <li style="background: #254681">
+                <a style="background: #254681" href="cetak_wip.php" target="_blank">WIP</a>
+              </li>
 
 
             </ul>

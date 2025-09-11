@@ -125,6 +125,18 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
          case 'ajax_getTrimstoreOutputTotal':
               getTrimstoreOutputTotal();
               break;
+         case 'ajax_getTrimstoreQtySize':
+            getTrimstoreQtySize();
+            break;
+         case 'ajax_getSewingQtySize':
+            getSewingQtySize();
+            break;
+         case 'ajax_getQcEndlineQtySize':
+            getQcEndlineQtySize();
+            break;
+         case 'ajax_getPackingQtySize':
+            getPackingQtySize();
+            break;
        }
       //  }
    } else if(isset($_POST['action'])){
@@ -1114,5 +1126,93 @@ function getTrimstoreOutputTotal(){
    $jsonTrimstore = json_encode($dtTrimstore);
    
    echo $jsonTrimstore;
+}
+
+function getTrimstoreQtySize(){
+   global $koneksi;
+
+   $sql = "SELECT * FROM view_trimstore_qty_size";
+
+   $respTrimstoreQtySize = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dtTrimstoreQtySize = [];
+   while($r = mysqli_fetch_assoc($respTrimstoreQtySize)){
+      $row = [
+         'style' => $r['style'],
+         'orc' => trim($r['orc']),
+         'size' => $r['size'],
+         'qty_size' => $r['qty_size'],
+         'sum_qty_trimstore' => $r['sum_qty_trimstore'],
+      ];
+      array_push($dtTrimstoreQtySize, $row);
+   }
+   $jsondtTrimstoreQtySize = json_encode($dtTrimstoreQtySize);
+   
+   echo $jsondtTrimstoreQtySize;   
+}
+
+function getSewingQtySize(){
+   global $koneksi;
+
+   $sql = "SELECT * FROM view_sewing_qty_size";
+
+   $respSewingQtySize = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dtSewingQtySize = [];
+   while($r = mysqli_fetch_assoc($respSewingQtySize)){
+      $row = [
+         'style' => $r['style'],
+         'orc' => trim($r['orc']),
+         'size' => $r['size'],
+         'qty_size' => $r['qty_size'],
+         'sum_qty_sewing' => $r['sum_qty_sewing'],
+      ];
+      array_push($dtSewingQtySize, $row);
+   }
+   $jsondtSewingQtySize = json_encode($dtSewingQtySize);
+   
+   echo $jsondtSewingQtySize;   
+}
+
+function getQcEndlineQtySize(){
+   global $koneksi;
+
+   $sql = "SELECT * FROM view_qc_endline_qty_size";
+
+   $respQCQtySize = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dtQCQtySize = [];
+   while($r = mysqli_fetch_assoc($respQCQtySize)){
+      $row = [
+         'style' => $r['style'],
+         'orc' => trim($r['orc']),
+         'size' => $r['size'],
+         'qty_size' => $r['qty_size'],
+         'sum_qty_qc_endline' => $r['sum_qty_qc_endline'],
+      ];
+      array_push($dtQCQtySize, $row);
+   }
+   $jsondtQCQtySize = json_encode($dtQCQtySize);
+   
+   echo $jsondtQCQtySize;   
+}
+
+function getPackingQtySize(){
+   global $koneksi;
+
+   $sql = "SELECT * FROM view_tatami_qty_size";
+
+   $respTatamiQtySize = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dtTatamiQtySize = [];
+   while($r = mysqli_fetch_assoc($respTatamiQtySize)){
+      $row = [
+         'style' => $r['style'],
+         'orc' => trim($r['orc']),
+         'size' => $r['size'],
+         'qty_size' => $r['qty_size'],
+         'sum_qty_tatami' => $r['sum_qty_tatami'],
+      ];
+      array_push($dtTatamiQtySize, $row);
+   }
+   $jsondtTatamiQtySize = json_encode($dtTatamiQtySize);
+   
+   echo $jsondtTatamiQtySize;   
 }
 ?>
