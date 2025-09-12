@@ -70,9 +70,11 @@
 
    $dtQCEndLineYesterday = mysqli_fetch_assoc($dataQCYesterday);
 
-   $dataPackingLineToday = get_output_packing_today($line);
+   // $dataPackingLineToday = get_output_packing_today($line);
 
-   $dtPackingLineToday = mysqli_fetch_assoc($dataPackingLineToday);
+   $dtPackingLineToday = get_output_packing_today($line);
+
+   // $dtPackingLineToday = mysqli_fetch_assoc($dataPackingLineToday);
 
    $dataPackingYesterday = get_output_packing_yesterday($tgl, $line);
 
@@ -470,11 +472,14 @@
 
          // var dtPackingLineToday = ('<//?= $dtPackingLineToday['Packing_Today']; ?>' == "" ? 0 : parseInt('<//?= //$dtPackingLineToday['Packing_Today']; ?>'));
 
-         var dtPackingLineToday = ("<?= $dtPackingLineToday; ?>" == "" ? 0 : parseInt("<?= $dtPackingLineToday['Packing_Today']; ?>"));
+         // var dtPackingLineToday = ("<//?= $dtPackingLineToday; ?>" == "" ? 0 : parseInt("<//?= $dtPackingLineToday['Packing_Today']; ?>"));
+
+         var dtPackingLineToday = JSON.parse('<?= $dtPackingLineToday; ?>');
+         console.log('dtPackingLineToday: ', dtPackingLineToday);
 
          var dtPackingYesterday = '<?= $dtPackingYesterday['Packing_Yesterday']; ?>';
 
-         $('#packingLineToday').text(dtPackingLineToday);
+         $('#packingLineToday').text(dtPackingLineToday == null ? 0 : parseInt(dtPackingLineToday.Packing_Today));
 
          $('#packingYesterday').text(dtPackingYesterday == "" ? 0 : dtPackingYesterday);
 
