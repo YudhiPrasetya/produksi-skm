@@ -107,7 +107,7 @@
          var selectedWIPGroupVal="";
          var tableSewingGroup = $('#tableSewingGroup').DataTable({
             dom: 'Bfrtip',
-            buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],            
+            buttons: ['excel', 'pdf'],            
             destroy: true,
             lengthMenu: [[10,25,50,200,250,-1],[10,25,50,200,250,"All"]],
             pageLength: 25
