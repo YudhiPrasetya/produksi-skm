@@ -7721,7 +7721,7 @@ function get_output_packing_today($line){
             
   $result = mysqli_query($koneksi, $query);
 
-  return $result;  
+  return json_encode($result);  
 }
 
 
