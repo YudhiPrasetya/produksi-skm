@@ -470,7 +470,7 @@
 
          // var dtPackingLineToday = ('<//?= $dtPackingLineToday['Packing_Today']; ?>' == "" ? 0 : parseInt('<//?= //$dtPackingLineToday['Packing_Today']; ?>'));
 
-         var dtPackingLineToday = ('<?= $dtPackingLineToday; ?>' == "" ? 0 : parseInt('<?= $dtPackingLineToday['Packing_Today']; ?>'));
+         var dtPackingLineToday = (<?= $dtPackingLineToday; ?> == '' ? 0 : parseInt(<?= $dtPackingLineToday['Packing_Today']; ?>));
 
          var dtPackingYesterday = '<?= $dtPackingYesterday['Packing_Yesterday']; ?>';
 
