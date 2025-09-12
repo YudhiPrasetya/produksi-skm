@@ -203,16 +203,16 @@
                   orc: trimstore.orc,
                   size: trimstore.size,
                   qty: trimstore.sum_qty_trimstore,
-                  sum_qty_sewing: sewingPreference == undefined ? "blm discan" : sewingPreference.sum_qty_sewing,
+                  sum_qty_sewing: sewingPreference == undefined ? "-" : sewingPreference.sum_qty_sewing,
 
-                  wip_sewing: sewingPreference == undefined ? "blm discan" : parseInt(trimstore.sum_qty_trimstore) - parseInt(sewingPreference.sum_qty_sewing),
+                  wip_sewing: sewingPreference == undefined ? "-" : parseInt(trimstore.sum_qty_trimstore) - parseInt(sewingPreference.sum_qty_sewing),
 
-                  sum_qty_qc_endline: qcPreference == undefined ? "blm discan" : qcPreference.sum_qty_qc_endline,
+                  sum_qty_qc_endline: qcPreference == undefined ? "-" : qcPreference.sum_qty_qc_endline,
 
-                  wip_qc_endline: qcPreference == undefined ? "blm discan" : parseInt(sewingPreference.sum_qty_sewing) - parseInt(qcPreference.sum_qty_qc_endline),
+                  wip_qc_endline: qcPreference == undefined ? "-" : parseInt(sewingPreference.sum_qty_sewing) - parseInt(qcPreference.sum_qty_qc_endline),
 
-                  sum_qty_packing: packingPreference == undefined ? "blm discan" : packingPreference.sum_qty_tatami,
-                  wip_packing: packingPreference == undefined ? "blm discan" : parseInt(qcPreference.sum_qty_qc_endline) - parseInt(packingPreference.sum_qty_tatami)
+                  sum_qty_packing: packingPreference == undefined ? "-" : packingPreference.sum_qty_tatami,
+                  wip_packing: packingPreference == undefined ? "-" : parseInt(qcPreference.sum_qty_qc_endline) - parseInt(packingPreference.sum_qty_tatami)
                }
             });
             
