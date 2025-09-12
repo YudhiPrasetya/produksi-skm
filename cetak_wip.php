@@ -10,6 +10,9 @@
 
 
    <style>
+      tbody{
+         cursor: pointer;
+      }
       hr {
          display: block;
          margin-top: 0.5em;
@@ -46,19 +49,29 @@
                &nbsp;Tampilkan
             </button>
          </div>
-         <div class="col-md-1">
+         <!-- <div class="col-md-1">
             <button class="btn btn-warning" id="btnExportToExcel" disabled>
                <span class="glyphicon glyphicon-excel">
                </span>
                &nbsp;Export To Excel
             </button>
+         </div> -->
+         <div class="col-md-2">
+            <h3 id="keterangan" style="margin-left: 20px;">- (belum/tidak scan)</h3>
          </div>
       </div>
-   
+
+      <div class="row text-center">
+         <div id="loading" style="display: none;">
+            Loading...
+            <img src="assets/images/loader.gif" alt="Loading" width="142" height="71" />
+         </div>
+      </div>
+
       <div class="row">
          <div class="col-md-12">
             <div class="table-container">
-               <table id="tableSewingGroup" class="table table-bordered" width="100%" cellpadding="6">
+               <table id="tableSewingGroup" class="table table-hover table-bordered table-striped compact" width="100%" cellpadding="6">
                   <thead>
                      <tr>
                         <th rowspan="2" style="background-color: #f4f4f4"><center>Style</center></th>
@@ -89,10 +102,15 @@
 
    <script>
       $(document).ready(function(){
+         $('#keterangan').hide();
 
          var selectedWIPGroupVal="";
          var tableSewingGroup = $('#tableSewingGroup').DataTable({
+            dom: 'Bfrtip',
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],            
             destroy: true,
+            lengthMenu: [[10,25,50,200,250,-1],[10,25,50,200,250,"All"]],
+            pageLength: 25
          });
    
          $('#selectWIPGroup').change(function(){
@@ -102,6 +120,8 @@
          });
    
          $('#btnTampilkan').click(function(){
+            $('#loading').show();
+
             switch(selectedWIPGroupVal){
                case "groupSewing":
                   loadWIPSewingGroup();
@@ -118,7 +138,7 @@
                // console.log('rstQc', rstQc);
                // console.log('rstPacking', rstPacking);
                showWIPSewingGroup(rstTrimstore[0], rstSewing[0], rstQc[0], rstPacking[0]);
-                
+               $('#loading').hide();
             });
          }
    
@@ -230,6 +250,8 @@
                   item.wip_packing
                ]).draw();   
             });
+
+            $('#keterangan').show();
          }
       });
    </script>
