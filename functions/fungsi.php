@@ -7719,9 +7719,9 @@ function get_output_packing_today($line){
   $query = "SELECT SUM(qty) AS Packing_Today,`line` FROM `view_transaksi_tatami_perline` WHERE tanggal=CURDATE() 
             AND `line`='$line' GROUP BY `line`";
             
-  $rst = mysqli_query($koneksi, $query);
+  $result = mysqli_query($koneksi, $query);
 
-  return $rst;  
+  return $result;  
 }
 
 
