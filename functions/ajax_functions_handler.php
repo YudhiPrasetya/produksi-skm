@@ -137,6 +137,24 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
          case 'ajax_getPackingQtySize':
             getPackingQtySize();
             break;
+         case 'ajax_getOrderQtySize':
+            getOrderQtySize();
+            break;
+         case 'ajax_getCuttingQtySize':
+            getCuttingQtySize();
+            break;
+         case 'ajax_getBemisQtySize':
+            getBemisQtySize();
+            break;
+         case 'ajax_getJuwitaQtySize':
+            getJuwitaQtySize();
+            break;
+         case 'ajax_getPressQtySize':
+            getPressQtySize();
+            break;
+         case 'ajax_getHTQtySize';
+            getHTQtySize();
+            break;
        }
       //  }
    } else if(isset($_POST['action'])){
@@ -1214,5 +1232,142 @@ function getPackingQtySize(){
    $jsondtTatamiQtySize = json_encode($dtTatamiQtySize);
    
    echo $jsondtTatamiQtySize;   
+}
+
+function getOrderQtySize(){
+   global $koneksi;
+
+   $sql = "SELECT * FROM view_order_qty_size";
+
+   $respOrderQtySize = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dtOrderQtySize = [];
+   while($r = mysqli_fetch_assoc($respOrderQtySize)){
+      $row = [
+         'style' => $r['style'],
+         'orc' => trim($r['orc']),
+         'size' => $r['size'],
+         'qty_order' => $r['qty_order'],
+         'cup' => $r['cup'],
+      ];
+      array_push($dtOrderQtySize, $row);
+   }
+   $jsondtOrderQtySize = json_encode($dtOrderQtySize);
+   
+   echo $jsondtOrderQtySize;   
+}
+
+function getCuttingQtySize(){
+   global $koneksi;
+
+   $sql = "SELECT * FROM view_cutting_qty_size";
+
+   $respCuttingQtySize = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dtCuttingQtySize = [];
+   while($r = mysqli_fetch_assoc($respCuttingQtySize)){
+      $row = [
+         'style' => $r['style'],
+         'orc' => trim($r['orc']),
+         'size' => $r['size'],
+         'qty_size' => $r['qty_size'],
+         'cup' => $r['cup'],
+         'sum_qty_cutting' => $r['sum_qty_cutting']
+      ];
+      array_push($dtCuttingQtySize, $row);
+   }
+   $jsondtCuttingQtySize = json_encode($dtCuttingQtySize);
+   
+   echo $jsondtCuttingQtySize;   
+}
+
+function getBemisQtySize(){
+   global $koneksi;
+
+   $sql = "SELECT * FROM view_bemis_qty_size";
+
+   $respBemisQtySize = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dtBemisQtySize = [];
+   while($r = mysqli_fetch_assoc($respBemisQtySize)){
+      $row = [
+         'style' => $r['style'],
+         'orc' => trim($r['orc']),
+         'size' => $r['size'],
+         'qty_size' => $r['qty_size'],
+         'cup' => $r['cup'],
+         'sum_qty_bemis' => $r['sum_qty_bemis']
+      ];
+      array_push($dtBemisQtySize, $row);
+   }
+   $jsonBemisQtySize = json_encode($dtBemisQtySize);
+   
+   echo $jsonBemisQtySize;   
+}
+
+function getJuwitaQtySize(){
+   global $koneksi;
+
+   $sql = "SELECT * FROM view_juwita_qty_size";
+
+   $respJuwitaQtySize = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dtJuwitaQtySize = [];
+   while($r = mysqli_fetch_assoc($respJuwitaQtySize)){
+      $row = [
+         'style' => $r['style'],
+         'orc' => trim($r['orc']),
+         'size' => $r['size'],
+         'qty_size' => $r['qty_size'],
+         'cup' => $r['cup'],
+         'sum_qty_juwita' => $r['sum_qty_juwita']
+      ];
+      array_push($dtJuwitaQtySize, $row);
+   }
+   $jsonJuwitaQtySize = json_encode($dtJuwitaQtySize);
+   
+   echo $jsonJuwitaQtySize;   
+}
+
+function getPressQtySize(){
+   global $koneksi;
+
+   $sql = "SELECT * FROM view_press_qty_size";
+
+   $respPressQtySize = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dtPressQtySize = [];
+   while($r = mysqli_fetch_assoc($respPressQtySize)){
+      $row = [
+         'style' => $r['style'],
+         'orc' => trim($r['orc']),
+         'size' => $r['size'],
+         'qty_size' => $r['qty_size'],
+         'cup' => $r['cup'],
+         'sum_qty_press' => $r['sum_qty_press']
+      ];
+      array_push($dtPressQtySize, $row);
+   }
+   $jsonPressQtySize = json_encode($dtPressQtySize);
+   
+   echo $jsonPressQtySize;   
+}
+
+function getHTQtySize(){
+   global $koneksi;
+
+   $sql = "SELECT * FROM view_ht_qty_size";
+
+   $respHTQtySize = mysqli_query($koneksi, $sql) or die('Gagal menampilkan data!');
+   $dtHTsQtySize = [];
+   while($r = mysqli_fetch_assoc($respHTQtySize)){
+      $row = [
+         'style' => $r['style'],
+         'orc' => trim($r['orc']),
+         'size' => $r['size'],
+         'qty_size' => $r['qty_size'],
+         'cup' => $r['cup'],
+         'sum_qty_ht' => $r['sum_qty_ht']
+      ];
+      array_push($dtHTsQtySize, $row);
+   }
+   $jsonHTQtySize = json_encode($dtHTsQtySize);
+   
+   echo $jsonHTQtySize;   
 }
 ?>
