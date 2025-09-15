@@ -1315,7 +1315,7 @@ function getJuwitaQtySize(){
          'orc' => trim($r['orc']),
          'size' => $r['size'],
          'qty_size' => $r['qty_size'],
-         'cup' => $r['cup'],
+         // 'cup' => $r['cup'],
          'sum_qty_juwita' => $r['sum_qty_juwita']
       ];
       array_push($dtJuwitaQtySize, $row);
@@ -1338,7 +1338,7 @@ function getPressQtySize(){
          'orc' => trim($r['orc']),
          'size' => $r['size'],
          'qty_size' => $r['qty_size'],
-         'cup' => $r['cup'],
+         // 'cup' => $r['cup'],
          'sum_qty_press' => $r['sum_qty_press']
       ];
       array_push($dtPressQtySize, $row);
@@ -1361,7 +1361,7 @@ function getHTQtySize(){
          'orc' => trim($r['orc']),
          'size' => $r['size'],
          'qty_size' => $r['qty_size'],
-         'cup' => $r['cup'],
+         // 'cup' => $r['cup'],
          'sum_qty_ht' => $r['sum_qty_ht']
       ];
       array_push($dtHTsQtySize, $row);
