@@ -1,10 +1,9 @@
 <?php
    require_once 'core/init.php';
    require_once 'view/header.php';
-   if( !isset($_SESSION['username']) ){
-      echo "<script>alert('Silakan Login terlebih dahulu untuk mengakses halaman ini');window.location='index.php'</script>";
-  // header('Location: index.php');    
-   }
+   // if( !isset($_SESSION['username']) ){
+   //    echo "<script>alert('Silakan Login terlebih dahulu untuk mengakses halaman ini');window.location='index.php'</script>";
+   // }
 ?>
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
 
