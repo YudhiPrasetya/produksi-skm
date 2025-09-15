@@ -74,6 +74,7 @@
                   <table id="tableSewingGroup"class="table table-hover table-bordered table-striped compact" width="100%" cellpadding="6">
                      <thead>
                         <tr>
+                           <th rowspan="2" style="background-color: #f4f4f4"><center>Buyer</center></th>
                            <th rowspan="2" style="background-color: #f4f4f4"><center>Style</center></th>
                            <th rowspan="2" style="background-color: #f4f4f4"><center>ORC</center></th>
                            <th rowspan="2" style="background-color: #f4f4f4"><center>Size</center></th>
@@ -99,6 +100,7 @@
                   <table id="tableCuttingGroup"class="table table-hover table-bordered table-striped compact" width="100%" cellpadding="6">
                      <thead>
                         <tr>
+                           <th rowspan="2" style="background-color: #f4f4f4"><center>Buyer</center></th>
                            <th rowspan="2" style="background-color: #f4f4f4"><center>Style</center></th>
                            <th rowspan="2" style="background-color: #f4f4f4"><center>ORC</center></th>
                            <th rowspan="2" style="background-color: #f4f4f4"><center>Size</center></th>
@@ -267,6 +269,7 @@
                const packingPreference = rPacking.find((packingPref) => packingPref.orc == trimstore.orc && packingPref.size == trimstore.size);
 
                return {
+                  buyer: trimstore.buyer,
                   style: trimstore.style,
                   orc: trimstore.orc,
                   size: trimstore.size,
@@ -286,6 +289,7 @@
             
             $.each(arrWIPSewingCombined, function(i, item){
                tableSewingGroup.row.add([
+                  item.buyer,
                   item.style,
                   item.orc,
                   item.size,
@@ -424,6 +428,7 @@
                const trimstorePreference = rTrimstore.find((trismtorePref) => trismtorePref.orc == order.orc && trismtorePref.size == order.size);
 
                return {
+                  buyer: order.buyer,
                   style: order.style,
                   orc: order.orc,
                   size: order.size,
@@ -446,15 +451,12 @@
 
                   sum_qty_trimstore: trimstorePreference == undefined ? "-" : trimstorePreference.sum_qty_trimstore,
                   wip_trimstore: trimstorePreference == undefined ? "-" : parseInt(order.qty_order) - parseInt(trimstorePreference.sum_qty_trimstore),
-
-
                }
-
-               
             });
             
             $.each(arrWIPCuttingCombined, function(i, item){
                tableCuttingGroup.row.add([
+                  item.buyer,
                   item.style,
                   item.orc,
                   item.size,

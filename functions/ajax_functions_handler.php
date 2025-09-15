@@ -1155,6 +1155,7 @@ function getTrimstoreQtySize(){
    $dtTrimstoreQtySize = [];
    while($r = mysqli_fetch_assoc($respTrimstoreQtySize)){
       $row = [
+         'buyer' => $r['buyer'],
          'style' => $r['style'],
          'orc' => trim($r['orc']),
          'size' => $r['size'],
@@ -1243,11 +1244,12 @@ function getOrderQtySize(){
    $dtOrderQtySize = [];
    while($r = mysqli_fetch_assoc($respOrderQtySize)){
       $row = [
+         'buyer' => $r['buyer'],
          'style' => $r['style'],
          'orc' => trim($r['orc']),
          'size' => $r['size'],
          'qty_order' => $r['qty_order'],
-         'cup' => $r['cup'],
+         // 'cup' => $r['cup'],
       ];
       array_push($dtOrderQtySize, $row);
    }
@@ -1269,7 +1271,7 @@ function getCuttingQtySize(){
          'orc' => trim($r['orc']),
          'size' => $r['size'],
          'qty_size' => $r['qty_size'],
-         'cup' => $r['cup'],
+         // 'cup' => $r['cup'],
          'sum_qty_cutting' => $r['sum_qty_cutting']
       ];
       array_push($dtCuttingQtySize, $row);
@@ -1292,7 +1294,7 @@ function getBemisQtySize(){
          'orc' => trim($r['orc']),
          'size' => $r['size'],
          'qty_size' => $r['qty_size'],
-         'cup' => $r['cup'],
+         // 'cup' => $r['cup'],
          'sum_qty_bemis' => $r['sum_qty_bemis']
       ];
       array_push($dtBemisQtySize, $row);
