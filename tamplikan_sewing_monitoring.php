@@ -470,6 +470,8 @@
 
          var dtQCEndLineYesterday = '<?= $dtQCEndLineYesterday['Output_Yesterday']; ?>';
 
+         var packingToday = 0;
+
          // var dtPackingLineToday = ('<//?= $dtPackingLineToday['Packing_Today']; ?>' == "" ? 0 : parseInt('<//?= //$dtPackingLineToday['Packing_Today']; ?>'));
 
          // var dtPackingLineToday = ("<//?= $dtPackingLineToday; ?>" == "" ? 0 : parseInt("<//?= $dtPackingLineToday['Packing_Today']; ?>"));
@@ -479,7 +481,11 @@
 
          var dtPackingYesterday = '<?= $dtPackingYesterday['Packing_Yesterday']; ?>';
 
-         $('#packingLineToday').text(dtPackingLineToday == null ? 0 : parseInt(dtPackingLineToday.Packing_Today));
+         packingToday = dtPackingLineToday == null ? 0 : parseInt(dtPackingLineToday.Packing_Today);
+
+         // $('#packingLineToday').text(dtPackingLineToday == null ? 0 : parseInt(dtPackingLineToday.Packing_Today));
+
+         $('#packingLineToday').text(packingToday);
 
          $('#packingYesterday').text(dtPackingYesterday == "" ? 0 : dtPackingYesterday);
 
@@ -932,8 +938,8 @@
             var objDataPackingOnMessage = JSON.parse(msg.data);
             console.log(objDataPackingOnMessage);
             if(line == objDataPackingOnMessage.line){
-               dtPackingLineToday +=objDataPackingOnMessage.qty_today;
-               $('#packingLineToday').text(dtPackingLineToday);
+               packingToday +=parseInt(objDataPackingOnMessage.qty_today);
+               $('#packingLineToday').text(packingToday);
             }
          }
 
