@@ -1332,7 +1332,7 @@ function tampilkan_ticket_bundle($id_order, $offsetLembar, $limitTicket)
 {
   global $koneksi;
 
-  $query = "SELECT D.costomer, C.orc, C.no_po, E.style, B.size, B.cup, E.item, C.prepare_on, C.color, A.qty_isi_bundle, A.no_bundle, C.shipment_plan, A.barcode_bundle, A.lot
+  $query = "SELECT D.costomer, C.orc, C.no_po, C.label, E.style, B.size, B.cup, E.item, C.prepare_on, C.color, A.qty_isi_bundle, A.no_bundle, C.shipment_plan, A.barcode_bundle, A.lot
    FROM master_bundle A 
   JOIN order_detail B ON A.id_order_detail = B.id_order_detail
   JOIN master_order C ON B.id_order = C.id_order
@@ -1349,7 +1349,7 @@ function tampilkan_ticket_bundle1($id_order)
 {
   global $koneksi;
 
-  $query = "SELECT D.costomer, C.orc, C.no_po, E.style, B.size, B.cup, E.item, C.prepare_on, C.color, A.qty_isi_bundle, A.no_bundle, C.shipment_plan, A.barcode_bundle, A.lot
+  $query = "SELECT D.costomer, C.orc, C.no_po, C.label, E.style, B.size, B.cup, E.item, C.prepare_on, C.color, A.qty_isi_bundle, A.no_bundle, C.shipment_plan, A.barcode_bundle, A.lot
    FROM master_bundle A 
   JOIN order_detail B ON A.id_order_detail = B.id_order_detail
   JOIN master_order C ON B.id_order = C.id_order

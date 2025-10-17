@@ -59,10 +59,16 @@ $kolom = 2;  // jumlah kolom
                     <td width="10%" style="padding-top: 7px">BUYER</td>
                     <td width="1%" style="padding-top: 7px"> : </td>
                     <td width="25%" style="padding-top: 7px"><?= $data['costomer'] ?></td>
+
                     <td width="2%" style="padding-top: 7px"></td>
-                    <td width="10%" style="padding-top: 7px">PREP</td>
+
+                    <td width="10%" style="padding-top: 7px">LABEL</td>
                     <td width="1%" style="padding-top: 7px"> : </td>
-                    <td width="15%" style="padding-top: 7px"><?= tgl_indonesia3($data['prepare_on']); ?></td>
+                    <td width="15%" style="padding-top: 7px"><?= $data['label']; ?></td>
+
+                    <!-- <td width="10%" style="padding-top: 7px">PREP</td>
+                    <td width="1%" style="padding-top: 7px"> : </td>
+                    <td width="15%" style="padding-top: 7px"><//?= tgl_indonesia3($data['prepare_on']); ?></td> -->
                 </tr>
                 <tr>
                     <td>NO. PO </td>
@@ -136,6 +142,13 @@ $kolom = 2;  // jumlah kolom
                     <td><?= $data['item'] ?></td>
                     <td width="2%"></td>
                     <td></td>
+                </tr>
+                <tr>
+                    <td width="10%" style="padding-top: 7px">PREP</td>
+                    <td width="1%" style="padding-top: 7px"> : </td>
+                    <td width="15%" style="padding-top: 7px">
+                        <?= tgl_indonesia3($data['prepare_on']); ?>
+                    </td>                     
                 </tr>
                 <tr>
                     <td colspan=6>
