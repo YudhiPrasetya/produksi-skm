@@ -105,7 +105,7 @@
 
    <div class="row">
       <!-- <div class="col-12"> -->
-         <button id='btnExportToExcel' class='btn btn-success btn-sm'>Export To Excel</button>
+         <button id='btnExportToExcel' class='btn btn-success btn-sm' style="margin-bottom: 10px;">Export To Excel</button>
          <div id="tableContainer">
             <table border="1px" class="table table-striped table-bordered row-border order-column compact display nowrap" id="tableSumProduksi" width="100%">
                <thead>
@@ -173,6 +173,7 @@
             // 'print'
       //   ],
          // paging: false,
+         destroy: true,
          deferRender: true,
          scrollY: 490,
          scrollCollapse: true,
@@ -268,7 +269,6 @@
             'buyer': buyer,
             'line': line
          };
-
          $.ajax({
             type: 'GET',
             url: 'functions/ajax_functions_handler.php',

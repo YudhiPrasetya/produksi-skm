@@ -149,6 +149,7 @@
               <li style="background: #254681"><a style="background: #254681" href="master_karton.php">MASTER QTY CTN</a></li>
               <li style="background: #254681"><a style="background: #254681" href="master-user.php">MASTER USER</a></li>
               <li style="background: #254681"><a style="background: #254681" href="master_karton_full.php">MASTER KARTON FULL</a></li>
+              <li style="background: #254681"><a style="background: #254681" href="CancelScan.php">CANCEL SCAN</a></li>
             </ul>
 
           </li>
@@ -237,6 +238,7 @@
               <li style="background: #254681"><a style="background: #254681" href="#">HASIL SCAN</a>
                 <ul style="background: #254681">
                   <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_scan_global.php">GLOBAL SIZE</a></li>
+                  <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_scan_periode.php">GLOBAL PER PERIODE</a></li>
                   <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_scan_global_perjam.php">GLOBAL PERJAM</a></li>
                   <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_scan_global_perjam_qc_endline.php">ENDLINE PERJAM</a></li>
                   <li style="background: #254681"><a style="background: #254681" href="cetak_laporan_hasil_scan_size_detail.php">DETAIL SIZE</a></li>

@@ -30,12 +30,9 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
          case 'ajax_getAllProductionSummary':
             if(isset($_GET['param'])){
                $param = $_GET['param'];
-               $tgl = $param['tgl'];
-               $kategori = $param['kategori'];
-               $buyer = $param['buyer'];
-               $line = $param['line'];
+               $arrParam = json_decode($param);
             }
-            getAllProductionSummary($tgl, $kategori, $buyer, $line);
+            getAllProductionSummary($arrParam);
             break;
          case 'ajax_getAllQcEndlineOutputToday':
             getAllQcEndlineOutputToday();
@@ -152,8 +149,11 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
          case 'ajax_getPressQtySize':
             getPressQtySize();
             break;
-         case 'ajax_getHTQtySize';
+         case 'ajax_getHTQtySize':
             getHTQtySize();
+            break;
+         case 'ajax_getProses':
+            getProses();
             break;
        }
       //  }
@@ -487,19 +487,35 @@ function getLines(){
    echo $jsonLines;
 }
 
-function getAllProductionSummary($tgl, $kategori, $buyer, $line){
+function getAllProductionSummary($arrP){
+   $proses = $arrP->proses;
+   $dtFrom = $arrP->dtFrom;
+   $dtTo = $arrP->dtTo;
+   $buyer = $arrP->buyer;
+   $line = $arrP->line;
+   $orc = $arrP->orc;
+   $style = $arrP->style;
+   $po = $arrP->po;
+
    global $koneksi;
 
-   $query = "SELECT id_order, `line`, buyer, po, `orc`, `order_status`, style, color, `size`, qty_order, shipment,
-               tgl_trimstore, input_trimstore, balance_trimstore, tgl_sewing, input_sewing, balance_sewing, tgl_qcendline, output_qcendline, balance_qcendline, tgl_packing, output_packing, balance_packing,
-               kode_barcode FROM view_production_summary
-               WHERE tgl_trimstore <= '$tgl'AND tgl_sewing <= '$tgl' AND tgl_qcendline <= '$tgl' AND tgl_packing <= '$tgl' AND `line` LIKE '%$line%' AND buyer LIKE '%$buyer%' ORDER BY id_order DESC";
+   $mainQuery = "SELECT `line`, buyer, po, `orc`, style, color, `size`, qty_order, shipment_plan,
+               tgl_".$proses . ", output_".$proses. ", balance_".$proses . " FROM view_production_summary_all
+               WHERE (tgl_".$proses. " >= '$dtFrom' AND tgl_".$proses. " <= '$dtTo')";
 
-   $response = mysqli_query($koneksi, $query) or die('Gagal menampilkan data!');
+   $buyerQuery = " AND buyer LIKE '%$buyer%'";
+   $lineQuery = " AND `line` = '$line'";
+   $orcrQuery = " AND `orc` LIKE '%$orc%'";
+   $styleQuery = " AND style LIKE '%$style%'";
+   $poQuery = " AND po LIKE '%$po%'";
+   $orderBy = " ORDER BY tgl_".$proses . " DESC";
+
+   $query = $mainQuery . ($buyer != '' ? $buyerQuery : '') . ($line != '' ? $lineQuery : '') . ($orc != '' ? $orcrQuery : '') . ($style != '' ? $styleQuery : '') . ($po != '' ? $poQuery : '') . $orderBy;
+
+   $response = mysqli_query($koneksi, $query);
    $data = [];
    while($r = mysqli_fetch_assoc($response)){
       $row = [
-         'id_order' => $r['id_order'],
          'line' => $r['line'],
          'buyer' => $r['buyer'],
          'po' => $r['po'],
@@ -508,17 +524,10 @@ function getAllProductionSummary($tgl, $kategori, $buyer, $line){
          'color' => $r['color'],
          'size' => $r['size'],
          'qty_order' => $r['qty_order'],
-         'shipment' => $r['shipment'],
-         'tgl_trimstore' => $r['tgl_trimstore'],
-         'input_trimstore' => $r['input_trimstore'],
-         'balance_trimstore' => $r['balance_trimstore'],
-         'tgl_sewing' => $r['tgl_sewing'],
-         'input_sewing' => $r['input_sewing'],
-         'balance_sewing' => $r['balance_sewing'],
-         'output_qcendline' => $r['output_qcendline'],
-         'balance_qcendline' => $r['balance_qcendline'],
-         'output_packing' => $r['output_packing'],
-         'balance_packing' => $r['balance_packing'],
+         'shipment' => $r['shipment_plan'],
+         'tgl_'.$proses => $r['tgl_'.$proses],
+         'output' => $r['output_'.$proses],
+         'balance' => $r['balance_'.$proses],
       ];
       array_push($data, $row);
    }
@@ -1371,5 +1380,23 @@ function getHTQtySize(){
    $jsonHTQtySize = json_encode($dtHTsQtySize);
    
    echo $jsonHTQtySize;   
+}
+
+function getProses(){
+  global $koneksi;
+
+
+  $query = "SELECT * FROM master_transaksi where status = 'jalan' ORDER BY urutan limit 16";
+   $response = mysqli_query($koneksi, $query) or die('gagal menampilkan data');
+   $dataProses = [];
+   while($row =  mysqli_fetch_assoc($response)){
+     $dtArr = [
+      'nama_transaksi' => $row['nama_transaksi'],
+     ];
+     array_push($dataProses, $dtArr);
+   }   
+   $jsonProses = json_encode($dataProses);
+   echo $jsonProses;   
+
 }
 ?>
