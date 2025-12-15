@@ -170,7 +170,7 @@
    </div>
 </div>
 
-<!-- <script src="assets/js/select2.min.js"></script> -->
+<script src="assets/js/select2.min.js"></script>
 <!-- <script src="assets/DataTables/js/dataTables.buttons.min.js"></script> -->
 <!-- <script src="assets/DataTables/js/buttons.dataTables.js"></script> -->
 <!-- <script src="assets/DataTables/js/jszip.min.js"></script> -->
