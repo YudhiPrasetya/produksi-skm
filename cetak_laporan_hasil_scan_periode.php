@@ -3,7 +3,7 @@
    require_once 'view/header.php';
 ?>
 <head>
-   <link rel="stylesheet" href="assets/Datatables/css/buttons.dataTables.css">
+   <!-- <link rel="stylesheet" href="assets/Datatables/css/buttons.dataTables.css"> -->
 </head>
 <style>
    hr {
@@ -144,24 +144,24 @@
       <!-- <div class="col-12"> -->
          <button id='btnExportToExcel' class='btn btn-success btn-sm' style="margin-bottom: 10px;">Export To Excel</button>
          <div id="tableContainer">
-            <table border="1px" class="table table-striped table-bordered row-border order-column compact display nowrap" id="tableSumProduksi" width="100%">
+            <table border="1px" class="table table-striped table-bordered row-border order-column nowrap" id="tableSumProduksi" width="100%">
                <thead>
                   <tr>
-                     <th style="background: #254681; color: white; height: 50px; line-height: 50px; text-align: center;" rowspan="2">No.</th>
-                     <th style="background: #254681; color: white; height: 50px; line-height: 50px; text-align: center" rowspan="2">Line</th>
-                     <th style="background: #254681; color: white; height: 50px; line-height: 50px; text-align: center" rowspan="2">Buyer</th>
-                     <th style="background: #254681; color: white; height: 50px; line-height: 50px; text-align: center" rowspan="2">PO</th>
-                     <th style="background: #254681; color: white; height: 50px; line-height: 50px; text-align: center" rowspan="2">ORC</th>
-                     <th style="background: #254681; color: white; height: 50px; line-height: 50px; text-align: center" rowspan="2">Style</th>
-                     <th style="background: #254681; color: white; height: 50px; line-height: 50px; text-align: center" rowspan="2">Color</th>
-                     <th style="background: #254681; color: white; height: 50px; line-height: 50px; text-align: center" rowspan="2">Size</th>
-                     <th style="background: #254681; color: white; height: 50px; line-height: 50px; text-align: center" rowspan="2">Qty Size</th>
-                     <th style="background: #254681; color: white; height: 50px; line-height: 50px; text-align: center;" colspan="2">Result</th>
+                     <th style="background: #254681; color: white; text-align: center;" rowspan="2">No.</th>
+                     <th style="background: #254681; color: white;" rowspan="2">Line</th>
+                     <th style="background: #254681; color: white;" rowspan="2">Buyer</th>
+                     <th style="background: #254681; color: white;" rowspan="2">PO</th>
+                     <th style="background: #254681; color: white;" rowspan="2">ORC</th>
+                     <th style="background: #254681; color: white;" rowspan="2">Style</th>
+                     <th style="background: #254681; color: white;" rowspan="2">Color</th>
+                     <th style="background: #254681; color: white; text-align: center" rowspan="2">Size</th>
+                     <th style="background: #254681; color: white; text-align: center" rowspan="2">Qty Size</th>
+                     <th style="background: #254681; color: white; text-align: center;" colspan="2">Result</th>
                      <!-- <th style="background: #254681; color: white; height: 50px; line-height: 50px; text-align: center" rowspan="2">Shipment</th> -->
                   </tr>
                   <tr>
-                     <th style="background: #254681; color: white; height: 50px; line-height: 50px; text-align: center;">Output</th>
-                     <th style="background: #254681; color: white; height: 50px; line-height: 50px; text-align: center;">Balance</th>
+                     <th style="background: #254681; color: white; text-align: center;">Output</th>
+                     <th style="background: #254681; color: white; text-align: center;">Balance</th>
                   </tr>
                <thead>
             </table>
@@ -207,12 +207,12 @@
          scrollCollapse: true,
          scroller: true,
          // searching: false,
-         // columnDefs: [
-         //    {
-         //       targets: [0,1,2,3,4,5,6,7,8,9,10,11],
-         //       className: 'dt-center'
-         //    },
-         // ]
+         columnDefs: [
+            {
+               targets: [0,7,8,9,10],
+               className: 'dt-center'
+            },
+         ]
       });
 
       loadInitializeData();
